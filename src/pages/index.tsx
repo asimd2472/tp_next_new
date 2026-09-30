@@ -2,12 +2,12 @@ import Head from "next/head";
 import Header from "@/components/Header";
 import Banner from "@/components/Banner";
 import Features from "@/components/Features/Features";
-// import Projects from "@/components/Projects/Projects";
 // import WhyChoose from "@/components/WhyChoose/WhyChoose";
 // import Blogs from "@/components/Blogs/Blogs";
 // import ExpertsSay from "@/components/ExpertsSay/ExpertsSay";
 // import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
+import Projects from "@/components/Projects/Projects";
 
 export default function Home() {
   return (
@@ -22,8 +22,8 @@ export default function Home() {
       <main id="home">
         <Banner />
         <Features />
-        {/* <Projects />
-        <WhyChoose />
+        <Projects />
+        {/* <WhyChoose />
         <ExpertsSay />
         <Blogs />
         <Faq /> */}

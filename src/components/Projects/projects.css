@@ -1,0 +1,147 @@
+.projects {
+  padding: 40px 0 44px;
+  background: #101c24;
+  color: #f4f2ed;
+}
+
+.projects__container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.projects__heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.projects__heading h2 {
+  margin: 0;
+  font-size: clamp(18px, 2.4vw, 34px);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.projects__heading p {
+  margin: 7px 0 0;
+  color: #83909a;
+  font-size: clamp(7px, 1vw, 13px);
+  line-height: 1.4;
+}
+
+.projects__arrows {
+  display: flex;
+  gap: 4px;
+  padding-bottom: 1px;
+}
+
+.projects__arrows button {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #68747a;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.projects__chevron {
+  width: 4px;
+  height: 4px;
+  border-top: 1px solid #e9e8e2;
+  border-right: 1px solid #e9e8e2;
+}
+
+.projects__chevron--previous {
+  margin-left: 1px;
+  transform: rotate(-135deg);
+}
+
+.projects__chevron--next {
+  margin-right: 1px;
+  transform: rotate(45deg);
+}
+
+.projects__viewport {
+  --projects-gap: 30px;
+  overflow: hidden;
+  overscroll-behavior-x: contain;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+}
+
+.projects__track {
+  display: flex;
+  width: 100%;
+  gap: var(--projects-gap);
+}
+
+.projects__card {
+  position: relative;
+  flex: 0 0 min(100%, max(180px, calc(38.4615% - 12.31px)));
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+.projects__card > img {
+  object-fit: cover;
+}
+
+.projects__card::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(6, 14, 19, .78) 100%);
+  content: "";
+}
+
+.projects__copy {
+  position: absolute;
+  z-index: 1;
+  right: 10px;
+  bottom: 9px;
+  left: 10px;
+}
+
+.projects__copy h3 {
+  margin: 0 0 3px;
+  font-size: clamp(8px, 1.1vw, 13px);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.projects__copy p {
+  margin: 0;
+  color: rgba(255, 255, 255, .85);
+  font-size: clamp(6px, .8vw, 10px);
+  line-height: 1.25;
+}
+
+@media (max-width: 700px) {
+  .projects {
+    padding: 40px 0 44px;
+  }
+}
+
+@media (min-width: 640px) {
+  .projects__container {
+    padding-inline: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .projects__container {
+    padding-inline: 48px;
+  }
+}
+
+@media (max-width: 479px) {
+  .projects__card {
+    flex-basis: 100%;
+  }
+}

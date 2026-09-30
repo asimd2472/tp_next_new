@@ -2,6 +2,7 @@
 @import "../components/Header/header.css";
 @import "../components/Banner/banner.css";
 @import "../components/Features/features.css";
+@import "../components/Projects/projects.css";
 @import "../components/Footer/footer.css";
 
 :root {
