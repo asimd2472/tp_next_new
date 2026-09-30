@@ -3,7 +3,7 @@ import { useRef } from "react";
 
 const projects = [
   {
-    image: "/images/f1_resized.jpg",
+    image: "/images/project.jpg",
     alt: "Contemporary residential towers at Birla Vanya",
     name: "Birla Vanya",
     description: "2-3 storey towers",
