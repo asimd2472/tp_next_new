@@ -69,7 +69,7 @@ export default function Features() {
         <div className="features__heading">
           <div>
             <h2 id="features-title">Windows that do more than look good</h2>
-            <p>Designed for modern Indian homes: more natural light, better ventilation,<br className="features__desktop-break" /> lasting beauty.</p>
+            <p className="features__visually-hidden">Designed for modern Indian homes: more natural light, better ventilation, lasting beauty.</p>
           </div>
           <div className="features__arrows" aria-label="Feature controls">
             <button type="button" aria-label="Previous features" onClick={() => moveCarousel(-1)}>
@@ -85,10 +85,13 @@ export default function Features() {
           <div className="features__grid">
             {features.map((feature, index) => (
               <article className="features__card" key={`${feature.title}-${index}`}>
-                <Image src={feature.image} alt={feature.alt} fill sizes="(max-width: 700px) 87vw, 44vw" />
+                <div className="features__image">
+                  <Image src={feature.image} alt={feature.alt} fill sizes="(max-width: 700px) 42vw, 220px" />
+                </div>
                 <div className="features__copy">
                   <h3>{feature.title}</h3>
                   <p>{feature.description}</p>
+                  <span className="features__read-more">Read More</span>
                 </div>
               </article>
             ))}
