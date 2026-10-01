@@ -322,7 +322,7 @@
 
 @media (min-width: 640px) {
   .main-header__inner { height: 76px; padding: 0 32px; }
-  .tata-steel-logo img { width: 108px; }
+  .tata-steel-logo img { width: 95px; }
   .tata-pravesh-logo { display: block; height: 76px; width: clamp(180px, 22vw, 270px); top: 50%; }
   .header-actions { margin-right: 190px; }
 }
