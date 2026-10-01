@@ -1,0 +1,162 @@
+.faq {
+  padding: 68px 0 44px;
+  background: #fff0dc;
+  color: #17345f;
+}
+
+.faq__container {
+  display: grid;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px;
+  grid-template-columns: minmax(0, 0.65fr) minmax(0, 1fr);
+  align-items: start;
+  column-gap: clamp(32px, 5vw, 72px);
+}
+
+.faq__intro {
+  padding-top: 6px;
+}
+
+.faq__intro h2 {
+  max-width: 390px;
+  margin: 0;
+  font-size: 35px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.faq__intro p {
+  margin: 8px 0 0;
+  color: #52677a;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.faq__contact {
+  display: inline-grid;
+  min-width: 106px;
+  min-height: 40px;
+  margin-top: 34px;
+  place-items: center;
+  padding: 0 16px;
+  background: linear-gradient(90deg, #236bb3 0%, #79aa32 100%);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.faq__list {
+  display: grid;
+  gap: 10px;
+}
+
+.faq__item {
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #fffbe0;
+}
+
+.faq__item summary {
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 0 20px;
+  color: #172d47;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  list-style: none;
+}
+
+.faq__item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq__toggle {
+  position: relative;
+  display: block;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+}
+
+.faq__toggle::before,
+.faq__toggle::after {
+  position: absolute;
+  top: 6px;
+  left: 2px;
+  width: 10px;
+  height: 2px;
+  background: #172d47;
+  content: "";
+}
+
+.faq__toggle::after {
+  transform: rotate(90deg);
+}
+
+.faq__item[open] .faq__toggle::after {
+  display: none;
+}
+
+.faq__item > p {
+  margin: 0;
+  padding: 0 20px 16px;
+  color: #52677a;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+@media (min-width: 640px) {
+  .faq__container {
+    padding-inline: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .faq__container {
+    padding-inline: 48px;
+  }
+}
+
+@media (max-width: 700px) {
+  .faq {
+    padding: 48px 0;
+  }
+
+  .faq__container {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 30px;
+  }
+
+  .faq__intro {
+    padding-top: 0;
+  }
+
+  .faq__intro h2 {
+    font-size: 26px;
+    line-height: 1.2;
+  }
+
+  .faq__desktop-break {
+    display: none;
+  }
+
+  .faq__contact {
+    margin-top: 22px;
+  }
+}
+
+@media (max-width: 380px) {
+  .faq__item summary {
+    padding-inline: 15px;
+    font-size: 13px;
+  }
+}

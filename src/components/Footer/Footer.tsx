@@ -1,72 +1,66 @@
 import {
   FaArrowUp,
-  FaEnvelope,
   FaFacebookF,
   FaInstagram,
   FaLinkedinIn,
-  FaLocationDot,
-  FaPhone,
   FaXTwitter,
   FaYoutube,
 } from "react-icons/fa6";
 
 const columns = [
   {
-    title: "Doors",
+    title: "Tata Pravesh",
+    description: "Premium steel doors and windows that bring together strength, security and contemporary design. Built to last. Designed to elevate every space.",
+    items: ["About Us", "FAQ", "Privacy Policy"],
+  },
+  {
+    title: "Quick Links",
     items: [
-      "Pravesh Main Door",
-      "Garden Door",
-      "Flush Doors",
-      "Fire Rated Doors",
-      "Steel Doors",
-      "PUF Doors",
-      "Utility Door",
-      "Designer Leaf Doors",
+      "Why Choose Tata Pravesh",
+      "Refer & Earn",
+      "Store Locator",
+      "Installation Checks (YT Link)",
+      "Easy Finance (YT Link)",
+      "Find a Right Door",
+      "Find a Right Window",
     ],
   },
   {
-    title: "Commercial Doors",
+    title: "Doors & Windows",
     items: [
-      "Urban Pivot Doors",
-      "Lamin Doors",
-      "Fire Rated Doors",
-      "Fire Hollow Doors",
-      "Flush Door",
-      "Designer Doors",
-      "Office Doors",
-      "Panel Doors",
+      "Embossed Door",
+      "Double Door",
+      "Door With Mesh",
+      "Door with Side Window",
+      "Balcony Door/Window",
+      "Sliding Doors & Windows",
+      "Hospitals Door",
+      "Doors for Tower Projects",
+      "Balcony/French Doors",
+      "Aluminum Windows",
     ],
   },
   {
-    title: "Windows",
+    title: "Contact & Support",
     items: [
-      "Fixed Glazed",
-      "Sliding Windows",
-      "Casement Windows",
-      "Tilt & Turn Windows",
-      "Ventilation Grill",
-      "Window Grill",
-      "Designer Windows",
-      "Bifold Windows",
+      "Book a Demo",
+      "Enquire for a Project",
+      "Log a complaint",
+      "Track Your Order",
+      "Enquire for Distributorship",
+      "Book a Free Consultation",
     ],
   },
   {
-    title: "Contact Us",
+    title: "Brochures & Catalogs",
     items: [
-      "Reach a Dealer",
-      "Trade Enquiry",
-      "Email Dealer",
-      "For Enquiries",
-      "Distributors",
+      "Download Consumer Brochure",
+      "Download Aluminum Brochure",
+      "Download Fire Door Brochure",
+      "Download French Door Brochure",
+      "Newly Launched Products",
     ],
   },
-];
-
-const contactItems = [
-  { icon: FaPhone, label: "Call us toll free", value: "1800-209-1234" },
-  { icon: FaEnvelope, label: "Email", value: "email: enquiry@tatapravesh.com" },
-  { icon: FaEnvelope, label: "For business enquiries", value: "business@tatapravesh.com" },
-  { icon: FaLocationDot, label: "Tata Pravesh", value: "" },
 ];
 
 const socialLinks = [
@@ -86,15 +80,11 @@ export default function Footer() {
     <footer className="site-footer" aria-label="Footer">
       <div className="site-footer__inner">
         <div className="site-footer__content">
-          <div className="site-footer__brand-box">
-            <h3>Tata Pravesh Door View</h3>
-            <p>Fenestration – a complete safety package.</p>
-          </div>
-
           <div className="site-footer__columns">
             {columns.map((column) => (
-              <div key={column.title} className="site-footer__column">
+              <div key={column.title} className={`site-footer__column${column.description ? " site-footer__column--brand" : ""}`}>
                 <h4>{column.title}</h4>
+                {column.description && <p className="site-footer__description">{column.description}</p>}
                 <ul>
                   {column.items.map((item) => (
                     <li key={item}><span className="site-footer__bullet" aria-hidden="true" />{item}</li>
@@ -102,28 +92,6 @@ export default function Footer() {
                 </ul>
               </div>
             ))}
-
-            <div className="site-footer__column site-footer__column--contact">
-              <h4>Reach Us</h4>
-              <ul className="site-footer__contact-list">
-                {contactItems.map(({ icon: Icon, label, value }) => (
-                  <li key={label}>
-                    <span className="site-footer__contact-icon" aria-hidden="true"><Icon /></span>
-                    <span className="site-footer__contact-text">
-                      {value ? (
-                        <>
-                          <strong>{label}</strong>
-                          <br />
-                          {value}
-                        </>
-                      ) : (
-                        <strong>{label}</strong>
-                      )}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
         </div>
 

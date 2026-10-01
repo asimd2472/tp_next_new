@@ -2,12 +2,13 @@ import Head from "next/head";
 import Header from "@/components/Header";
 import Banner from "@/components/Banner";
 import Features from "@/components/Features/Features";
-// import WhyChoose from "@/components/WhyChoose/WhyChoose";
-// import Blogs from "@/components/Blogs/Blogs";
-// import ExpertsSay from "@/components/ExpertsSay/ExpertsSay";
-// import Faq from "@/components/Faq";
+import Blogs from "@/components/Blogs/Blogs";
+import ExpertsSay from "@/components/ExpertsSay/ExpertsSay";
+import Faq from "@/components/Faq/Faq";
 import Footer from "@/components/Footer";
 import Projects from "@/components/Projects/Projects";
+import ShopBySpace from "@/components/ShopBySpace/ShopBySpace";
+import WhyChoose from "@/components/WhyChoose/WhyChoose";
 
 export default function Home() {
   return (
@@ -23,7 +24,12 @@ export default function Home() {
         <Banner />
         <Features />
         <Projects />
-        {/* <WhyChoose />
+        <ShopBySpace />
+        <WhyChoose />
+        <ExpertsSay />
+        <Blogs />
+        <Faq />
+        {/*
         <ExpertsSay />
         <Blogs />
         <Faq /> */}
