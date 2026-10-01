@@ -14,8 +14,8 @@ const banners = [
   },
   {
     type: "image",
-    src: "/images/Website-Banner.webp",
-    image: "/images/Website-Banner.webp",
+    src: "/images/banner2.jpg",
+    image: "/images/banner2.jpg",
     alt: "A beautiful Tata Pravesh home interior",
     eyebrow: "Thoughtful living",
     title: "Modern Spaces",

@@ -25,7 +25,7 @@ const menuCategories = [
     items: ["Swing & Slide Window", "Vista Window", "Casement Window"],
   },
   { name: "Aluminum Windows", href: "#aluminum-windows", items: [] },
-  { name: "Fire Door", href: "#fire-door", items: [] },
+  { name: "Fire Door", href: "/fire-door", items: [] },
   { name: "French Door", href: "#french-door", items: [] },
   {
     name: "Buyers Guide",
@@ -105,7 +105,7 @@ export default function Header() {
         }}
       >
         <div className="main-header__inner">
-          <Link href="#home" aria-label="Tata Pravesh home" className="tata-steel-logo">
+          <Link href="/" aria-label="Tata Pravesh home" className="tata-steel-logo">
             <Image src="/images/tatasteel-logo.png" alt="Tata Steel" width={108} height={32} priority />
           </Link>
           <nav aria-label="Primary navigation" className="desktop-navigation">

@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import "./fire-door/fire-door.css";
 import "../components/ShopBySpace/shop-by-space.css";
 import "../components/WhyChoose/why-choose.css";
 import "../components/ExpertsSay/experts-say.css";
