@@ -348,3 +348,180 @@
   .desktop-navigation { display: flex; }
   .menu-button { display: none; }
 }
+
+@media (max-width: 767px) {
+  .utility-bar {
+    display: block;
+  }
+
+  .utility-bar__inner {
+    width: 100%;
+    max-width: none;
+    justify-content: flex-start;
+    gap: 0;
+    overflow-x: auto;
+    padding-inline: 10px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .utility-bar__group {
+    flex: 0 0 auto;
+    overflow: visible;
+  }
+
+  .utility-bar__group--right {
+    margin-left: 0;
+  }
+
+  .utility-bar__group--left .utility-link:not(:first-child) {
+    display: none;
+  }
+
+  .utility-link {
+    min-height: 35px;
+    padding-inline: 8px;
+    font-size: 9px;
+  }
+
+  .main-header {
+    min-height: clamp(64px, 17.65vw, 135px);
+    overflow: visible;
+    background: transparent;
+    color: #fff;
+  }
+
+  .main-header__inner {
+    z-index: 2;
+    height: clamp(64px, 17.65vw, 135px);
+    gap: 8px;
+    padding: 0 12px;
+  }
+
+  .tata-steel-logo {
+    position: relative;
+    z-index: 3;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .tata-steel-logo img {
+    width: clamp(94px, 22.5vw, 226px);
+    height: auto;
+    margin-top: -6px;
+    background-color: #fff;
+    padding: 6px;
+    border-radius: 5px;
+  }
+
+  .desktop-navigation,
+  .header-icon-button--user {
+    display: none;
+  }
+
+  .header-actions {
+    z-index: 3;
+    flex-shrink: 0;
+    gap: clamp(6px, 1.6vw, 12px);
+    /* margin: 0 clamp(110px, calc(45vw - 28px), 317px) 0 auto; */
+    margin: 0 clamp(110px, 45vw - 0px, 317px) 0 auto;
+  }
+
+  .header-icon-button--cart {
+    width: clamp(36px, 8.4vw, 72px);
+    height: clamp(36px, 8.4vw, 72px);
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    background: transparent;
+    color: #fff;
+  }
+
+  .header-icon-button--cart svg {
+    /* width: clamp(17px, 4.7vw, 36px);
+    height: clamp(17px, 4.7vw, 36px); */
+    width: clamp(16px, 3.7vw, 36px);
+    height: clamp(16px, 3.7vw, 36px);
+  }
+
+  .cart-count {
+    top: -8%;
+    right: -8%;
+    min-width: clamp(16px, 4.1vw, 32px);
+    height: clamp(16px, 4.1vw, 32px);
+    padding: 0;
+    border: 0;
+    background: #ffb91f;
+    font-size: clamp(9px, 2vw, 16px);
+  }
+
+  .menu-button {
+    z-index: 3;
+    width: clamp(36px, 8.4vw, 72px);
+    height: clamp(36px, 8.4vw, 72px);
+    margin: 0;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    color: #fff;
+  }
+
+  .menu-icon {
+    gap: clamp(3.5px, 0.65vw, 5px);
+  }
+
+  .menu-icon i {
+    width: clamp(20px, 5.3vw, 41px);
+    height: clamp(2px, 0.3vw, 3px);
+    border-radius: 2px;
+  }
+
+  .tata-pravesh-logo,
+  .main-header .tata-pravesh-logo {
+    /* z-index: 2;
+    top: 0;
+    right: 0 !important;
+    display: block;
+    width: clamp(125px, 41vw, 315px);
+    height: auto !important;
+    aspect-ratio: 3 / 1;
+    transform: none; */
+    z-index: 2;
+    aspect-ratio: 3;
+    width: clamp(125px, 50vw, 315px);
+    display: block;
+    top: -4px;
+    transform: none;
+    height: auto !important;
+    right: -3px !important;
+
+  }
+
+  .site-header--scrolled .main-header {
+    background: #fff;
+    color: #17345f;
+  }
+
+  .site-header--scrolled .menu-button {
+    border-color: #cbd5e1;
+    color: #17345f;
+  }
+
+  .site-header--scrolled .header-icon-button--cart {
+    border-color: rgba(23, 52, 95, 0.12);
+    background: rgba(23, 52, 95, 0.05);
+    color: #17345f;
+  }
+
+  .site-header--scrolled .cart-count {
+    border-color: transparent;
+  }
+}
+
+/* @media (max-width: 379px) {
+  .header-actions {
+    margin-right: clamp(108px, calc(62vw - 90px), 143px);
+  }
+
+  .tata-pravesh-logo,
+  .main-header .tata-pravesh-logo {
+    width: clamp(112px, calc(82vw - 150px), 154px);
+  }
+} */
