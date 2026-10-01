@@ -2,9 +2,9 @@ import Head from "next/head";
 import Header from "@/components/Header";
 import Banner from "@/components/Banner";
 import Features from "@/components/Features/Features";
-// import Blogs from "@/components/Blogs/Blogs";
+import Blogs from "@/components/Blogs/Blogs";
 import ExpertsSay from "@/components/ExpertsSay/ExpertsSay";
-// import Faq from "@/components/Faq";
+import Faq from "@/components/Faq/Faq";
 import Footer from "@/components/Footer";
 import Projects from "@/components/Projects/Projects";
 import ShopBySpace from "@/components/ShopBySpace/ShopBySpace";
@@ -27,6 +27,8 @@ export default function Home() {
         <ShopBySpace />
         <WhyChoose />
         <ExpertsSay />
+        <Blogs />
+        <Faq />
         {/*
         <ExpertsSay />
         <Blogs />
