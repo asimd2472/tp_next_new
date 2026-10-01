@@ -171,8 +171,17 @@
     padding-right: 18px;
   }
 
+  .site-footer__column {
+    padding-right: 0;
+    border-right: 0;
+  }
+
   .site-footer__columns {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .site-footer__column--brand {
+    grid-column: 1 / -1;
   }
 
   .site-footer__bottom-bar {
