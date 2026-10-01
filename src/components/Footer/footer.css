@@ -24,38 +24,13 @@
 }
 
 .site-footer__content {
-  display: grid;
-  grid-template-columns: minmax(230px, 1.2fr) minmax(0, 5.2fr);
-  gap: 18px;
-  align-items: flex-start;
-}
-
-.site-footer__brand-box {
-  padding: 18px 4px 10px 12px;
-  min-height: 200px;
-  border-right: 1px solid rgba(255, 255, 255, 0.42);
-}
-
-.site-footer__brand-box h3 {
-  margin: 0;
-  font-size: clamp(1.4rem, 1.6vw, 2.1rem);
-  line-height: 1.2;
-  font-weight: 700;
-  color: #fff;
-}
-
-.site-footer__brand-box p {
-  margin: 18px 0 0;
-  max-width: 260px;
-  font-size: 1.08rem;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.9);
+  display: block;
 }
 
 .site-footer__columns {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 18px;
+  gap: 20px;
   align-items: start;
 }
 
@@ -103,49 +78,11 @@
   background: rgba(255,255,255,0.95);
 }
 
-.site-footer__column--contact {
-  padding-right: 0;
-}
-
-.site-footer__contact-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.site-footer__contact-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding-left: 0;
-}
-
-.site-footer__contact-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.8);
-  color: #fff;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.site-footer__contact-icon svg {
-  width: 12px;
-  height: 12px;
-}
-
-.site-footer__contact-text {
+.site-footer__description {
+  margin: 0 0 14px;
   color: rgba(255, 255, 255, 0.92);
   font-size: 0.77rem;
   line-height: 1.5;
-}
-
-.site-footer__contact-text strong {
-  font-weight: 700;
 }
 
 .site-footer__bottom-bar {
@@ -223,16 +160,6 @@
 }
 
 @media (max-width: 1200px) {
-  .site-footer__content {
-    grid-template-columns: 1fr;
-  }
-
-  .site-footer__brand-box {
-    border-right: 0;
-    border-bottom: 1px solid rgba(255,255,255,0.42);
-    padding-bottom: 18px;
-  }
-
   .site-footer__columns {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
