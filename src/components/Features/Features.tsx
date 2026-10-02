@@ -97,6 +97,15 @@ export default function Features() {
             ))}
           </div>
         </div>
+
+        <div className="features__arrows features__arrows--mobile" aria-label="Feature controls mobile">
+          <button type="button" aria-label="Previous features" onClick={() => moveCarousel(-1)}>
+            <span className="features__chevron features__chevron--previous" />
+          </button>
+          <button type="button" aria-label="Next features" onClick={() => moveCarousel(1)}>
+            <span className="features__chevron features__chevron--next" />
+          </button>
+        </div>
       </div>
     </section>
   );
