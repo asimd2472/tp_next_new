@@ -69,6 +69,15 @@ export default function Projects() {
             ))}
           </div>
         </div>
+
+        <div className="projects__arrows projects__arrows--mobile" aria-label="Project controls mobile">
+          <button type="button" aria-label="Previous projects" onClick={() => moveProjects(-1)}>
+            <span className="projects__chevron projects__chevron--previous" />
+          </button>
+          <button type="button" aria-label="Next projects" onClick={() => moveProjects(1)}>
+            <span className="projects__chevron projects__chevron--next" />
+          </button>
+        </div>
       </div>
     </section>
   );
