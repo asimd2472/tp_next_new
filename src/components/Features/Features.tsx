@@ -68,7 +68,7 @@ export default function Features() {
       <div className="features__container">
         <div className="features__heading">
           <div>
-            <h2 id="features-title">Windows that do more than look good</h2>
+            <h2 id="features-title">Doors and Windows that do more than look good</h2>
             <p className="features__visually-hidden">Designed for modern Indian homes: more natural light, better ventilation, lasting beauty.</p>
           </div>
           <div className="features__arrows" aria-label="Feature controls">

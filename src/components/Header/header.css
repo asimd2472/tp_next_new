@@ -125,9 +125,9 @@
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  background-color: #ffffff;
-  padding: 12px;
-  border-radius: 8px;
+  /* background-color: #ffffff; */
+  /* padding: 12px;
+  border-radius: 8px; */
 }
 
 .tata-steel-logo img {
@@ -609,9 +609,9 @@
     width: clamp(94px, 22.5vw, 226px);
     height: auto;
     margin-top: -6px;
-    background-color: #fff;
+    /* background-color: #fff;
     padding: 6px;
-    border-radius: 5px;
+    border-radius: 5px; */
   }
 
   .desktop-navigation,
