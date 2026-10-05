@@ -5,6 +5,28 @@
   transition: box-shadow .2s ease;
 }
 
+.site-header--inner-page {
+  position: sticky;
+  inset: 0 0 auto;
+}
+
+.site-header--inner-page .main-header {
+  border-color: #e2e8f0;
+  background: #fff;
+  color: #17345f;
+}
+
+.site-header--inner-page .header-icon-button {
+  color: #17345f;
+  background: rgba(23, 52, 95, 0.05);
+  border-color: rgba(23, 52, 95, 0.12);
+}
+
+.site-header--inner-page .menu-button {
+  border-color: #cbd5e1;
+  color: #17345f;
+}
+
 .site-header--scrolled {
   box-shadow: 0 5px 24px rgba(2, 31, 70, .2);
 }

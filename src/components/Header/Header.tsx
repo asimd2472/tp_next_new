@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FaDownload, FaMapMarkerAlt, FaCalendarCheck, FaEnvelope, FaPhoneAlt, FaUser, FaShoppingCart, FaArrowRight } from "react-icons/fa";
 
@@ -57,6 +58,8 @@ const utilityLinks = [
 ];
 
 export default function Header() {
+  const { pathname } = useRouter();
+  const isHomePage = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -72,7 +75,7 @@ export default function Header() {
   const categoryId = (name: string) => name.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
   return (
-    <header className={`site-header ${scrolled ? "site-header--scrolled" : ""}`}>
+    <header className={`site-header ${isHomePage ? "" : "site-header--inner-page"} ${scrolled ? "site-header--scrolled" : ""}`}>
       <div className="utility-bar">
         <div className="utility-bar__inner">
           <div className="utility-bar__group utility-bar__group--left">
