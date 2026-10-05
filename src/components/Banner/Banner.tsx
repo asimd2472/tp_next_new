@@ -5,7 +5,7 @@ const banners = [
   {
     type: "video",
     src: "/images/tp-banner-video.mp4",
-    image: "/images/tp-banner-video-poster.jpg",
+    image: "/images/tp-banner-video.jpg",
     alt: "A Tata Pravesh smart door in a modern home",
     eyebrow: "Premium doors & windows",
     title: "Beautiful Homes",

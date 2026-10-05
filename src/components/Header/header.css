@@ -608,7 +608,7 @@
   .tata-steel-logo img {
     width: clamp(94px, 22.5vw, 226px);
     height: auto;
-    margin-top: -6px;
+    margin-top: -20px;
     /* background-color: #fff;
     padding: 6px;
     border-radius: 5px; */
@@ -624,7 +624,7 @@
     flex-shrink: 0;
     gap: clamp(6px, 1.6vw, 12px);
     /* margin: 0 clamp(110px, calc(45vw - 28px), 317px) 0 auto; */
-    margin: 0 clamp(110px, 45vw - 0px, 317px) 0 auto;
+    margin: -8px clamp(110px, 45vw - 0px, 317px) 0 auto;
   }
 
   .header-icon-button--cart {
