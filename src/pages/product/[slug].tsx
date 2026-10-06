@@ -1,7 +1,8 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Head from "next/head";
-import { useState, type ChangeEvent } from "react";
+import Image from "next/image";
+import { useEffect, useRef, useState, type ChangeEvent, type WheelEvent } from "react";
 import {
   FaArrowLeft,
   FaArrowRight,
@@ -14,6 +15,7 @@ import {
   FaClock,
   FaHeadphones,
   FaHeart,
+  FaMinus,
   FaPlay,
   FaPlus,
   FaRulerCombined,
@@ -21,6 +23,7 @@ import {
   FaStar,
   FaTruck,
   FaWrench,
+  FaXmark,
 } from "react-icons/fa6";
 
 const GALLERY = [
@@ -94,6 +97,85 @@ export default function ProductDetailsPage() {
   const [w, setW] = useState(900);
   const [h, setH] = useState(2100);
   const [open, setOpen] = useState<number | null>(null);
+  const [shadesOpen, setShadesOpen] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
+  const [zoom, setZoom] = useState(1);
+  const closeGalleryRef = useRef<HTMLButtonElement>(null);
+  const closeShadesRef = useRef<HTMLButtonElement>(null);
+  const modalTriggerRef = useRef<HTMLElement | null>(null);
+  const modalOpen = shadesOpen || galleryOpen;
+
+  useEffect(() => {
+    if (!modalOpen) {
+      modalTriggerRef.current?.focus();
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    (galleryOpen ? closeGalleryRef : closeShadesRef).current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Tab") {
+        const dialog = document.querySelector<HTMLElement>('[role="dialog"][aria-modal="true"]');
+        const focusable = dialog?.querySelectorAll<HTMLElement>('button:not(:disabled), [href], select, [tabindex]:not([tabindex="-1"])');
+        if (!focusable?.length) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      } else if (event.key === "Escape") {
+        setGalleryOpen(false);
+        setShadesOpen(false);
+      } else if (galleryOpen && event.key === "ArrowLeft") {
+        setImg((current) => (current - 1 + GALLERY.length) % GALLERY.length);
+        setZoom(1);
+      } else if (galleryOpen && event.key === "ArrowRight") {
+        setImg((current) => (current + 1) % GALLERY.length);
+        setZoom(1);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [galleryOpen, modalOpen]);
+
+  const selectDesign = (index: number) => {
+    setDesign(index);
+    const matchingImage = GALLERY.findIndex((src) => src === DESIGNS[index].img);
+    if (matchingImage >= 0) setImg(matchingImage);
+  };
+
+  const moveDesign = (direction: -1 | 1) => {
+    selectDesign((design + direction + DESIGNS.length) % DESIGNS.length);
+  };
+
+  const openGallery = () => {
+    const activeElement = document.activeElement;
+    modalTriggerRef.current = activeElement instanceof HTMLElement ? activeElement : null;
+    setZoom(1);
+    setGalleryOpen(true);
+  };
+
+  const openShades = () => {
+    const activeElement = document.activeElement;
+    modalTriggerRef.current = activeElement instanceof HTMLElement ? activeElement : null;
+    setShadesOpen(true);
+  };
+
+  const handleGalleryWheel = (event: WheelEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setZoom((current) => Math.min(3, Math.max(1, current + (event.deltaY < 0 ? 0.2 : -0.2))));
+  };
 
   return (
     <>
@@ -119,8 +201,8 @@ export default function ProductDetailsPage() {
           <div className="pdp-gallery">
             <div className="pdp-thumbs">
               {GALLERY.map((src, i) => (
-                <button key={src} className={`pdp-thumb ${img === i ? "is-active" : ""}`} onClick={() => setImg(i)} aria-label={`View image ${i + 1}`}>
-                  <img src={src} alt="" />
+                <button key={`${src}-${i}`} className={`pdp-thumb ${img === i ? "is-active" : ""}`} onMouseEnter={() => setImg(i)} onFocus={() => setImg(i)} onClick={() => setImg(i)} aria-label={`View image ${i + 1}`} aria-pressed={img === i}>
+                  <Image src={src} alt="" fill sizes="70px" />
                   {i === GALLERY.length - 1 && (
                     <span className="play">
                       <span><FaPlay /></span>
@@ -129,9 +211,10 @@ export default function ProductDetailsPage() {
                 </button>
               ))}
             </div>
-            <div className="pdp-main">
-              <img src={GALLERY[img]} alt="Coral engineered door" />
-            </div>
+            <button className="pdp-main" type="button" onClick={openGallery} aria-label="Open product image gallery">
+              <Image src={GALLERY[img]} alt="Coral engineered door" fill sizes="(max-width: 1023px) 100vw, 60vw" priority />
+              <span className="pdp-main-hint"><FaPlus /> View gallery</span>
+            </button>
           </div>
 
           {/* Info */}
@@ -168,19 +251,19 @@ export default function ProductDetailsPage() {
             </div>
 
             {/* 1 Design */}
-            <div className="pdp-block">
+            <div className="pdp-block pdp-shade-block">
               <div className="pdp-step"><div className="pdp-step-title"><span className="pdp-step-num">1</span>Select Design</div></div>
               <div className="pdp-designs">
-                <button className="pdp-arrow" aria-label="Previous"><FaArrowLeft /></button>
+                <button className="pdp-arrow" type="button" onClick={() => moveDesign(-1)} aria-label="Previous design"><FaArrowLeft /></button>
                 <div className="pdp-design-list">
                   {DESIGNS.map((d, i) => (
-                    <button key={d.name} className={`pdp-design ${design === i ? "is-active" : ""}`} onClick={() => setDesign(i)}>
-                      <span className="box"><img src={d.img} alt="" /></span>
+                    <button key={d.name} type="button" className={`pdp-design ${design === i ? "is-active" : ""}`} onClick={() => selectDesign(i)} aria-pressed={design === i}>
+                      <span className="box"><Image src={d.img} alt="" fill sizes="80px" /></span>
                       {d.name}
                     </button>
                   ))}
                 </div>
-                <button className="pdp-arrow" aria-label="Next"><FaArrowRight /></button>
+                <button className="pdp-arrow" type="button" onClick={() => moveDesign(1)} aria-label="Next design"><FaArrowRight /></button>
               </div>
             </div>
 
@@ -188,11 +271,11 @@ export default function ProductDetailsPage() {
             <div className="pdp-block">
               <div className="pdp-step">
                 <div className="pdp-step-title"><span className="pdp-step-num">2</span>Select Shade</div>
-                <button className="pdp-link">View all Shades <FaArrowRight /></button>
+                <button className="pdp-link" type="button" onClick={openShades}>View all Shades <FaArrowRight /></button>
               </div>
               <div className="pdp-shades">
                 {SHADES.map((s, i) => (
-                  <button key={s.name} className={`pdp-shade ${shade === i ? "is-active" : ""}`} onClick={() => setShade(i)}>
+                  <button key={s.name} type="button" className={`pdp-shade ${shade === i ? "is-active" : ""}`} onClick={() => setShade(i)} aria-pressed={shade === i}>
                     <i style={{ background: s.bg }} />
                     {s.name}
                   </button>
@@ -230,7 +313,7 @@ export default function ProductDetailsPage() {
 
       {/* Lifestyle banner */}
       <section className="pdp-banner">
-        <img src="/images/product-uses-background.jpg" alt="" />
+        <Image src="/images/product-uses-background.jpg" alt="" fill sizes="100vw" />
         <div className="pdp-banner-copy">
           <h2>Designs That<br />Define Homes</h2>
           <p>A perfect blend of aesthetics, strength and modern living.</p>
@@ -283,6 +366,64 @@ export default function ProductDetailsPage() {
       </section>
 
       </main>
+
+      {shadesOpen && (
+        <div className="pdp-modal-backdrop" onClick={() => setShadesOpen(false)}>
+          <section className="pdp-modal pdp-shades-modal" role="dialog" aria-modal="true" aria-labelledby="pdp-shades-title" onClick={(event) => event.stopPropagation()}>
+            <div className="pdp-modal-header">
+              <div>
+                <span className="pdp-modal-eyebrow">Personalise your door</span>
+                <h2 id="pdp-shades-title">Explore all shades</h2>
+              </div>
+              <button ref={closeShadesRef} className="pdp-modal-close" type="button" onClick={() => setShadesOpen(false)} aria-label="Close shades">
+                <FaXmark />
+              </button>
+            </div>
+            <p className="pdp-modal-description">Choose a finish that feels right for your space.</p>
+            <div className="pdp-shades-modal-grid">
+              {SHADES.map((s, i) => (
+                <button key={s.name} type="button" className={`pdp-shade-option ${shade === i ? "is-active" : ""}`} onClick={() => { setShade(i); setShadesOpen(false); }} aria-pressed={shade === i}>
+                  <i style={{ background: s.bg }} />
+                  <span>{s.name}</span>
+                  {shade === i && <FaCheck aria-hidden="true" />}
+                </button>
+              ))}
+            </div>
+          </section>
+        </div>
+      )}
+
+      {galleryOpen && (
+        <div className="pdp-modal-backdrop pdp-gallery-backdrop" onClick={() => setGalleryOpen(false)}>
+          <section className="pdp-gallery-modal" role="dialog" aria-modal="true" aria-labelledby="pdp-gallery-title" onClick={(event) => event.stopPropagation()} onWheel={handleGalleryWheel}>
+            <div className="pdp-gallery-modal-header">
+              <h2 id="pdp-gallery-title">Coral product gallery</h2>
+              <div className="pdp-gallery-tools">
+                <button type="button" onClick={() => setZoom((current) => Math.max(1, current - 0.25))} disabled={zoom <= 1} aria-label="Zoom out"><FaMinus /></button>
+                <span>{Math.round(zoom * 100)}%</span>
+                <button type="button" onClick={() => setZoom((current) => Math.min(3, current + 0.25))} disabled={zoom >= 3} aria-label="Zoom in"><FaPlus /></button>
+                <button ref={closeGalleryRef} className="pdp-gallery-close" type="button" onClick={() => setGalleryOpen(false)} aria-label="Close gallery"><FaXmark /></button>
+              </div>
+            </div>
+            <div className="pdp-gallery-viewer">
+              <button className="pdp-gallery-nav" type="button" onClick={() => { setImg((current) => (current - 1 + GALLERY.length) % GALLERY.length); setZoom(1); }} aria-label="Previous image"><FaArrowLeft /></button>
+              <div className="pdp-gallery-zoom-area">
+                <Image src={GALLERY[img]} alt={`Coral product image ${img + 1}`} fill sizes="(max-width: 700px) 70vw, 900px" style={{ transform: `scale(${zoom})` }} />
+              </div>
+              <button className="pdp-gallery-nav" type="button" onClick={() => { setImg((current) => (current + 1) % GALLERY.length); setZoom(1); }} aria-label="Next image"><FaArrowRight /></button>
+            </div>
+            <div className="pdp-gallery-modal-thumbs" aria-label="Choose a gallery image">
+              {GALLERY.map((src, i) => (
+                <button key={`${src}-${i}`} type="button" className={`pdp-gallery-modal-thumb ${img === i ? "is-active" : ""}`} onClick={() => { setImg(i); setZoom(1); }} aria-label={`View image ${i + 1}`} aria-pressed={img === i}>
+                  <Image src={src} alt="" fill sizes="62px" />
+                </button>
+              ))}
+            </div>
+            <p className="pdp-gallery-help">Scroll to zoom · Use the controls to explore each image</p>
+          </section>
+        </div>
+      )}
+
       <Footer />
     </>
   );
