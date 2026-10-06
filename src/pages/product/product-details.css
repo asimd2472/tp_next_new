@@ -31,9 +31,10 @@
 }
 
 .pdp-wrap {
-  max-width: 1240px;
+  width: 100%;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 20px;
 }
 
 /* breadcrumb */
@@ -533,9 +534,10 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 1240px;
+  width: 100%;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 0 48px;
+  padding: 0 20px;
   color: #fff;
 }
 
@@ -707,9 +709,10 @@
   display: grid;
   grid-template-columns: 240px minmax(0, 1fr);
   gap: 24px;
-  max-width: 1240px;
+  width: 100%;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 24px 40px 28px;
+  padding: 24px 20px 28px;
 }
 
 .pdp-faq h2 {
@@ -770,8 +773,9 @@
 
 /* ===== responsive ===== */
 @media (max-width: 1023px) {
-  .pdp-wrap {
-    padding: 0 24px;
+  .pdp-wrap,
+  .pdp-banner-copy {
+    padding: 0 32px;
   }
 
   .pdp-top {
@@ -814,7 +818,7 @@
 
   .pdp-faq-in {
     grid-template-columns: 1fr;
-    padding: 28px 24px;
+    padding: 28px 32px;
   }
 
   .pdp-faq h2 {
@@ -827,13 +831,24 @@
   }
 }
 
+@media (min-width: 1024px) {
+  .pdp-wrap,
+  .pdp-banner-copy {
+    padding-inline: 48px;
+  }
+
+  .pdp-faq-in {
+    padding-inline: 48px;
+  }
+}
+
 @media (max-width: 639px) {
   .pdp {
     overflow-x: hidden;
   }
 
   .pdp-wrap {
-    padding: 0 12px;
+    padding: 0 20px;
   }
 
   .pdp-top,
@@ -965,6 +980,10 @@
 
   .pdp-banner-copy {
     padding: 0 20px;
+  }
+
+  .pdp-faq-in {
+    padding-inline: 20px;
   }
 
   .pdp-banner h2 {
