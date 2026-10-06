@@ -2,7 +2,8 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useRef, useState, type ChangeEvent, type WheelEvent } from "react";
+import Link from "next/link";
+import { useEffect, useRef, useState, type ChangeEvent, type TouchEvent, type WheelEvent } from "react";
 import {
   FaArrowLeft,
   FaArrowRight,
@@ -100,6 +101,8 @@ export default function ProductDetailsPage() {
   const [shadesOpen, setShadesOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [zoom, setZoom] = useState(1);
+  const touchStartX = useRef<number | null>(null);
+  const suppressGalleryClick = useRef(false);
   const closeGalleryRef = useRef<HTMLButtonElement>(null);
   const closeShadesRef = useRef<HTMLButtonElement>(null);
   const modalTriggerRef = useRef<HTMLElement | null>(null);
@@ -177,6 +180,28 @@ export default function ProductDetailsPage() {
     setZoom((current) => Math.min(3, Math.max(1, current + (event.deltaY < 0 ? 0.2 : -0.2))));
   };
 
+  const handleGalleryTouchStart = (event: TouchEvent<HTMLElement>) => {
+    touchStartX.current = event.changedTouches[0]?.clientX ?? null;
+  };
+
+  const handleGalleryTouchEnd = (event: TouchEvent<HTMLElement>) => {
+    const startX = touchStartX.current;
+    touchStartX.current = null;
+    if (startX === null) return;
+
+    const swipeDistance = event.changedTouches[0].clientX - startX;
+    if (Math.abs(swipeDistance) < 40) return;
+
+    if (event.currentTarget.classList.contains("pdp-main")) {
+      suppressGalleryClick.current = true;
+      window.setTimeout(() => {
+        suppressGalleryClick.current = false;
+      }, 700);
+    }
+    setImg((current) => (current + (swipeDistance < 0 ? 1 : -1) + GALLERY.length) % GALLERY.length);
+    setZoom(1);
+  };
+
   return (
     <>
       <Head>
@@ -211,10 +236,28 @@ export default function ProductDetailsPage() {
                 </button>
               ))}
             </div>
-            <button className="pdp-main" type="button" onClick={openGallery} aria-label="Open product image gallery">
+            <button className="pdp-main" type="button" onClick={(event) => {
+              if (suppressGalleryClick.current) {
+                suppressGalleryClick.current = false;
+                event.preventDefault();
+                return;
+              }
+              openGallery();
+            }} onTouchStart={handleGalleryTouchStart} onTouchEnd={handleGalleryTouchEnd} aria-label="Open product image gallery">
               <Image src={GALLERY[img]} alt="Coral engineered door" fill sizes="(max-width: 1023px) 100vw, 60vw" priority />
               <span className="pdp-main-hint"><FaPlus /> View gallery</span>
             </button>
+            <div className="pdp-mobile-gallery-controls">
+              <div className="pdp-mobile-gallery-dots" aria-label={`Image ${img + 1} of ${GALLERY.length}`}>
+                {GALLERY.map((src, i) => (
+                  <button key={`${src}-${i}`} type="button" className={img === i ? "is-active" : ""} onClick={() => setImg(i)} aria-label={`View image ${i + 1}`} aria-pressed={img === i} />
+                ))}
+              </div>
+              <div className="pdp-mobile-actions">
+                <button className="pdp-mobile-action" type="button" aria-label="Save Coral"><FaHeart /></button>
+                <button className="pdp-mobile-action" type="button" aria-label="Share Coral"><FaShareNodes /></button>
+              </div>
+            </div>
           </div>
 
           {/* Info */}
@@ -224,6 +267,18 @@ export default function ProductDetailsPage() {
               <div className="pdp-actions">
                 <button className="pdp-action"><FaHeart /> Save</button>
                 <button className="pdp-action"><FaShareNodes /> Share</button>
+              </div>
+            </div>
+
+            <div className="pdp-mobile-brand-row">
+              <div className="pdp-mobile-brand">
+                <b>Tata Pravesh</b>
+                <Link href="/">Visit the store</Link>
+              </div>
+              <div className="pdp-mobile-rating" aria-label="Rated 4.8 out of 5, from over 320 reviews">
+                <b>4.8</b>
+                <span className="pdp-stars">{[0, 1, 2, 3, 4].map((i) => <FaStar key={i} />)}</span>
+                <span>(320+)</span>
               </div>
             </div>
 
@@ -251,7 +306,7 @@ export default function ProductDetailsPage() {
             </div>
 
             {/* 1 Design */}
-            <div className="pdp-block pdp-shade-block">
+            <div className="pdp-block pdp-design-block">
               <div className="pdp-step"><div className="pdp-step-title"><span className="pdp-step-num">1</span>Select Design</div></div>
               <div className="pdp-designs">
                 <button className="pdp-arrow" type="button" onClick={() => moveDesign(-1)} aria-label="Previous design"><FaArrowLeft /></button>
@@ -268,7 +323,7 @@ export default function ProductDetailsPage() {
             </div>
 
             {/* 2 Shade */}
-            <div className="pdp-block">
+            <div className="pdp-block pdp-shade-block">
               <div className="pdp-step">
                 <div className="pdp-step-title"><span className="pdp-step-num">2</span>Select Shade</div>
                 <button className="pdp-link" type="button" onClick={openShades}>View all Shades <FaArrowRight /></button>
@@ -284,7 +339,7 @@ export default function ProductDetailsPage() {
             </div>
 
             {/* 3 Size */}
-            <div>
+            <div className="pdp-size-block">
               <div className="pdp-step">
                 <div className="pdp-step-title"><span className="pdp-step-num">3</span>Select Size</div>
                 <button className="pdp-link"><FaRulerCombined /> Size Guide</button>
@@ -395,7 +450,7 @@ export default function ProductDetailsPage() {
 
       {galleryOpen && (
         <div className="pdp-modal-backdrop pdp-gallery-backdrop" onClick={() => setGalleryOpen(false)}>
-          <section className="pdp-gallery-modal" role="dialog" aria-modal="true" aria-labelledby="pdp-gallery-title" onClick={(event) => event.stopPropagation()} onWheel={handleGalleryWheel}>
+          <section className="pdp-gallery-modal" role="dialog" aria-modal="true" aria-labelledby="pdp-gallery-title" onClick={(event) => event.stopPropagation()}>
             <div className="pdp-gallery-modal-header">
               <h2 id="pdp-gallery-title">Coral product gallery</h2>
               <div className="pdp-gallery-tools">
@@ -405,9 +460,9 @@ export default function ProductDetailsPage() {
                 <button ref={closeGalleryRef} className="pdp-gallery-close" type="button" onClick={() => setGalleryOpen(false)} aria-label="Close gallery"><FaXmark /></button>
               </div>
             </div>
-            <div className="pdp-gallery-viewer">
+            <div className="pdp-gallery-viewer" onTouchStart={handleGalleryTouchStart} onTouchEnd={handleGalleryTouchEnd}>
               <button className="pdp-gallery-nav" type="button" onClick={() => { setImg((current) => (current - 1 + GALLERY.length) % GALLERY.length); setZoom(1); }} aria-label="Previous image"><FaArrowLeft /></button>
-              <div className="pdp-gallery-zoom-area">
+              <div className="pdp-gallery-zoom-area" onWheel={handleGalleryWheel}>
                 <Image src={GALLERY[img]} alt={`Coral product image ${img + 1}`} fill sizes="(max-width: 700px) 70vw, 900px" style={{ transform: `scale(${zoom})` }} />
               </div>
               <button className="pdp-gallery-nav" type="button" onClick={() => { setImg((current) => (current + 1) % GALLERY.length); setZoom(1); }} aria-label="Next image"><FaArrowRight /></button>
