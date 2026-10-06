@@ -6,6 +6,7 @@ import "../components/WhyChoose/why-choose.css";
 import "../components/ExpertsSay/experts-say.css";
 import "../components/Blogs/blogs.css";
 import "../components/Faq/faq.css";
+import "./french-door/french-door.css";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
