@@ -248,7 +248,8 @@
   }
 
   .why-choose__heading h2 {
-    font-size: 26px;
+    font-size: 30px;
+    font-weight: 500;
   }
 
   .why-choose__heading p {
@@ -280,5 +281,92 @@
 @media (max-width: 479px) {
   .why-choose__card {
     flex-basis: 100%;
+  }
+}
+
+@media (max-width: 479px) {
+  .why-choose {
+    padding: 38px 0 55px;
+  }
+
+  .why-choose__container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    padding: 0 15px;
+  }
+
+  .why-choose__heading {
+    display: contents;
+  }
+
+  .why-choose__intro {
+    grid-row: 1;
+  }
+
+  .why-choose__heading h2 {
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 1.15;
+  }
+
+  .why-choose__heading p {
+    /* max-width: 240px; */
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.45;
+    margin-bottom: 5px;
+  }
+
+  .why-choose__viewport {
+    grid-row: 2;
+    width: calc(100% + 30px);
+    margin: 14px -15px 0;
+    --why-choose-gap: 11px;
+  }
+
+  .why-choose__track {
+    width: max-content;
+    padding: 0 26px;
+    box-sizing: border-box;
+  }
+
+  .why-choose__card {
+    flex-basis: calc(100vw - 52px);
+    aspect-ratio: 1.47 / 1;
+    border-radius: 13px;
+    scroll-snap-align: center;
+  }
+
+  .why-choose__play {
+    width: 28px;
+    height: 28px;
+  }
+
+  .why-choose__card > p {
+    right: 10px;
+    bottom: 8px;
+    left: 10px;
+    font-size: 10px;
+    line-height: 1.3;
+  }
+
+  .why-choose__arrows {
+    grid-row: 3;
+    justify-content: center;
+    gap: 13px;
+    margin-top: 25px;
+    padding: 0;
+  }
+
+  .why-choose__arrows button {
+    cursor: pointer;
+    background: none;
+    border: 1px solid #405562;
+    border-radius: 50%;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    display: grid;
   }
 }
