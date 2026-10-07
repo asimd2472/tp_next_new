@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 
 const posts = [
   {
@@ -28,6 +29,32 @@ const posts = [
 ];
 
 export default function Blogs() {
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+
+    const mobileQuery = window.matchMedia("(max-width: 479px)");
+    const alignInitialCard = (isMobile: boolean) => {
+      grid.scrollLeft = 0;
+      if (!isMobile) return;
+
+      const firstPost = grid.querySelectorAll<HTMLElement>(".blogs__card")[1];
+      if (!firstPost) return;
+
+      const cardLeft = firstPost.getBoundingClientRect().left - grid.getBoundingClientRect().left;
+      grid.scrollLeft += cardLeft - (grid.clientWidth - firstPost.clientWidth) / 2;
+    };
+
+    const handleBreakpointChange = (event: MediaQueryListEvent) => alignInitialCard(event.matches);
+
+    alignInitialCard(mobileQuery.matches);
+    mobileQuery.addEventListener("change", handleBreakpointChange);
+
+    return () => mobileQuery.removeEventListener("change", handleBreakpointChange);
+  }, []);
+
   return (
     <section className="blogs" aria-labelledby="blogs-title">
       <div className="blogs__container">
@@ -39,7 +66,15 @@ export default function Blogs() {
           <a className="blogs__all-link" href="#blogs-title">View all blogs</a>
         </header>
 
-        <div className="blogs__grid">
+        <div className="blogs__grid" ref={gridRef}>
+          <article className="blogs__card blogs__card--mobile-preview" aria-hidden="true">
+            <div className="blogs__image">
+              <Image src={posts[posts.length - 1].image} alt="" fill sizes="(max-width: 479px) 78vw, 0px" />
+            </div>
+            <p className="blogs__meta">{posts[posts.length - 1].category} · {posts[posts.length - 1].date}</p>
+            <h3>{posts[posts.length - 1].title}</h3>
+            <p className="blogs__summary">{posts[posts.length - 1].summary}</p>
+          </article>
           {posts.map((post) => (
             <article className="blogs__card" key={post.title}>
               <div className="blogs__image">
