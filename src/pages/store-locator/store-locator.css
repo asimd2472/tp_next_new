@@ -519,13 +519,18 @@
 
 @media (max-width: 900px) {
   .store-locator__search {
-    grid-template-columns: minmax(190px, 1.4fr) minmax(120px, 1fr) minmax(120px, 1fr) auto;
-    gap: 10px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+  }
+
+  .store-locator__results {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
   }
 
   .store-locator__card {
-    grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
-    gap: 9px;
+    grid-template-columns: minmax(220px, 0.85fr) minmax(0, 1.15fr);
+    gap: 16px;
   }
 }
 
@@ -566,68 +571,62 @@
   }
 
   .store-locator__search {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
     padding: 13px;
   }
 
   .store-locator__search-location {
-    grid-column: 1 / -1;
+    grid-template-columns: 27px minmax(0, 1fr);
   }
 
-  .store-locator__field-label {
-    font-size: 11px;
-  }
-
-  .store-locator__input-wrap,
-  .store-locator__select-field select {
+  .store-locator__input-wrap {
     height: 38px;
   }
 
-  .store-locator__input-wrap input,
-  .store-locator__select-field select {
+  .store-locator__input-wrap input {
     font-size: 12px;
   }
 
   .store-locator__search-button {
-    grid-column: 1 / -1;
     min-height: 40px;
     font-size: 13px;
   }
 
-  .store-locator__results {
+  .store-locator__card {
+    min-height: 0;
     grid-template-columns: minmax(0, 1fr);
-    gap: 12px;
-    margin-top: 14px;
+    gap: 0;
+    padding: 8px;
   }
 
-  .store-locator__card {
-    min-height: 230px;
-    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
-    gap: 10px;
-    padding: 8px;
+  .store-locator__showcase {
+    border-radius: 5px;
+  }
+
+  .store-locator__store-image {
+    min-height: 0;
+    height: 190px;
+    flex: 0 0 190px;
+  }
+
+  .store-locator__details {
+    padding: 12px 4px 4px;
   }
 
   .store-locator__card-heading h2 {
     font-size: clamp(16px, 4vw, 20px);
-  }
-
-  .store-locator__field-label {
-    font-size: 12px;
-  }
-
-  .store-locator__input-wrap input,
-  .store-locator__select-field select {
-    font-size: 13px;
-  }
-
-  .store-locator__search-button {
-    font-size: 14px;
+    white-space: normal;
   }
 
   .store-locator__brand-panel {
-    font-size: 14px;
+    padding: 10px 9px 8px;
+    font-size: 13px;
     line-height: 1.4;
+  }
+
+  .store-locator__brand-panel > strong {
+    font-size: inherit;
   }
 
   .store-locator__benefits > span {
@@ -641,26 +640,35 @@
   }
 
   .store-locator__card-heading {
-    min-height: 48px;
+    min-height: 0;
+    padding-bottom: 8px;
   }
 
   .store-locator__card-heading p {
     font-size: 10px;
+    margin-bottom: 0;
   }
 
   .store-locator__location-row {
-    font-size: 13px;
-    line-height: 1.35;
+    grid-template-columns: 20px minmax(0, 1fr) minmax(0, 1fr);
+    gap: 8px;
+    padding: 10px 0;
+    font-size: 12px;
+    line-height: 1.4;
   }
 
   .store-locator__location-row small,
   .store-locator__detail-row small {
-    font-size: 11px;
+    font-size: 10px;
   }
 
   .store-locator__detail-row {
-    font-size: 13px;
-    line-height: 1.35;
+    align-items: start;
+    grid-template-columns: 20px minmax(0, 1fr);
+    gap: 8px;
+    padding: 9px 0;
+    font-size: 12px;
+    line-height: 1.4;
   }
 
   .store-locator__pagination button {
@@ -706,6 +714,10 @@
     min-height: 34px;
     margin-top: 2px;
   }
+
+  .store-locator__pagination {
+    flex-wrap: wrap;
+  }
 }
 
 @media (max-width: 420px) {
@@ -713,57 +725,17 @@
     padding-inline: 16px;
   }
 
-  .store-locator__card {
-    min-height: 0;
-    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-    align-items: stretch;
-    gap: 8px;
+  .store-locator__store-image {
+    height: 160px;
+    flex-basis: 160px;
   }
 
-  .store-locator__showcase {
-    display: flex;
-    min-height: 350px;
-    flex-direction: column;
-  }
-
-  .store-locator__brand-panel {
-    align-self: stretch;
-    padding: 12px 9px 9px;
-    font-size: clamp(12px, 3.5vw, 14px);
-  }
-
-  .store-locator__benefits {
-    gap: 0;
-    margin-top: 10px;
-    padding-top: 9px;
-  }
-
-  .store-locator__benefits > span {
-    font-size: clamp(8px, 2.5vw, 10px);
-  }
-
-  .store-locator__details {
-    display: flex;
-    flex-direction: column;
-    padding-top: 3px;
-  }
-
-  .store-locator__card-heading {
-    min-height: 54px;
-    padding: 0 0 8px;
+  .store-locator__hero-inner > span {
+    max-width: 280px;
   }
 
   .store-locator__location-row {
-    grid-template-columns: 20px minmax(0, 1fr) minmax(0, 1fr);
-    gap: 5px;
-    padding: 10px 0;
-  }
-
-  .store-locator__detail-row {
-    align-items: start;
-    grid-template-columns: 20px minmax(0, 1fr);
     gap: 6px;
-    padding: 9px 0;
   }
 
   .store-locator__contact {
@@ -772,14 +744,8 @@
     padding: 12px;
   }
 
-  .store-locator__contact-icon {
-    width: 32px;
-    height: 32px;
-  }
-
   .store-locator__contact > a {
     grid-column: 1 / -1;
-    justify-self: center;
     width: 100%;
   }
 }
