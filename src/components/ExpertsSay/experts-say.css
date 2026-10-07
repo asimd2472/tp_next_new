@@ -263,8 +263,80 @@
 }
 
 @media (max-width: 479px) {
+  .experts-say {
+    padding: 35px 0 36px;
+    border-top: 2px solid #514735;
+  }
+
+  .experts-say__container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    padding: 0 14px;
+  }
+
+  .experts-say__heading {
+    display: contents;
+  }
+
+  .experts-say__heading h2 {
+    grid-row: 1;
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 1.15;
+  }
+
+  .experts-say__viewport {
+    grid-row: 2;
+    width: calc(100% + 28px);
+    margin: 32px -14px 0;
+    --experts-say-gap: 11px;
+  }
+
+  .experts-say__track {
+    width: max-content;
+    padding: 0 27px;
+    box-sizing: border-box;
+  }
+
   .experts-say__card {
-    flex-basis: 100%;
+    flex-basis: calc(100vw - 61px);
+    aspect-ratio: 0.6 / 1;
+    border-radius: 11px;
+    scroll-snap-align: center;
+  }
+
+  .experts-say__play {
+    width: 35px;
+    height: 35px;
+  }
+
+  .experts-say__card > p {
+    right: 10px;
+    bottom: 11px;
+    left: 10px;
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .experts-say__arrows {
+    grid-row: 3;
+    justify-content: center;
+    gap: 13px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    padding: 0;
+  }
+
+  .experts-say__arrows button {
+    cursor: pointer;
+    background: none;
+    border: 1.5px solid #fffffff0;
+    border-radius: 50%;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    display: grid;
   }
 }
 
