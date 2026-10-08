@@ -5,6 +5,28 @@
   transition: box-shadow .2s ease;
 }
 
+.site-header--inner-page {
+  position: sticky;
+  inset: 0 0 auto;
+}
+
+.site-header--inner-page .main-header {
+  border-color: #e2e8f0;
+  background: #fff;
+  color: #17345f;
+}
+
+.site-header--inner-page .header-icon-button {
+  color: #17345f;
+  background: rgba(23, 52, 95, 0.05);
+  border-color: rgba(23, 52, 95, 0.12);
+}
+
+.site-header--inner-page .menu-button {
+  border-color: #cbd5e1;
+  color: #17345f;
+}
+
 .site-header--scrolled {
   box-shadow: 0 5px 24px rgba(2, 31, 70, .2);
 }
@@ -125,9 +147,9 @@
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  background-color: #ffffff;
-  padding: 12px;
-  border-radius: 8px;
+  /* background-color: #ffffff; */
+  /* padding: 12px;
+  border-radius: 8px; */
 }
 
 .tata-steel-logo img {
@@ -608,10 +630,10 @@
   .tata-steel-logo img {
     width: clamp(94px, 22.5vw, 226px);
     height: auto;
-    margin-top: -6px;
-    background-color: #fff;
+    margin-top: -20px;
+    /* background-color: #fff;
     padding: 6px;
-    border-radius: 5px;
+    border-radius: 5px; */
   }
 
   .desktop-navigation,
@@ -624,7 +646,7 @@
     flex-shrink: 0;
     gap: clamp(6px, 1.6vw, 12px);
     /* margin: 0 clamp(110px, calc(45vw - 28px), 317px) 0 auto; */
-    margin: 0 clamp(110px, 45vw - 0px, 317px) 0 auto;
+    margin: -8px clamp(110px, 45vw - 0px, 317px) 0 auto;
   }
 
   .header-icon-button--cart {

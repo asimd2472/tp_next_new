@@ -1,62 +1,75 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FaDownload, FaMapMarkerAlt, FaCalendarCheck, FaEnvelope, FaPhoneAlt, FaUser, FaShoppingCart, FaArrowRight } from "react-icons/fa";
 
-const menuCategories = [
+type MenuCategory = {
+  name: string;
+  href: string;
+  items: { label: string; href: string }[];
+};
+
+const menuCategories: MenuCategory[] = [
   {
     name: "Doors",
     href: "#doors",
     items: [
-      "Embossed Wood Finish Doors",
-      "Plain Wood Finish Doors",
-      "Plain Steel Finish Doors",
-      "Fly Mesh Doors",
-      "Reflections -Nature Series",
-      "Door With Side Window",
-      "Door With Ventilator",
-      "Glazed Door",
-      "Shaft Duct Access Door",
+      { label: "Embossed Wood Finish Doors", href: "/product/embossed-wood-finish-doors" },
+      { label: "Plain Wood Finish Doors", href: "#doors" },
+      { label: "Plain Steel Finish Doors", href: "#doors" },
+      { label: "Fly Mesh Doors", href: "#doors" },
+      { label: "Reflections -Nature Series", href: "#doors" },
+      { label: "Door With Side Window", href: "#doors" },
+      { label: "Door With Ventilator", href: "#doors" },
+      { label: "Glazed Door", href: "#doors" },
+      { label: "Shaft Duct Access Door", href: "#doors" },
     ],
   },
   {
     name: "Windows",
     href: "#windows",
-    items: ["Swing & Slide Window", "Vista Window", "Casement Window"],
+    items: [
+      { label: "Swing & Slide Window", href: "#windows" },
+      { label: "Vista Window", href: "#windows" },
+      { label: "Casement Window", href: "#windows" },
+    ],
   },
   { name: "Aluminum Windows", href: "#aluminum-windows", items: [] },
   { name: "Fire Door", href: "/fire-door", items: [] },
-  { name: "French Door", href: "#french-door", items: [] },
+  { name: "French Door", href: "/french-door", items: [] },
   {
     name: "Buyers Guide",
     href: "#buyers-guide",
     items: [
-      "Why Tata Pravesh?",
-      "Select Best Doors",
-      "Select Best Windows",
-      "Doors & Windows for Villa",
-      "Doors for Bedroom",
-      "Doors & Windows for Bathroom",
-      "Modern Font Door design",
-      "Double Door Designs",
-      "Louver Door",
-      "Main Door Designs",
-      "Flush Door designs",
-      "Fly Mesh Doors",
-      "Track Your Order",
-      "Blogs",
+      { label: "Why Tata Pravesh?", href: "#buyers-guide" },
+      { label: "Select Best Doors", href: "#buyers-guide" },
+      { label: "Select Best Windows", href: "#buyers-guide" },
+      { label: "Doors & Windows for Villa", href: "#buyers-guide" },
+      { label: "Doors for Bedroom", href: "#buyers-guide" },
+      { label: "Doors & Windows for Bathroom", href: "#buyers-guide" },
+      { label: "Modern Font Door design", href: "#buyers-guide" },
+      { label: "Double Door Designs", href: "#buyers-guide" },
+      { label: "Louver Door", href: "#buyers-guide" },
+      { label: "Main Door Designs", href: "#buyers-guide" },
+      { label: "Flush Door designs", href: "#buyers-guide" },
+      { label: "Fly Mesh Doors", href: "#buyers-guide" },
+      { label: "Track Your Order", href: "#buyers-guide" },
+      { label: "Blogs", href: "#buyers-guide" },
     ],
   },
 ];
 const utilityLinks = [
   { label: "Download Brochure", href: "#download-brochure", icon: FaDownload },
-  { label: "Find A Store", href: "#find-a-store", icon: FaMapMarkerAlt },
+  { label: "Find A Store", href: "/store-locator", icon: FaMapMarkerAlt },
   { label: "Book a Demo", href: "#book-a-demo", icon: FaCalendarCheck },
   { label: "enquiry@tatapravesh.com", href: "#product-enquiry-mail", icon: FaEnvelope },
   { label: "1800 419 9200", href: "#product-enquiry-phone", icon: FaPhoneAlt },
 ];
 
 export default function Header() {
+  const { pathname } = useRouter();
+  const isHomePage = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -72,7 +85,7 @@ export default function Header() {
   const categoryId = (name: string) => name.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
   return (
-    <header className={`site-header ${scrolled ? "site-header--scrolled" : ""}`}>
+    <header className={`site-header ${isHomePage ? "" : "site-header--inner-page"} ${scrolled ? "site-header--scrolled" : ""}`}>
       <div className="utility-bar">
         <div className="utility-bar__inner">
           <div className="utility-bar__group utility-bar__group--left">
@@ -168,8 +181,8 @@ export default function Header() {
                   {expandedCategory === category.name && (
                     <div className="mobile-navigation__submenu" id={`mobile-submenu-${categoryId(category.name)}`}>
                       {category.items.map((item) => (
-                        <Link key={item} href={category.href} onClick={() => setMenuOpen(false)}>
-                          {item}
+                        <Link key={item.label} href={item.href} onClick={() => setMenuOpen(false)}>
+                          {item.label}
                         </Link>
                       ))}
                     </div>
@@ -195,9 +208,9 @@ export default function Header() {
                 {category.items.length > 0 ? (
                   <ul className="mega-menu__links">
                     {category.items.map((item) => (
-                      <li key={item}>
-                        <Link href={category.href} onClick={() => setActiveCategory(null)}>
-                          <span>{item}</span>
+                      <li key={item.label}>
+                        <Link href={item.href} onClick={() => setActiveCategory(null)}>
+                          <span>{item.label}</span>
                           <FaArrowRight aria-hidden="true" />
                         </Link>
                       </li>

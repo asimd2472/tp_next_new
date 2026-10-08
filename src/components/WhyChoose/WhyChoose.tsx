@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaXmark } from "react-icons/fa6";
 
 const testimonials = [
@@ -46,6 +46,30 @@ export default function WhyChoose() {
   const viewportRef = useRef<HTMLDivElement>(null);
   const [activeVideoIndex, setActiveVideoIndex] = useState<number | null>(null);
   const [isVideoLoading, setIsVideoLoading] = useState(false);
+
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    const mobileQuery = window.matchMedia("(max-width: 479px)");
+    const alignInitialCard = (isMobile: boolean) => {
+      viewport.scrollLeft = 0;
+      if (!isMobile) return;
+
+      const targetCard = viewport.querySelectorAll<HTMLElement>(".why-choose__card")[2];
+      if (!targetCard) return;
+
+      const cardLeft = targetCard.getBoundingClientRect().left - viewport.getBoundingClientRect().left;
+      viewport.scrollLeft += cardLeft - (viewport.clientWidth - targetCard.clientWidth) / 2;
+    };
+
+    const handleBreakpointChange = (event: MediaQueryListEvent) => alignInitialCard(event.matches);
+
+    alignInitialCard(mobileQuery.matches);
+    mobileQuery.addEventListener("change", handleBreakpointChange);
+
+    return () => mobileQuery.removeEventListener("change", handleBreakpointChange);
+  }, []);
 
   const moveTestimonials = (direction: -1 | 1) => {
     const viewport = viewportRef.current;

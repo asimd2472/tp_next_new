@@ -195,3 +195,27 @@
     justify-self: start;
   }
 }
+
+@media (max-width: 700px) {
+  .site-footer__bottom-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .site-footer__socials {
+    order: 1;
+  }
+
+  .site-footer__copyright {
+    order: 2;
+    justify-self: center;
+    text-align: center;
+  }
+
+  .site-footer__back-to-top {
+    display: none;
+  }
+}
