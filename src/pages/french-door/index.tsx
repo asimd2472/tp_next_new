@@ -38,6 +38,136 @@ const applications = [
 	{ title: "Patio / balcony", image: "/images/french-door/patio-balcony.svg" },
 ];
 
+const selectorDesigns = ["Lumiére Pro", "Lumiére Classic", "Lumiére Classic Plus", "Lumiére Basic"];
+const selectorShades = [
+	{ name: "Forest Brown", color: "#4a2f27" },
+	{ name: "Snowflake White", color: "#f3f2ea" },
+];
+const selectorSizes = ["2134X2134", "2134X2285", "2134X2440", "2440X2134", "2440X2285", "2440X2440"];
+
+function FrenchDoorSelector() {
+	const [designIndex, setDesignIndex] = useState(0);
+	const [shadeIndex, setShadeIndex] = useState(0);
+	const [sizeIndex, setSizeIndex] = useState(0);
+	const shade = selectorShades[shadeIndex];
+	const [width, height] = selectorSizes[sizeIndex].split("X").map(Number);
+	const previewHeight = 300;
+	const previewWidth = Math.round(previewHeight * width / height);
+	const frameWidth = Math.max(150, Math.min(260, previewWidth));
+	const frameLeft = (300 - frameWidth) / 2;
+	const paneStroke = shade.color === "#f3f2ea" ? "#000" : "#fff";
+	const feet = (millimetres: number) => `${(millimetres / 304.8).toFixed(1).replace(/\.0$/, "")} ft`;
+	const selection = `French Door · ${selectorDesigns[designIndex]} · ${shade.name} · ${width} × ${height} mm`;
+
+	const fillEnquiry = () => {
+		const form = document.getElementById("french-door-enquiry-form");
+		if (!form) return;
+
+		const widthInput = form.querySelector<HTMLInputElement>('input[name="width"]');
+		const heightInput = form.querySelector<HTMLInputElement>('input[name="height"]');
+		const messageInput = form.querySelector<HTMLTextAreaElement>('textarea[name="message"]');
+
+		if (widthInput) {
+			widthInput.value = String(width);
+			widthInput.dispatchEvent(new Event("input", { bubbles: true }));
+			widthInput.dispatchEvent(new Event("change", { bubbles: true }));
+		}
+		if (heightInput) {
+			heightInput.value = String(height);
+			heightInput.dispatchEvent(new Event("input", { bubbles: true }));
+			heightInput.dispatchEvent(new Event("change", { bubbles: true }));
+		}
+		if (messageInput) {
+			messageInput.value = `Selected: ${selection}`;
+			messageInput.dispatchEvent(new Event("input", { bubbles: true }));
+			messageInput.dispatchEvent(new Event("change", { bubbles: true }));
+		}
+
+		form.scrollIntoView({ behavior: "smooth" });
+	};
+
+	const bookDemo = () => {
+		const demoSection = document.getElementById("book-a-demo");
+		(demoSection ?? document.getElementById("french-door-enquiry"))?.scrollIntoView({ behavior: "smooth" });
+	};
+
+	return (
+		<section className="french-door__section french-door__selector" id="pv-select" aria-labelledby="french-door-selector-title">
+			<div className="french-door__container">
+				<div className="french-door__section-heading">
+					<p className="french-door__eyebrow">CHOOSE YOUR CONFIGURATION</p>
+					<h2 id="french-door-selector-title">Select your Lumiére.</h2>
+					<p className="french-door__section-intro">Pick a design, shade and size. Prices depend on your location, so book a demo or enquire for an exact quote.</p>
+				</div>
+				<div className="french-door__selector-grid">
+					<div className="french-door__selector-preview">
+						<svg viewBox={`0 0 300 ${previewHeight + 10}`} role="img" aria-label={`Preview of ${selectorDesigns[designIndex]} French door in ${shade.name}, ${width} by ${height} mm`}>
+							<rect x={frameLeft} y="8" width={frameWidth} height={previewHeight - 2} fill={shade.color} />
+							{[0, 1].map((paneIndex) => {
+								const paneLeft = frameLeft + 8 + paneIndex * (frameWidth - 16) / 2;
+								const paneWidth = (frameWidth - 16) / 2;
+								return (
+									<g key={paneIndex}>
+										<rect x={paneLeft} y="18" width={paneWidth} height={previewHeight - 28} fill="none" stroke={paneStroke} strokeOpacity=".4" strokeWidth="2" />
+										{[0, 1, 2].map((row) => (
+											<rect
+												key={row}
+												x={paneLeft + 8}
+												y={28 + row * ((previewHeight - 48) / 3)}
+												width={paneWidth - 16}
+												height={(previewHeight - 48) / 3 - 8}
+												fill="#cfe6f0"
+												opacity=".85"
+												stroke="#555"
+											/>
+										))}
+										<rect x={paneIndex ? paneLeft + 4 : paneLeft + paneWidth - 10} y={previewHeight / 2} width="6" height="26" rx="3" fill="#ccc" />
+									</g>
+								);
+							})}
+						</svg>
+						<p>{selectorDesigns[designIndex]} in {shade.name}</p>
+					</div>
+					<div className="french-door__selector-controls">
+						<h3><i>1</i>Select Design</h3>
+						<div className="french-door__selector-options" role="group" aria-label="Design">
+							{selectorDesigns.map((design, index) => (
+								<button className="french-door__selector-chip" type="button" key={design} aria-pressed={designIndex === index} onClick={() => setDesignIndex(index)}>{design}</button>
+							))}
+						</div>
+
+						<h3><i>2</i>Choose Shade</h3>
+						<div className="french-door__selector-options" role="group" aria-label="Shade">
+							{selectorShades.map((option, index) => (
+								<button className="french-door__selector-swatch" type="button" key={option.name} aria-pressed={shadeIndex === index} onClick={() => setShadeIndex(index)}>
+									<b style={{ background: option.color }} aria-hidden="true" />{option.name}
+								</button>
+							))}
+						</div>
+
+						<h3><i>3</i>Select Size (W × H mm)</h3>
+						<div className="french-door__selector-options" role="group" aria-label="Size">
+							{selectorSizes.map((size, index) => (
+								<button className="french-door__selector-chip" type="button" key={size} aria-pressed={sizeIndex === index} onClick={() => setSizeIndex(index)}>{size.replace("X", " × ")}</button>
+							))}
+						</div>
+
+						<div className="french-door__selector-summary" aria-live="polite">
+							<strong>Your selection</strong><br />{selection}<br />
+							<small>Approx. {feet(width)} × {feet(height)}</small>
+						</div>
+						<div className="french-door__selector-actions">
+							<button className="french-door__selector-action" type="button" onClick={bookDemo}>Book a Demo <span aria-hidden="true">→</span></button>
+							<button className="french-door__selector-action french-door__selector-action--outline" type="button" onClick={fillEnquiry}>Enquire Now</button>
+						</div>
+						<p className="french-door__selector-note">Swatches and previews are indicative. Final colour may vary on screen.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+	);
+}
+
 export default function FrenchDoorPage() {
 	const [formMessage, setFormMessage] = useState("");
 
@@ -104,6 +234,8 @@ export default function FrenchDoorPage() {
 						</div>
 					</div>
 				</section>
+
+				<FrenchDoorSelector />
 
 				<section className="french-door__section french-door__models" id="french-door-models" aria-labelledby="french-door-models-title">
 					<div className="french-door__container">
@@ -241,7 +373,7 @@ export default function FrenchDoorPage() {
 							<p className="french-door__section-intro">Tell us where the door will go and its approximate size. Our team will help you find the right fit.</p>
 							<ul><li><FaCheck aria-hidden="true" />Supply and installation included</li><li><FaCheck aria-hidden="true" />Delivery in 45 to 60 days</li><li><FaCheck aria-hidden="true" />Made to size, 1829 to 2438 mm</li></ul>
 						</div>
-						<form className="french-door__form" onSubmit={handleSubmit}>
+						<form className="french-door__form" id="french-door-enquiry-form" onSubmit={handleSubmit}>
 							<label>Full name<input name="name" autoComplete="name" required /></label>
 							<label>Phone<input name="phone" type="tel" autoComplete="tel" inputMode="tel" pattern="[+0-9][0-9\s-]{8,14}" required /></label>
 							<label>Email<input name="email" type="email" autoComplete="email" required /></label>
