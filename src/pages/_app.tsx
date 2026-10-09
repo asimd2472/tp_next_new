@@ -9,6 +9,7 @@ import "../components/Faq/faq.css";
 import "./french-door/french-door.css";
 import "./store-locator/store-locator.css";
 import "./aluminium-windows/aluminium-windows.css";
+import "./doors-with-ventilators/doors-with-ventilators.css";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {

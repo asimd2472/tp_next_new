@@ -21,7 +21,7 @@ const menuCategories: MenuCategory[] = [
       { label: "Fly Mesh Doors", href: "#doors" },
       { label: "Reflections -Nature Series", href: "#doors" },
       { label: "Door With Side Window", href: "#doors" },
-      { label: "Door With Ventilator", href: "#doors" },
+      { label: "Door With Ventilator", href: "/doors-with-ventilators" },
       { label: "Glazed Door", href: "#doors" },
       { label: "Shaft Duct Access Door", href: "#doors" },
     ],
