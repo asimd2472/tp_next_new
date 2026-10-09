@@ -2,7 +2,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Head from "next/head";
 import Image from "next/image";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 const rooms = [
 	{
@@ -115,7 +115,35 @@ const shades = [
 ];
 
 export default function AluminiumWindowsPage() {
+	const bannerRef = useRef<HTMLDivElement>(null);
 	const [submitted, setSubmitted] = useState(false);
+
+	useEffect(() => {
+		const banner = bannerRef.current;
+		if (!banner) return;
+
+		let animationFrame = 0;
+		const updateProgress = () => {
+			cancelAnimationFrame(animationFrame);
+			animationFrame = requestAnimationFrame(() => {
+				const scrollDistance = banner.offsetHeight - window.innerHeight;
+				const progress = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+					? 1
+					: Math.min(1, Math.max(0, (-banner.getBoundingClientRect().top / scrollDistance) * 1.15));
+				banner.style.setProperty("--p", String(progress));
+			});
+		};
+
+		window.addEventListener("scroll", updateProgress, { passive: true });
+		window.addEventListener("resize", updateProgress);
+		updateProgress();
+
+		return () => {
+			cancelAnimationFrame(animationFrame);
+			window.removeEventListener("scroll", updateProgress);
+			window.removeEventListener("resize", updateProgress);
+		};
+	}, []);
 
 	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -130,22 +158,26 @@ export default function AluminiumWindowsPage() {
 			</Head>
 			<Header />
 			<main className="aluminium-windows">
-				<section className="aluminium-windows__hero">
-					<div className="aluminium-windows__hero-image">
-						<Image
-							src="/images/aluminium-windows/hero.jpg"
-							alt="Floor-to-ceiling aluminium sliding windows opening to the sea"
-							fill
-							priority
-							sizes="100vw"
-						/>
-					</div>
-					<div className="aluminium-windows__container aluminium-windows__hero-content">
-						<h1>Let the view in. Leave the worry out.</h1>
-						<p>Slim black frames, wide panes of glass and the strength of Tata Steel&apos;s legacy. Aluminium windows made for homes that feel calm.</p>
-						<div className="aluminium-windows__hero-actions">
-							<a className="aluminium-windows__button" href="#enquire">Enquire Now</a>
-							<a className="aluminium-windows__button aluminium-windows__button--ghost" href="#collection">Explore the collection</a>
+				<section className="aluminium-windows__run" ref={bannerRef} aria-label="Aluminium windows">
+					<div className="aluminium-windows__stage">
+						<div className="aluminium-windows__frame">
+							<Image
+								src="/images/aluminium-windows/hero.jpg"
+								alt="Sliding glass windows opening to the sea"
+								fill
+								priority
+								sizes="100vw"
+							/>
+							<div className="aluminium-windows__pane aluminium-windows__pane--left" aria-hidden="true" />
+							<div className="aluminium-windows__pane aluminium-windows__pane--right" aria-hidden="true" />
+							<div className="aluminium-windows__title">
+								<h1>Open to the view</h1>
+								<p>Scroll to slide the window open</p>
+							</div>
+							<div className="aluminium-windows__after">
+								<p>Slim frames. Wide glass. A calm that stays indoors.</p>
+								<a className="aluminium-windows__button" href="#enquire">Enquire Now</a>
+							</div>
 						</div>
 					</div>
 				</section>
