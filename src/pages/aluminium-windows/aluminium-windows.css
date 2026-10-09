@@ -1,0 +1,590 @@
+.aluminium-windows {
+	--ink: #121416;
+	--coal: #1b1e21;
+	--ivory: #f4f0e8;
+	--sand: #d9d2c3;
+	--gold: #b99a66;
+	--mute: #9a978f;
+	box-sizing: border-box;
+	background: var(--ink);
+	color: var(--ivory);
+	font-family: "Myriad Pro", "Segoe UI", Arial, sans-serif;
+	font-size: 17px;
+	font-weight: 300;
+	line-height: 1.7;
+}
+
+.aluminium-windows *,
+.aluminium-windows *::before,
+.aluminium-windows *::after {
+	box-sizing: inherit;
+}
+
+.aluminium-windows__container {
+	width: 100%;
+	max-width: 1440px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+.aluminium-windows h1,
+.aluminium-windows h2,
+.aluminium-windows h3 {
+	margin: 0;
+	font-family: inherit;
+	font-weight: 400;
+	line-height: 1.08;
+}
+
+.aluminium-windows p {
+	margin-top: 0;
+}
+
+.aluminium-windows__button {
+	display: inline-block;
+	padding: 15px 34px;
+	border: 1px solid transparent;
+	background: linear-gradient(100deg, var(--primary, #2d68c4), #0e81b1 58%, var(--secondary, #c4d600));
+	color: #fff;
+	font: inherit;
+	font-size: 15px;
+	font-weight: 500;
+	letter-spacing: .06em;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	transition: filter .3s, background .3s, color .3s;
+}
+
+.aluminium-windows__button:hover,
+.aluminium-windows__button:focus-visible {
+	filter: brightness(1.08);
+	outline: none;
+}
+
+.aluminium-windows__button--ghost {
+	border-color: #ffffff66;
+	background: transparent;
+	color: var(--ivory);
+}
+
+.aluminium-windows__button--ghost:hover,
+.aluminium-windows__button--ghost:focus-visible {
+	border-color: var(--gold);
+	background: transparent;
+	color: var(--gold);
+	filter: none;
+}
+
+.aluminium-windows__hero {
+	position: relative;
+	display: flex;
+	min-height: 100vh;
+	min-height: 100svh;
+	align-items: flex-end;
+}
+
+.aluminium-windows__hero-image {
+	position: absolute;
+	inset: 0;
+}
+
+.aluminium-windows__hero-image::after {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(180deg, #12141688 0%, #12141622 35%, #121416f2 100%);
+	content: "";
+}
+
+.aluminium-windows__hero-image img,
+.aluminium-windows__rooms img,
+.aluminium-windows__product-image img,
+.aluminium-windows__peace-image img,
+.aluminium-windows__panorama img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.aluminium-windows__hero-content {
+	position: relative;
+	padding-bottom: 84px;
+}
+
+.aluminium-windows__hero h1 {
+	max-width: 11em;
+	font-size: clamp(46px, 8vw, 104px);
+	font-style: italic;
+	animation: aluminium-windows-rise 1.6s ease both;
+}
+
+.aluminium-windows__hero p {
+	max-width: 30em;
+	margin: 22px 0 36px;
+	color: var(--sand);
+	font-size: 19px;
+	animation: aluminium-windows-rise 1.6s .25s ease both;
+}
+
+.aluminium-windows__hero-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 14px;
+	animation: aluminium-windows-rise 1.6s .5s ease both;
+}
+
+@keyframes aluminium-windows-rise {
+	from {
+		opacity: 0;
+		transform: translateY(18px);
+	}
+}
+
+.aluminium-windows__section {
+	padding: 120px 0;
+}
+
+.aluminium-windows__lead {
+	max-width: 760px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.aluminium-windows__lead h2 {
+	font-size: clamp(34px, 5vw, 50px);
+}
+
+.aluminium-windows__lead p {
+	margin: 26px 0 0;
+	color: var(--sand);
+}
+
+.aluminium-windows__rooms {
+	display: grid;
+	grid-template-columns: 1.3fr 1fr;
+	gap: 18px;
+	margin-top: 80px;
+}
+
+.aluminium-windows__rooms figure {
+	position: relative;
+	min-height: 340px;
+	margin: 0;
+	overflow: hidden;
+}
+
+.aluminium-windows__rooms figure:first-child {
+	grid-row: span 2;
+}
+
+.aluminium-windows__rooms figcaption {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	padding: 50px 24px 20px;
+	background: linear-gradient(#0000, #000a);
+	font-size: 24px;
+	font-style: italic;
+}
+
+.aluminium-windows__rooms img {
+	transition: transform 1.2s;
+}
+
+.aluminium-windows__rooms figure:hover img {
+	transform: scale(1.04);
+}
+
+.aluminium-windows__collection {
+	background: var(--coal);
+}
+
+.aluminium-windows__collection .aluminium-windows__lead h2,
+.aluminium-windows__peace h2,
+.aluminium-windows__compare h2,
+.aluminium-windows__shades h2 {
+	font-size: clamp(34px, 4.6vw, 50px);
+}
+
+.aluminium-windows__item {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	align-items: center;
+	gap: 64px;
+	margin-top: 90px;
+}
+
+.aluminium-windows__item:nth-of-type(odd) .aluminium-windows__product-image {
+	order: 2;
+}
+
+.aluminium-windows__product-image {
+	position: relative;
+	overflow: hidden;
+	aspect-ratio: 4 / 3;
+}
+
+.aluminium-windows__item h3 {
+	font-size: 42px;
+}
+
+.aluminium-windows__item p {
+	color: var(--sand);
+}
+
+.aluminium-windows__item dl {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 8px 26px;
+	margin: 26px 0 0;
+	padding-top: 22px;
+	border-top: 1px solid #ffffff22;
+	font-size: 15px;
+}
+
+.aluminium-windows__item dl > div {
+	display: contents;
+}
+
+.aluminium-windows__item dt {
+	color: var(--mute);
+}
+
+.aluminium-windows__item dd {
+	margin: 0;
+}
+
+.aluminium-windows__tiles {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 1px;
+	margin-top: 70px;
+	border: 1px solid #ffffff1f;
+	background: #ffffff1f;
+}
+
+.aluminium-windows__tiles > div {
+	padding: 34px 30px;
+	background: var(--ink);
+}
+
+.aluminium-windows__tiles h3 {
+	margin-bottom: 10px;
+	font-size: 27px;
+}
+
+.aluminium-windows__tiles p {
+	margin: 0;
+	color: var(--mute);
+	font-size: 15.5px;
+}
+
+.aluminium-windows__peace {
+	display: grid;
+	min-height: 620px;
+	grid-template-columns: 1fr 1fr;
+	padding: 0;
+}
+
+.aluminium-windows__peace-copy {
+	width: 100%;
+	max-width: 640px;
+	padding: 110px 8vw 110px 28px;
+	align-self: center;
+	justify-self: end;
+}
+
+.aluminium-windows__peace p {
+	color: var(--sand);
+}
+
+.aluminium-windows__peace .aluminium-windows__quote {
+	margin: 30px 0;
+	color: var(--gold);
+	font-size: 28px;
+	font-style: italic;
+	line-height: 1.35;
+}
+
+.aluminium-windows__peace .aluminium-windows__peace-last {
+	margin-bottom: 34px;
+}
+
+.aluminium-windows__peace-image {
+	position: relative;
+	min-height: 100%;
+}
+
+.aluminium-windows__compare {
+	background: var(--ivory);
+	color: #1d1b17;
+}
+
+.aluminium-windows__compare h2 {
+	margin-bottom: 56px;
+	text-align: center;
+}
+
+.aluminium-windows__table-wrap {
+	width: 100%;
+	max-width: 860px;
+	margin: 0 auto;
+	overflow-x: auto;
+}
+
+.aluminium-windows__compare table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 16px;
+}
+
+.aluminium-windows__compare th,
+.aluminium-windows__compare td {
+	padding: 15px 12px;
+	border-bottom: 1px solid #1d1b1722;
+	text-align: center;
+}
+
+.aluminium-windows__compare th:first-child,
+.aluminium-windows__compare td:first-child {
+	text-align: left;
+}
+
+.aluminium-windows__compare th {
+	font-size: 14px;
+	font-weight: 500;
+	letter-spacing: .04em;
+}
+
+.aluminium-windows__compare th:last-child {
+	color: #7b5e2c;
+}
+
+.aluminium-windows__yes {
+	color: #7b5e2c;
+	font-weight: 500;
+}
+
+.aluminium-windows__no {
+	color: #a9a396;
+}
+
+.aluminium-windows__shades .aluminium-windows__swatches {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 26px;
+	margin-top: 50px;
+}
+
+.aluminium-windows__swatches span {
+	width: 104px;
+	color: var(--sand);
+	font-size: 13.5px;
+	line-height: 1.4;
+}
+
+.aluminium-windows__swatches i {
+	display: block;
+	height: 104px;
+	margin-bottom: 12px;
+	border: 1px solid #ffffff22;
+}
+
+.aluminium-windows__shade-intro {
+	max-width: 34em;
+	margin-bottom: 0;
+	color: var(--sand);
+}
+
+.aluminium-windows__panorama {
+	position: relative;
+	height: 56vh;
+	min-height: 340px;
+	margin-top: 80px;
+}
+
+.aluminium-windows__enquiry {
+	padding: 120px 0;
+	background: var(--coal);
+}
+
+.aluminium-windows__enquiry-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	align-items: start;
+	gap: 80px;
+}
+
+.aluminium-windows__enquiry h2 {
+	font-size: clamp(36px, 5vw, 62px);
+}
+
+.aluminium-windows__enquiry p {
+	color: var(--sand);
+}
+
+.aluminium-windows__contact a {
+	display: block;
+	margin-top: 12px;
+	color: var(--gold);
+	text-decoration: none;
+}
+
+.aluminium-windows__contact a:hover {
+	text-decoration: underline;
+}
+
+.aluminium-windows form {
+	display: grid;
+	gap: 18px;
+}
+
+.aluminium-windows label {
+	display: grid;
+	gap: 6px;
+	color: var(--mute);
+	font-size: 14px;
+}
+
+.aluminium-windows input,
+.aluminium-windows select,
+.aluminium-windows textarea {
+	padding: 10px 0;
+	border: 0;
+	border-bottom: 1px solid #ffffff44;
+	border-radius: 0;
+	outline: none;
+	background: transparent;
+	color: var(--ivory);
+	font: inherit;
+}
+
+.aluminium-windows select option {
+	color: #111;
+}
+
+.aluminium-windows input:focus,
+.aluminium-windows select:focus,
+.aluminium-windows textarea:focus {
+	border-color: var(--gold);
+}
+
+.aluminium-windows__success {
+	padding: 30px;
+	border: 1px solid var(--gold);
+	font-size: 26px;
+	font-style: italic;
+}
+
+.aluminium-windows__disclaimer {
+	margin: 0;
+	padding: 36px 28px;
+	color: var(--mute);
+	font-size: 13.5px;
+	text-align: center;
+}
+
+.aluminium-windows__floating-button {
+	position: fixed;
+	right: 18px;
+	bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+	z-index: 6;
+	box-shadow: 0 8px 30px #0008;
+}
+
+@media (min-width: 640px) {
+	.aluminium-windows__container {
+		padding-right: 32px;
+		padding-left: 32px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.aluminium-windows__container {
+		padding-right: 48px;
+		padding-left: 48px;
+	}
+}
+
+@media (max-width: 860px) {
+	.aluminium-windows__section {
+		padding: 84px 0;
+	}
+
+	.aluminium-windows__rooms,
+	.aluminium-windows__item,
+	.aluminium-windows__peace,
+	.aluminium-windows__enquiry-grid {
+		grid-template-columns: 1fr;
+		gap: 34px;
+	}
+
+	.aluminium-windows__rooms figure:first-child {
+		grid-row: auto;
+	}
+
+	.aluminium-windows__item:nth-of-type(odd) .aluminium-windows__product-image {
+		order: 0;
+	}
+
+	.aluminium-windows__peace-copy {
+		padding: 60px 28px;
+	}
+
+	.aluminium-windows__peace-image {
+		height: 380px;
+		min-height: 380px;
+		order: -1;
+	}
+
+	.aluminium-windows__item {
+		margin-top: 60px;
+	}
+
+	.aluminium-windows__enquiry {
+		padding: 84px 0;
+	}
+}
+
+@media (max-width: 639px) {
+	.aluminium-windows__hero-content {
+		padding-bottom: 56px;
+	}
+
+	.aluminium-windows__rooms {
+		margin-top: 48px;
+	}
+
+	.aluminium-windows__item {
+		gap: 24px;
+	}
+
+	.aluminium-windows__item h3 {
+		font-size: 34px;
+	}
+
+	.aluminium-windows__item dl {
+		grid-template-columns: 1fr;
+		gap: 4px;
+	}
+
+	.aluminium-windows__item dd {
+		margin-bottom: 8px;
+	}
+
+	.aluminium-windows__table-wrap table {
+		min-width: 600px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.aluminium-windows *,
+	.aluminium-windows *::before,
+	.aluminium-windows *::after {
+		scroll-behavior: auto;
+		animation: none !important;
+		transition: none !important;
+	}
+}

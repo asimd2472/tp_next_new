@@ -35,7 +35,7 @@ const menuCategories: MenuCategory[] = [
       { label: "Casement Window", href: "#windows" },
     ],
   },
-  { name: "Aluminum Windows", href: "#aluminum-windows", items: [] },
+  { name: "Aluminum Windows", href: "/aluminium-windows", items: [] },
   { name: "Fire Door", href: "/fire-door", items: [] },
   { name: "French Door", href: "/french-door", items: [] },
   {
