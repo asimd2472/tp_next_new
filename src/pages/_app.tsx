@@ -12,6 +12,7 @@ import "./aluminium-windows/aluminium-windows.css";
 import "./doors-with-ventilators/doors-with-ventilators.css";
 import "./why-tata-pravesh-doors-and-windows/why-tata-pravesh-doors-and-windows.css";
 import "./select-best-door/select-best-door.css";
+import "./doors-windows-for-villa/doors-windows-for-villa.css";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {

@@ -1,0 +1,425 @@
+.doors-windows-for-villa-page {
+  --navy: #14306b;
+  --blue: #1366e0;
+  --ink: #5d6b8a;
+  --bg: #fbf9f6;
+  --line: #d9dde8;
+  --soft: #f1f0ed;
+  --note: #eff0f4;
+  color: var(--ink);
+  background: var(--bg);
+  font-family: "Myriad Pro", "Segoe UI", Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.doors-windows-for-villa-page *,
+.doors-windows-for-villa-page *::before,
+.doors-windows-for-villa-page *::after {
+  box-sizing: border-box;
+}
+
+.doors-windows-for-villa-page section {
+  padding: 32px 20px;
+}
+
+.doors-windows-for-villa__container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.doors-windows-for-villa-page h1,
+.doors-windows-for-villa-page h2,
+.doors-windows-for-villa-page h3,
+.doors-windows-for-villa-page p,
+.doors-windows-for-villa-page figure,
+.doors-windows-for-villa-page ul,
+.doors-windows-for-villa-page details {
+  margin: 0;
+}
+
+.doors-windows-for-villa-page h1,
+.doors-windows-for-villa-page h2,
+.doors-windows-for-villa-page h3 {
+  color: var(--navy);
+  margin: 0 0 10px;
+  line-height: 1.2;
+}
+
+.doors-windows-for-villa-page h1 {
+  font-size: clamp(32px, 5vw, 54px);
+  font-weight: 700;
+}
+
+.doors-windows-for-villa-page h2 {
+  font-size: clamp(25px, 3.6vw, 36px);
+  font-weight: 600;
+}
+
+.doors-windows-for-villa-page h3 {
+  font-size: 19px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.doors-windows-for-villa__eyebrow {
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+
+.doors-windows-for-villa__lead {
+  font-size: 18px;
+  max-width: 640px;
+}
+
+.doors-windows-for-villa__breadcrumb {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 20px 0;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.doors-windows-for-villa__breadcrumb a,
+.doors-windows-for-villa__breadcrumb span {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.doors-windows-for-villa__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 16px 0 0;
+}
+
+.doors-windows-for-villa__button {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 26px;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid var(--navy);
+  background: linear-gradient(180deg, #153a82, #0f2d6b);
+  color: #fff;
+  transition: filter 0.2s ease;
+}
+
+.doors-windows-for-villa__button:hover {
+  filter: brightness(1.1);
+}
+
+.doors-windows-for-villa__button--alt {
+  background: #fff;
+  color: var(--navy);
+  border-color: var(--blue);
+}
+
+.doors-windows-for-villa__button--light {
+  background: #fff;
+  color: var(--navy);
+  border-color: #fff;
+}
+
+.doors-windows-for-villa__section--hero {
+  padding-top: 28px;
+}
+
+.doors-windows-for-villa__hero-grid,
+.doors-windows-for-villa__room,
+.doors-windows-for-villa__window-row,
+.doors-windows-for-villa__cta-band {
+  display: grid;
+  gap: 32px;
+  align-items: center;
+}
+
+.doors-windows-for-villa__hero-grid {
+  grid-template-columns: 0.85fr 1.15fr;
+}
+
+.doors-windows-for-villa__room,
+.doors-windows-for-villa__window-row {
+  grid-template-columns: 1.25fr 1fr;
+  margin-top: 26px;
+}
+
+.doors-windows-for-villa__room--reverse {
+  grid-template-columns: 1fr 1.25fr;
+}
+
+.doors-windows-for-villa__room--reverse .doors-windows-for-villa__figure {
+  order: 2;
+}
+
+.doors-windows-for-villa__figure {
+  position: relative;
+  margin: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--soft);
+  border: 1px solid var(--line);
+}
+
+.doors-windows-for-villa__figure img,
+.doors-windows-for-villa__placeholder {
+  display: flex;
+  width: 100%;
+  min-height: 300px;
+  object-fit: cover;
+  aspect-ratio: 16 / 10;
+}
+
+.doors-windows-for-villa__figure--hero img,
+.doors-windows-for-villa__figure--hero .doors-windows-for-villa__placeholder {
+  aspect-ratio: 4 / 3;
+  min-height: 380px;
+}
+
+.doors-windows-for-villa__placeholder {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  color: #fff;
+  font-size: 15px;
+  background: linear-gradient(150deg, #1c3f86, #0f2d6b);
+}
+
+.doors-windows-for-villa__placeholder small {
+  display: block;
+  opacity: 0.75;
+  margin-top: 4px;
+}
+
+.doors-windows-for-villa__figure figcaption {
+  padding: 10px 14px;
+  font-size: 14px;
+  background: #fff;
+  font-style: italic;
+}
+
+.doors-windows-for-villa__badge {
+  position: absolute;
+  left: 16px;
+  bottom: 56px;
+  background: #fff;
+  color: var(--navy);
+  border-radius: 12px;
+  padding: 10px 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.doors-windows-for-villa__badge b {
+  display: block;
+  font-size: 24px;
+}
+
+.doors-windows-for-villa__badge span {
+  font-size: 13px;
+}
+
+.doors-windows-for-villa__answer {
+  background: var(--note);
+  border-left: 5px solid var(--navy);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 14px 0;
+}
+
+.doors-windows-for-villa__answer b {
+  color: var(--navy);
+}
+
+.doors-windows-for-villa__feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.doors-windows-for-villa__feature-item {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+}
+
+.doors-windows-for-villa__feature-item b {
+  display: block;
+  font-size: 22px;
+  color: var(--navy);
+}
+
+.doors-windows-for-villa__feature-item span {
+  font-size: 14px;
+}
+
+.doors-windows-for-villa__list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+}
+
+.doors-windows-for-villa__list li {
+  padding: 6px 0 6px 28px;
+  position: relative;
+}
+
+.doors-windows-for-villa__list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #fff;
+  background: var(--blue);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 9px;
+}
+
+.doors-windows-for-villa__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.doors-windows-for-villa__card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.doors-windows-for-villa__icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #e8f0ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  margin-bottom: 10px;
+}
+
+.doors-windows-for-villa__gallery {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.doors-windows-for-villa__figure--featured {
+  grid-row: span 2;
+}
+
+.doors-windows-for-villa__gallery .doors-windows-for-villa__figure img,
+.doors-windows-for-villa__gallery .doors-windows-for-villa__placeholder {
+  min-height: 260px;
+  height: 100%;
+  aspect-ratio: auto;
+}
+
+.doors-windows-for-villa__cta-band {
+  grid-template-columns: auto 1fr auto;
+  gap: 28px;
+  align-items: center;
+  background: linear-gradient(180deg, #153a82, #0f2d6b);
+  color: #dbe5ff;
+  border-radius: 20px;
+  padding: 34px;
+}
+
+.doors-windows-for-villa__cta-band h2 {
+  color: #fff;
+  margin: 0 0 6px;
+}
+
+.doors-windows-for-villa__cta-value {
+  font-size: 60px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+}
+
+.doors-windows-for-villa__cta-value span {
+  font-size: 22px;
+}
+
+.doors-windows-for-villa__faq-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 16px;
+  margin-top: 12px;
+}
+
+.doors-windows-for-villa-page details {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+
+.doors-windows-for-villa-page summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--navy);
+  list-style: none;
+}
+
+.doors-windows-for-villa-page summary::-webkit-details-marker {
+  display: none;
+}
+
+.doors-windows-for-villa-page details p {
+  margin-top: 8px;
+}
+
+.doors-windows-for-villa__fine-print {
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+@media (max-width: 860px) {
+  .doors-windows-for-villa__hero-grid,
+  .doors-windows-for-villa__room,
+  .doors-windows-for-villa__room--reverse,
+  .doors-windows-for-villa__window-row {
+    grid-template-columns: 1fr;
+  }
+
+  .doors-windows-for-villa__room--reverse .doors-windows-for-villa__figure {
+    order: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .doors-windows-for-villa__faq-grid,
+  .doors-windows-for-villa__gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .doors-windows-for-villa__figure--featured {
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 800px) {
+  .doors-windows-for-villa__cta-band {
+    grid-template-columns: 1fr;
+  }
+}
