@@ -55,7 +55,7 @@ const menuCategories: MenuCategory[] = [
       { label: "Flush Door designs", href: "#buyers-guide" },
       { label: "Fly Mesh Doors", href: "#buyers-guide" },
       { label: "Track Your Order", href: "#buyers-guide" },
-      { label: "Blogs", href: "#buyers-guide" },
+      { label: "Blogs", href: "/blogs" },
     ],
   },
 ];
