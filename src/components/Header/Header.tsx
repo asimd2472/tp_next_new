@@ -49,7 +49,7 @@ const menuCategories: MenuCategory[] = [
       { label: "Doors for Bedroom", href: "/doors-for-bedroom" },
       { label: "Doors & Windows for Bathroom", href: "#buyers-guide" },
       { label: "Modern Font Door design", href: "#buyers-guide" },
-      { label: "Double Door Designs", href: "#buyers-guide" },
+      { label: "Double Door Designs", href: "/double-door-designs" },
       { label: "Louver Door", href: "#buyers-guide" },
       { label: "Main Door Designs", href: "#buyers-guide" },
       { label: "Flush Door designs", href: "#buyers-guide" },
