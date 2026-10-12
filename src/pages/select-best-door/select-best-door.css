@@ -8,7 +8,7 @@
   --select-best-door-note: #eff0f4;
   color: var(--select-best-door-ink);
   background: var(--select-best-door-bg);
-  font-family: "Myriad Pro", "Segoe UI", Arial, sans-serif;
+  font-family: inherit;
   line-height: 1.6;
 }
 
@@ -18,12 +18,14 @@
 }
 
 .select-best-door__section {
-  padding: 28px 20px;
+  padding: 28px 0;
 }
 
 .select-best-door__container {
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1440px;
   margin: 0 auto;
+  padding: 0 20px;
 }
 
 .select-best-door h1,
@@ -68,7 +70,8 @@
 }
 
 .select-best-door__breadcrumb {
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 14px 20px 0;
   font-size: 13px;
@@ -77,6 +80,20 @@
 .select-best-door__breadcrumb a,
 .select-best-door__breadcrumb span {
   color: var(--select-best-door-ink);
+}
+
+@media (min-width: 640px) {
+  .select-best-door__container,
+  .select-best-door__breadcrumb {
+    padding-inline: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .select-best-door__container,
+  .select-best-door__breadcrumb {
+    padding-inline: 48px;
+  }
 }
 
 .select-best-door__actions {
@@ -182,9 +199,21 @@
   padding: 18px;
 }
 
+.select-best-door__card-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.select-best-door__card-heading h3 {
+  margin: 0;
+}
+
 .select-best-door__card-number {
   width: 36px;
   height: 36px;
+  flex: 0 0 36px;
   border-radius: 50%;
   background: var(--select-best-door-blue);
   color: #fff;
@@ -192,7 +221,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 10px;
 }
 
 .select-best-door__card--dark {

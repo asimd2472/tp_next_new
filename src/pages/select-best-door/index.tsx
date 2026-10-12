@@ -82,53 +82,67 @@ export default function SelectBestDoorPage() {
             <h2>What to look for in a door.</h2>
             <div className="select-best-door__cards">
               <div className="select-best-door__card">
-                <div className="select-best-door__card-number">1</div>
-                <h3>Think long-term</h3>
+                <div className="select-best-door__card-heading">
+                  <div className="select-best-door__card-number">1</div>
+                  <h3>Think long-term</h3>
+                </div>
                 <p>
                   Choose a door that will not get damaged or fade over time, with a written warranty. Tata Pravesh offers up
                   to 5 years*.
                 </p>
               </div>
               <div className="select-best-door__card">
-                <div className="select-best-door__card-number">2</div>
-                <h3>Choose the right material</h3>
+                <div className="select-best-door__card-heading">
+                  <div className="select-best-door__card-number">2</div>
+                  <h3>Choose the right material</h3>
+                </div>
                 <p>
                   Wood looks warm but is not always secure. Tata Pravesh states its steel doors are 12 times stronger than
                   wood.
                 </p>
               </div>
               <div className="select-best-door__card">
-                <div className="select-best-door__card-number">3</div>
-                <h3>Consider the weather</h3>
+                <div className="select-best-door__card-heading">
+                  <div className="select-best-door__card-number">3</div>
+                  <h3>Consider the weather</h3>
+                </div>
                 <p>
                   Heat and moisture can warp or swell some materials. For exposed doors, pick sturdy, weather-proof material.
                 </p>
               </div>
               <div className="select-best-door__card">
-                <div className="select-best-door__card-number">4</div>
-                <h3>Protect against termites</h3>
+                <div className="select-best-door__card-heading">
+                  <div className="select-best-door__card-number">4</div>
+                  <h3>Protect against termites</h3>
+                </div>
                 <p>
                   Termites often damage wooden doors. Treatment helps, but a steel door avoids the problem altogether.
                 </p>
               </div>
               <div className="select-best-door__card">
-                <div className="select-best-door__card-number">5</div>
-                <h3>Keep maintenance low</h3>
+                <div className="select-best-door__card-heading">
+                  <div className="select-best-door__card-number">5</div>
+                  <h3>Keep maintenance low</h3>
+                </div>
                 <p>
                   Pick materials from a trusted specialist rather than a local vendor, so you are not repairing or
                   repainting often.
                 </p>
               </div>
               <div className="select-best-door__card">
-                <div className="select-best-door__card-number">6</div>
-                <h3>Value for money</h3>
+                <div className="select-best-door__card-heading">
+                  <div className="select-best-door__card-number">6</div>
+                  <h3>Value for money</h3>
+                </div>
                 <p>
                   Superior material at a fair price. Compare total cost over the life of the door, not just the price today.
                 </p>
               </div>
               <div className="select-best-door__card">
-                <div className="select-best-door__card-number">7</div>
-                <h3>Let design matter</h3>
+                <div className="select-best-door__card-heading">
+                  <div className="select-best-door__card-number">7</div>
+                  <h3>Let design matter</h3>
+                </div>
                 <p>
                   Choose a design that reflects your home: embossed or plain finishes in many wood and RAL shades.
                 </p>
