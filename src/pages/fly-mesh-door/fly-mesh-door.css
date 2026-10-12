@@ -1,0 +1,607 @@
+.fly-mesh-door {
+  --fly-mesh-brown: #7a3b2c;
+  --fly-mesh-brown-dark: #4d2217;
+  --fly-mesh-text: #3b2a24;
+  --fly-mesh-muted: #4a372f;
+  --fly-mesh-sage: #e6f0e2;
+  --fly-mesh-line: #eadfd0;
+  --fly-mesh-paper: #fbf7f0;
+  color: var(--fly-mesh-text);
+  background: var(--fly-mesh-paper);
+  font-family: inherit;
+  line-height: 1.55;
+}
+
+.fly-mesh-door *,
+.fly-mesh-door *::before,
+.fly-mesh-door *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.fly-mesh-door__section {
+  padding: 72px 0;
+}
+
+.fly-mesh-door__container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.fly-mesh-door h1,
+.fly-mesh-door h2,
+.fly-mesh-door h3,
+.fly-mesh-door p,
+.fly-mesh-door figure {
+  margin-top: 0;
+}
+
+.fly-mesh-door h1,
+.fly-mesh-door h2,
+.fly-mesh-door h3 {
+  color: var(--fly-mesh-brown);
+  line-height: 1.2;
+}
+
+.fly-mesh-door h1 {
+  margin-bottom: 18px;
+  font-size: clamp(40px, 5.2vw, 64px);
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.fly-mesh-door h2 {
+  margin-bottom: 24px;
+  font-size: clamp(28px, 3vw, 36px);
+  font-weight: 700;
+}
+
+.fly-mesh-door h3 {
+  margin-bottom: 8px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.fly-mesh-door a {
+  color: var(--fly-mesh-brown);
+}
+
+.fly-mesh-door__hero-section {
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+
+.fly-mesh-door__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.9fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.fly-mesh-door__hero-copy {
+  max-width: 680px;
+}
+
+.fly-mesh-door__eyebrow {
+  margin-bottom: 8px;
+  color: #b5600b;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.fly-mesh-door__lead {
+  margin-bottom: 28px;
+  color: var(--fly-mesh-muted);
+  font-size: clamp(18px, 1.8vw, 21px);
+  line-height: 1.5;
+}
+
+.fly-mesh-door__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.fly-mesh-door__button {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  border: 2px solid var(--fly-mesh-brown);
+  border-radius: 8px;
+  background: var(--fly-mesh-brown);
+  color: #fff !important;
+  font-size: 17px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.fly-mesh-door__button:hover {
+  border-color: var(--fly-mesh-brown-dark);
+  background: var(--fly-mesh-brown-dark);
+}
+
+.fly-mesh-door__button--secondary {
+  background: transparent;
+  color: var(--fly-mesh-brown) !important;
+}
+
+.fly-mesh-door__button--secondary:hover {
+  background: #f3e4dc;
+  color: var(--fly-mesh-brown-dark) !important;
+}
+
+.fly-mesh-door__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fly-mesh-door__pills li {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--fly-mesh-sage);
+  font-size: 15px;
+}
+
+.fly-mesh-door__hero-art {
+  display: flex;
+  min-height: 530px;
+  align-items: center;
+  justify-content: center;
+  padding: 42px 28px;
+  border-radius: 24px;
+  background: var(--fly-mesh-sage);
+}
+
+.fly-mesh-door__door-frame {
+  width: min(260px, 100%);
+  height: 470px;
+  padding: 14px;
+  border-radius: 6px;
+  background: #6b3a2a;
+  box-shadow: 0 18px 30px rgba(60, 30, 20, 0.25);
+}
+
+.fly-mesh-door__door-panel {
+  position: relative;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+  border-radius: 3px;
+  background: #8a4a35;
+}
+
+.fly-mesh-door__door-panel span {
+  flex: 1;
+  border: 5px solid #6b3a2a;
+  border-radius: 3px;
+  background-color: #c9d1d1;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(60, 70, 70, 0.55) 0 1px, transparent 1px 5px),
+    repeating-linear-gradient(90deg, rgba(60, 70, 70, 0.55) 0 1px, transparent 1px 5px);
+}
+
+.fly-mesh-door__door-panel i {
+  position: absolute;
+  top: 48%;
+  right: -2px;
+  width: 10px;
+  height: 56px;
+  border-radius: 5px;
+  background: #d9d9d4;
+}
+
+.fly-mesh-door__feature-grid,
+.fly-mesh-door__service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.fly-mesh-door__card {
+  min-width: 0;
+  padding: 28px;
+  border: 1px solid var(--fly-mesh-line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.fly-mesh-door__card p {
+  margin-bottom: 0;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.fly-mesh-door__advantages-section {
+  background: var(--fly-mesh-sage);
+}
+
+.fly-mesh-door__advantages {
+  max-width: 1184px;
+}
+
+.fly-mesh-door__advantages h2 {
+  margin-bottom: 8px;
+}
+
+.fly-mesh-door__section-lead {
+  margin-bottom: 28px;
+  color: var(--fly-mesh-muted);
+  font-size: 18px;
+}
+
+.fly-mesh-door__advantage-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.fly-mesh-door__advantage {
+  padding: 22px;
+}
+
+.fly-mesh-door__advantage strong {
+  display: block;
+  color: var(--fly-mesh-brown);
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+.fly-mesh-door__advantage span {
+  display: block;
+  margin-top: 8px;
+  font-size: 17px;
+}
+
+.fly-mesh-door__advantage-note {
+  margin: 20px 0 0;
+  color: var(--fly-mesh-muted);
+  font-size: 16px;
+}
+
+.fly-mesh-door__where-lead {
+  max-width: 680px;
+}
+
+.fly-mesh-door__scene-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px 20px;
+}
+
+.fly-mesh-door__scene {
+  min-width: 0;
+  margin: 0;
+}
+
+.fly-mesh-door__scene > img,
+.fly-mesh-door__product-visual > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.fly-mesh-door__product-visual {
+  display: flex;
+  aspect-ratio: 4 / 3;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--fly-mesh-sage);
+}
+
+.fly-mesh-door__product-visual > img {
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+}
+
+.fly-mesh-door__scene figcaption {
+  padding-top: 8px;
+  color: var(--fly-mesh-brown);
+  font-weight: 600;
+}
+
+.fly-mesh-door__table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--fly-mesh-line);
+  border-radius: 14px;
+  background: #fff;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fly-mesh-door table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 17px;
+}
+
+.fly-mesh-door thead {
+  background: var(--fly-mesh-brown);
+  color: #fff;
+}
+
+.fly-mesh-door th,
+.fly-mesh-door td {
+  padding: 14px 20px;
+  text-align: left;
+}
+
+.fly-mesh-door tbody tr {
+  border-bottom: 1px solid var(--fly-mesh-line);
+}
+
+.fly-mesh-door tbody tr:last-child {
+  border-bottom: 0;
+}
+
+.fly-mesh-door tbody th {
+  font-weight: 600;
+}
+
+.fly-mesh-door__shade-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+  gap: 18px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fly-mesh-door__swatch {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.fly-mesh-door__swatch-color {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 52px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+}
+
+.fly-mesh-door__swatch > span:last-child {
+  color: #5a3a30;
+  font-size: 13px;
+  line-height: 1.2;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.fly-mesh-door__service-grid {
+  gap: 20px;
+}
+
+.fly-mesh-door__service-grid .fly-mesh-door__card h3 {
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.fly-mesh-door__service-grid .fly-mesh-door__card p {
+  line-height: 1.6;
+}
+
+.fly-mesh-door__cta-section {
+  background: var(--fly-mesh-brown);
+  color: #fff;
+  text-align: center;
+}
+
+.fly-mesh-door__cta h2 {
+  margin-bottom: 12px;
+  color: #fff;
+  font-size: clamp(30px, 3.2vw, 38px);
+}
+
+.fly-mesh-door__cta > p:not(.fly-mesh-door__contact) {
+  margin-bottom: 28px;
+  color: #f3e4dc;
+  font-size: 19px;
+}
+
+.fly-mesh-door__button--light {
+  border-color: #fff;
+  background: #fff;
+  color: var(--fly-mesh-brown) !important;
+}
+
+.fly-mesh-door__button--light:hover {
+  border-color: #f3e4dc;
+  background: #f3e4dc;
+  color: var(--fly-mesh-brown-dark) !important;
+}
+
+.fly-mesh-door__contact {
+  margin: 24px 0 0;
+  color: #f3e4dc;
+  font-size: 16px;
+}
+
+.fly-mesh-door__contact a {
+  color: inherit;
+}
+
+.fly-mesh-door__fine-print {
+  padding-top: 24px;
+  padding-bottom: 24px;
+  color: #5a3a30;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (min-width: 640px) {
+  .fly-mesh-door__container {
+    padding-inline: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .fly-mesh-door__container {
+    padding-inline: 48px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .fly-mesh-door__hero {
+    grid-template-columns: minmax(0, 1fr) minmax(230px, 0.8fr);
+  }
+
+  .fly-mesh-door__hero-art {
+    min-height: 460px;
+  }
+
+  .fly-mesh-door__door-frame {
+    height: 400px;
+  }
+
+  .fly-mesh-door__advantage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .fly-mesh-door__section,
+  .fly-mesh-door__hero-section {
+    padding: 48px 0;
+  }
+
+  .fly-mesh-door__hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .fly-mesh-door__hero-art {
+    display: none;
+  }
+
+  .fly-mesh-door__feature-grid,
+  .fly-mesh-door__service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .fly-mesh-door__scene-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .fly-mesh-door__section,
+  .fly-mesh-door__hero-section {
+    padding: 36px 0;
+  }
+
+  .fly-mesh-door h2 {
+    margin-bottom: 18px;
+  }
+
+  .fly-mesh-door__feature-grid,
+  .fly-mesh-door__service-grid,
+  .fly-mesh-door__advantage-grid,
+  .fly-mesh-door__scene-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .fly-mesh-door__feature-grid,
+  .fly-mesh-door__service-grid {
+    gap: 12px;
+  }
+
+  .fly-mesh-door__advantage-grid {
+    gap: 12px;
+  }
+
+  .fly-mesh-door__card {
+    padding: 22px;
+  }
+
+  .fly-mesh-door__section-lead {
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+
+  .fly-mesh-door__shade-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fly-mesh-door__container {
+    padding-inline: 14px;
+  }
+
+  .fly-mesh-door h1 {
+    font-size: clamp(38px, 11vw, 48px);
+  }
+
+  .fly-mesh-door__lead {
+    font-size: 18px;
+  }
+
+  .fly-mesh-door__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .fly-mesh-door__pills {
+    gap: 8px;
+  }
+
+  .fly-mesh-door__pills li {
+    font-size: 13px;
+  }
+
+  .fly-mesh-door__scene-grid {
+    gap: 18px;
+  }
+
+  .fly-mesh-door table {
+    min-width: 500px;
+    font-size: 15px;
+  }
+
+  .fly-mesh-door th,
+  .fly-mesh-door td {
+    padding: 12px;
+  }
+
+  .fly-mesh-door__contact span {
+    display: none;
+  }
+
+  .fly-mesh-door__contact a {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fly-mesh-door *,
+  .fly-mesh-door *::before,
+  .fly-mesh-door *::after {
+    scroll-behavior: auto;
+    transition-duration: 0.01ms;
+  }
+}
