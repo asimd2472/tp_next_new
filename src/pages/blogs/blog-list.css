@@ -22,9 +22,22 @@
 }
 
 .blog-list-page__container {
-  width: min(100%, 1240px);
+  width: 100%;
+  max-width: 1440px;
   margin: 0 auto;
   padding-inline: 20px;
+}
+
+@media (min-width: 640px) {
+  .blog-list-page__container {
+    padding-inline: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .blog-list-page__container {
+    padding-inline: 48px;
+  }
 }
 
 .blog-list-page__hero {
