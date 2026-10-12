@@ -1,0 +1,458 @@
+.bedroom-door {
+  --bedroom-door-navy: #14306b;
+  --bedroom-door-blue: #1366e0;
+  --bedroom-door-ink: #5d6b8a;
+  --bedroom-door-bg: #fbf9f6;
+  --bedroom-door-line: #d9dde8;
+  --bedroom-door-soft: #f1f0ed;
+  --bedroom-door-note: #eff0f4;
+  color: var(--bedroom-door-ink);
+  background: var(--bedroom-door-bg);
+  font-family: inherit;
+  line-height: 1.55;
+}
+
+.bedroom-door *,
+.bedroom-door *::before,
+.bedroom-door *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.bedroom-door__section {
+  padding: 16px 0;
+}
+
+.bedroom-door__container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.bedroom-door__breadcrumb {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 10px 20px 0;
+  font-size: 13px;
+}
+
+.bedroom-door__breadcrumb a {
+  color: var(--bedroom-door-ink);
+}
+
+.bedroom-door h1,
+.bedroom-door h2,
+.bedroom-door h3 {
+  color: var(--bedroom-door-navy);
+  margin: 0 0 6px;
+  line-height: 1.2;
+}
+
+.bedroom-door h1 {
+  font-size: clamp(30px, 4.4vw, 46px);
+  font-weight: 700;
+}
+
+.bedroom-door h2 {
+  font-size: clamp(23px, 3vw, 30px);
+  font-weight: 600;
+}
+
+.bedroom-door h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.bedroom-door p {
+  margin: 0 0 8px;
+}
+
+.bedroom-door__eyebrow {
+  color: var(--bedroom-door-blue);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  margin: 0 0 4px;
+  text-transform: uppercase;
+}
+
+.bedroom-door__lead {
+  font-size: 17px;
+}
+
+.bedroom-door__hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+.bedroom-door__answer {
+  background: var(--bedroom-door-note);
+  border-left: 5px solid var(--bedroom-door-navy);
+  border-radius: 8px;
+  margin: 10px 0;
+  padding: 10px 14px;
+}
+
+.bedroom-door__answer b {
+  color: var(--bedroom-door-navy);
+}
+
+.bedroom-door__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0 0;
+}
+
+.bedroom-door__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: 1px solid var(--bedroom-door-navy);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #153a82, #0f2d6b);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.bedroom-door__button:hover {
+  filter: brightness(1.1);
+}
+
+.bedroom-door__button--alt {
+  border-color: var(--bedroom-door-blue);
+  background: #fff;
+  color: var(--bedroom-door-navy);
+}
+
+.bedroom-door__figure {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--bedroom-door-line);
+  border-radius: 16px;
+  background: var(--bedroom-door-soft);
+}
+
+.bedroom-door__figure--hero {
+  height: clamp(260px, 42vw, 380px);
+}
+
+.bedroom-door__figure img {
+  display: block;
+  object-fit: cover;
+}
+
+.bedroom-door__warranty-badge {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--bedroom-door-navy);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.bedroom-door__warranty-badge b,
+.bedroom-door__warranty-badge span {
+  display: block;
+}
+
+.bedroom-door__warranty-badge b {
+  font-size: 20px;
+}
+
+.bedroom-door__warranty-badge span {
+  font-size: 12px;
+}
+
+.bedroom-door__highlights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+}
+
+.bedroom-door__highlight {
+  padding: 10px;
+  border: 1px solid var(--bedroom-door-line);
+  border-radius: 10px;
+  background: #fff;
+  text-align: center;
+}
+
+.bedroom-door__highlight b,
+.bedroom-door__highlight span {
+  display: block;
+}
+
+.bedroom-door__highlight b {
+  color: var(--bedroom-door-navy);
+  font-size: 18px;
+}
+
+.bedroom-door__highlight span {
+  font-size: 13px;
+}
+
+.bedroom-door__benefits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.bedroom-door__benefit {
+  padding: 12px 14px;
+  border: 1px solid var(--bedroom-door-line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.bedroom-door__benefit h3 {
+  font-size: 16px;
+}
+
+.bedroom-door__benefit p {
+  margin: 0;
+  font-size: 14.5px;
+}
+
+.bedroom-door__section-intro {
+  margin: 0;
+}
+
+.bedroom-door__products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.bedroom-door__product {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--bedroom-door-line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.bedroom-door__product-image {
+  position: relative;
+  display: block;
+  height: 230px;
+  background: var(--bedroom-door-soft);
+}
+
+.bedroom-door__product-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 12px 14px;
+}
+
+.bedroom-door__tags {
+  margin: 0;
+}
+
+.bedroom-door__tag {
+  display: inline-block;
+  margin: 0 5px 4px 0;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #e8f0ff;
+  color: var(--bedroom-door-navy);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.bedroom-door__checklist {
+  margin: 4px 0 8px;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+}
+
+.bedroom-door__checklist li {
+  position: relative;
+  padding: 2px 0 2px 22px;
+}
+
+.bedroom-door__checklist li::before {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  display: flex;
+  width: 16px;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bedroom-door-blue);
+  color: #fff;
+  content: "✓";
+  font-size: 10px;
+}
+
+.bedroom-door__know-more {
+  align-self: flex-start;
+  margin-top: auto;
+  border-bottom: 2px solid var(--bedroom-door-blue);
+  color: var(--bedroom-door-navy);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.bedroom-door__know-more:hover {
+  color: var(--bedroom-door-blue);
+}
+
+.bedroom-door__section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bedroom-door__new-designs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.bedroom-door__design-image {
+  position: relative;
+  height: 250px;
+  background: var(--bedroom-door-soft);
+}
+
+.bedroom-door__figure figcaption {
+  padding: 6px 12px;
+  background: #fff;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.bedroom-door__solution {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.bedroom-door__box {
+  padding: 16px;
+  border: 1px solid var(--bedroom-door-line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.bedroom-door__warranty {
+  padding: 16px 20px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #153a82, #0f2d6b);
+  color: #dbe5ff;
+}
+
+.bedroom-door__warranty .bedroom-door__eyebrow {
+  color: #9fc2ff;
+}
+
+.bedroom-door__warranty h2 {
+  color: #fff;
+}
+
+.bedroom-door__warranty ul {
+  margin: 6px 0;
+  padding-left: 18px;
+  font-size: 14.5px;
+}
+
+.bedroom-door__warranty small {
+  opacity: 0.85;
+}
+
+.bedroom-door__faqs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+  margin-top: 8px;
+}
+
+.bedroom-door__faqs details {
+  padding: 9px 14px;
+  border: 1px solid var(--bedroom-door-line);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.bedroom-door__faqs summary {
+  color: var(--bedroom-door-navy);
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.bedroom-door__faqs details p {
+  margin: 6px 0 0;
+  font-size: 14.5px;
+}
+
+.bedroom-door__fine-print {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+}
+
+@media (min-width: 640px) {
+  .bedroom-door__container,
+  .bedroom-door__breadcrumb {
+    padding-inline: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bedroom-door__container,
+  .bedroom-door__breadcrumb {
+    padding-inline: 48px;
+  }
+}
+
+@media (max-width: 820px) {
+  .bedroom-door__hero,
+  .bedroom-door__solution {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .bedroom-door__highlights,
+  .bedroom-door__benefits {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bedroom-door__faqs {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .bedroom-door__container,
+  .bedroom-door__breadcrumb {
+    padding-inline: 14px;
+  }
+
+  .bedroom-door__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
