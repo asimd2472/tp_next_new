@@ -19,13 +19,14 @@
 }
 
 .doors-windows-for-villa-page section {
-  padding: 32px 20px;
+  padding: 32px 0;
 }
 
 .doors-windows-for-villa__container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
+  padding: 0 20px;
 }
 
 .doors-windows-for-villa-page h1,
@@ -77,11 +78,26 @@
 }
 
 .doors-windows-for-villa__breadcrumb {
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 14px 20px 0;
   font-size: 13px;
   color: var(--ink);
+}
+
+@media (min-width: 640px) {
+  .doors-windows-for-villa__container,
+  .doors-windows-for-villa__breadcrumb {
+    padding-inline: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .doors-windows-for-villa__container,
+  .doors-windows-for-villa__breadcrumb {
+    padding-inline: 48px;
+  }
 }
 
 .doors-windows-for-villa__breadcrumb a,
