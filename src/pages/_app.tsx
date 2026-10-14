@@ -21,6 +21,7 @@ import "./main-door-designs/main-door-designs.css";
 import "./referandearn/referandearn.css";
 import "./track-your-order/track-your-order.css";
 import "./checkout/checkout.css";
+import "./select-best-windows/select-best-windows.css";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {

@@ -44,7 +44,7 @@ const menuCategories: MenuCategory[] = [
     items: [
       { label: "Why Tata Pravesh?", href: "/why-tata-pravesh-doors-and-windows" },
       { label: "Select Best Doors", href: "/select-best-door" },
-      { label: "Select Best Windows", href: "#buyers-guide" },
+      { label: "Select Best Windows", href: "/select-best-windows" },
       { label: "Doors & Windows for Villa", href: "/doors-windows-for-villa" },
       { label: "Doors for Bedroom", href: "/doors-for-bedroom" },
       // { label: "Doors & Windows for Bathroom", href: "#buyers-guide" },
