@@ -1,0 +1,346 @@
+.main-door-designs {
+  --main-door-blue: #14407f;
+  --main-door-blue-dark: #0b2a58;
+  --main-door-text: #33475f;
+  --main-door-muted: #4b5f78;
+  --main-door-pale: #f3f7fc;
+  --main-door-chip: #e3eefa;
+  --main-door-line: #d3e0f0;
+  overflow: hidden;
+  background: var(--main-door-pale);
+  color: #1d2b3f;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+.main-door-designs *,
+.main-door-designs *::before,
+.main-door-designs *::after {
+  box-sizing: border-box;
+}
+
+.main-door-designs__container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.main-door-designs h1,
+.main-door-designs h2,
+.main-door-designs h3,
+.main-door-designs p {
+  margin-top: 0;
+}
+
+.main-door-designs__hero-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+.main-door-designs__hero-copy {
+  flex: 1 1 320px;
+  max-width: 560px;
+}
+
+.main-door-designs__eyebrow {
+  margin-bottom: 0;
+  color: #2a6ab5;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.main-door-designs__hero h1 {
+  margin: 6px 0 10px;
+  color: var(--main-door-blue);
+  font-size: clamp(34px, 7vw, 50px);
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.main-door-designs__intro {
+  margin-bottom: 16px;
+  color: var(--main-door-text);
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.main-door-designs__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.main-door-designs__button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color .18s ease, color .18s ease, border-color .18s ease;
+}
+
+.main-door-designs__button--primary {
+  background: var(--main-door-blue);
+  color: #fff;
+}
+
+.main-door-designs__button--primary:hover,
+.main-door-designs__button--primary:focus-visible {
+  background: var(--main-door-blue-dark);
+  color: #fff;
+}
+
+.main-door-designs__button--secondary {
+  border-color: var(--main-door-blue);
+  background: transparent;
+  color: var(--main-door-blue);
+}
+
+.main-door-designs__button--secondary:hover,
+.main-door-designs__button--secondary:focus-visible {
+  background: var(--main-door-blue);
+  color: #fff;
+}
+
+.main-door-designs__benefits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.main-door-designs__benefits li {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--main-door-chip);
+  color: var(--main-door-blue);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.main-door-designs__hero-image {
+  display: none;
+  flex: 1 1 380px;
+  max-width: 520px;
+}
+
+.main-door-designs__hero-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+}
+
+.main-door-designs__stats {
+  padding: 16px 0;
+  background: var(--main-door-blue);
+  color: #fff;
+}
+
+.main-door-designs__stats-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 32px;
+}
+
+.main-door-designs__stats p {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+}
+
+.main-door-designs__stats strong {
+  font-size: 24px;
+}
+
+.main-door-designs__stats span {
+  font-size: 14px;
+}
+
+.main-door-designs__range {
+  padding-top: 24px;
+  padding-bottom: 0;
+}
+
+.main-door-designs__range h2 {
+  margin-bottom: 12px;
+  color: var(--main-door-blue);
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.main-door-designs__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.main-door-designs__card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  border: 1px solid var(--main-door-line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.main-door-designs__thumbnail {
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.main-door-designs__thumbnail svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.main-door-designs__tag {
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--main-door-chip);
+  color: #2a6ab5;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
+.main-door-designs__card h3 {
+  margin-bottom: 0;
+  color: var(--main-door-blue);
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.main-door-designs__card p {
+  flex: 1;
+  margin-bottom: 6px;
+  color: var(--main-door-text);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.main-door-designs__card .main-door-designs__button {
+  align-self: flex-start;
+  min-height: 40px;
+  padding: 0 16px;
+}
+
+.main-door-designs__disclaimer {
+  margin: 10px 0 0;
+  color: var(--main-door-muted);
+  font-size: 12.5px;
+}
+
+.main-door-designs__cta {
+  margin-top: 28px;
+  padding: 22px 0;
+  background: var(--main-door-chip);
+  text-align: center;
+}
+
+.main-door-designs__cta h2 {
+  margin-bottom: 6px;
+  color: var(--main-door-blue);
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.main-door-designs__cta p {
+  margin-bottom: 14px;
+  color: var(--main-door-text);
+  font-size: 15px;
+}
+
+.main-door-designs__actions--center {
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+.main-door-designs__footer-note {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  color: var(--main-door-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (min-width: 640px) {
+  .main-door-designs__container {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+}
+
+@media (min-width: 760px) {
+  .main-door-designs__container {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+
+  .main-door-designs__hero-image {
+    display: block;
+  }
+
+  .main-door-designs__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .main-door-designs__card {
+    padding: 12px;
+  }
+
+  .main-door-designs__card h3 {
+    font-size: 16px;
+  }
+
+  .main-door-designs__card p {
+    font-size: 14px;
+  }
+
+  .main-door-designs__stats {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .main-door-designs__container {
+    padding-right: 48px;
+    padding-left: 48px;
+  }
+
+  .main-door-designs__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .main-door-designs__button {
+    transition: none;
+  }
+}

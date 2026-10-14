@@ -17,6 +17,7 @@ import "./blogs/blog-list.css";
 import "./doors-for-bedroom/doors-for-bedroom.css";
 import "./fly-mesh-door/fly-mesh-door.css";
 import "./double-door-designs/double-door-designs.css";
+import "./main-door-designs/main-door-designs.css";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
