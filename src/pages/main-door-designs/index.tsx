@@ -2,6 +2,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Head from "next/head";
 import type { ReactNode } from "react";
+import { useEffect } from "react";
 
 type DoorIllustrationKind =
   | "embossed"
@@ -247,7 +248,7 @@ function DoorIllustration({ kind, title }: { kind: DoorIllustrationKind; title: 
 
 function ProductCard({ door }: { door: Door }) {
   return (
-    <article className="main-door-designs__card">
+    <article className="main-door-designs__card main-door-designs__reveal">
       <div className="main-door-designs__thumbnail">
         <DoorIllustration kind={door.kind} title={door.title} />
       </div>
@@ -268,6 +269,31 @@ function ProductCard({ door }: { door: Door }) {
 }
 
 function MainDoorDesignsPage() {
+  useEffect(() => {
+    const page = document.querySelector(".main-door-designs");
+    if (!page || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const targets = page.querySelectorAll(".main-door-designs__reveal");
+    if (!("IntersectionObserver" in window)) return;
+
+    page.classList.add("main-door-designs--animated");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("main-door-designs__reveal--visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -32px 0px" },
+    );
+
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
       <Head>
@@ -283,7 +309,7 @@ function MainDoorDesignsPage() {
       <main className="main-door-designs">
         <section className="main-door-designs__hero">
           <Container className="main-door-designs__hero-inner">
-            <div className="main-door-designs__hero-copy">
+            <div className="main-door-designs__hero-copy main-door-designs__reveal">
               <p className="main-door-designs__eyebrow">Steel doors · Complete range</p>
               <h1>Main Doors</h1>
               <p className="main-door-designs__intro">
@@ -304,7 +330,7 @@ function MainDoorDesignsPage() {
                 <li>Warranty up to 5 years*</li>
               </ul>
             </div>
-            <div className="main-door-designs__hero-image">
+            <div className="main-door-designs__hero-image main-door-designs__reveal">
               <HeroIllustration />
             </div>
           </Container>
@@ -312,16 +338,16 @@ function MainDoorDesignsPage() {
 
         <section className="main-door-designs__stats" aria-label="Door benefits at a glance">
           <Container className="main-door-designs__stats-inner">
-            <p><strong>4×</strong><span>more secure than wood*</span></p>
-            <p><strong>7×</strong><span>more warpage resistant*</span></p>
-            <p><strong>100%</strong><span>recyclable</span></p>
-            <p><strong>2 steps</strong><span>measure, then install</span></p>
+            <p className="main-door-designs__reveal"><strong>4×</strong><span>more secure than wood*</span></p>
+            <p className="main-door-designs__reveal"><strong>7×</strong><span>more warpage resistant*</span></p>
+            <p className="main-door-designs__reveal"><strong>100%</strong><span>recyclable</span></p>
+            <p className="main-door-designs__reveal"><strong>2 steps</strong><span>measure, then install</span></p>
           </Container>
         </section>
 
         <section className="main-door-designs__range" id="range" aria-labelledby="main-door-designs-range-title">
           <Container>
-            <h2 id="main-door-designs-range-title">Choose your door</h2>
+            <h2 className="main-door-designs__reveal" id="main-door-designs-range-title">Choose your door</h2>
             <div className="main-door-designs__grid">
               {doors.map((door) => <ProductCard key={door.title} door={door} />)}
             </div>
@@ -332,7 +358,7 @@ function MainDoorDesignsPage() {
         </section>
 
         <section className="main-door-designs__cta">
-          <Container className="main-door-designs__cta-inner">
+          <Container className="main-door-designs__cta-inner main-door-designs__reveal">
             <h2>Not sure which door fits?</h2>
             <p>Talk to our expert or see a door in person. Helpline 1-800-4199-200</p>
             <div className="main-door-designs__actions main-door-designs__actions--center">
