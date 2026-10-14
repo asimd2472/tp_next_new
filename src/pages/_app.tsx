@@ -19,6 +19,7 @@ import "./fly-mesh-door/fly-mesh-door.css";
 import "./double-door-designs/double-door-designs.css";
 import "./main-door-designs/main-door-designs.css";
 import "./referandearn/referandearn.css";
+import "./track-your-order/track-your-order.css";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {

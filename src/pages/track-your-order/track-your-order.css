@@ -1,0 +1,552 @@
+.track-order {
+  --track-navy: #0a1d38;
+  --track-navy-light: #12305a;
+  --track-gold: #c9a45c;
+  --track-gold-light: #e8d4a2;
+  --track-background: #faf8f3;
+  --track-card: #fff;
+  --track-ink: #12203a;
+  --track-muted: #66718a;
+  --track-line: #e7e1d3;
+  color: var(--track-ink);
+  background: var(--track-background);
+  font-family: "Myriad Pro", "Segoe UI", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.track-order *,
+.track-order *::before,
+.track-order *::after {
+  box-sizing: border-box;
+}
+
+.track-order__container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.track-order__hero {
+  overflow: hidden;
+  background: var(--track-navy);
+  color: #fff;
+}
+
+.track-order__hero-top {
+  display: flex;
+  min-height: 80px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  border-bottom: 1px solid rgb(255 255 255 / 12%);
+}
+
+.track-order__search {
+  display: flex;
+  width: min(100%, 520px);
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 999px;
+}
+
+.track-order__search input {
+  width: 100%;
+  flex: 1;
+  min-width: 0;
+  padding: 10px 18px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+}
+
+.track-order__search input::placeholder {
+  color: rgb(255 255 255 / 55%);
+}
+
+.track-order__search input:focus-visible {
+  outline: 2px solid var(--track-gold);
+  outline-offset: -2px;
+}
+
+.track-order__search button {
+  min-width: 120px;
+  padding: 0 28px;
+  border: 0;
+  background: var(--track-gold);
+  color: var(--track-navy);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.track-order__search button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+}
+
+.track-order__hero-content {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: end;
+  gap: 48px;
+  padding-top: 48px;
+  padding-bottom: 150px;
+}
+
+.track-order__hero-content::before,
+.track-order__hero-content::after {
+  position: absolute;
+  top: 20px;
+  right: 48px;
+  width: 170px;
+  height: 300px;
+  border: 1px solid rgb(201 164 92 / 20%);
+  border-radius: 85px 85px 0 0;
+  content: "";
+  pointer-events: none;
+}
+
+.track-order__hero-content::after {
+  top: 0;
+  right: 28px;
+  width: 210px;
+  height: 320px;
+  border-color: rgb(201 164 92 / 33%);
+  border-radius: 105px 105px 0 0;
+}
+
+.track-order__hero-copy,
+.track-order__delivery {
+  position: relative;
+  z-index: 1;
+}
+
+.track-order__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px;
+  border: 1px solid var(--track-gold);
+  border-radius: 999px;
+  background: rgb(201 164 92 / 12%);
+  color: var(--track-gold-light);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.track-order__status > span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--track-gold);
+  animation: track-order-pulse 2.4s infinite;
+}
+
+.track-order__hero h1 {
+  margin: 22px 0 10px;
+  font-size: clamp(34px, 5vw, 56px);
+  font-weight: 400;
+  line-height: 1.08;
+}
+
+.track-order__hero-copy > p,
+.track-order__delivery > span:last-child {
+  color: #b7c3d8;
+}
+
+.track-order__hero-copy > p {
+  max-width: 44ch;
+  margin: 0;
+}
+
+.track-order__delivery {
+  text-align: right;
+}
+
+.track-order__delivery > span:first-child {
+  color: var(--track-gold-light);
+  font-size: 14px;
+}
+
+.track-order__delivery strong {
+  display: block;
+  margin-top: 6px;
+  font-size: clamp(48px, 7vw, 84px);
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.track-order__delivery > span:last-child {
+  font-size: 15px;
+}
+
+.track-order__main {
+  position: relative;
+  margin-top: -96px;
+  padding-bottom: 72px;
+}
+
+.track-order__card {
+  border: 1px solid var(--track-line);
+  border-radius: 14px;
+  background: var(--track-card);
+  box-shadow: 0 24px 60px -30px rgb(10 29 56 / 45%);
+}
+
+.track-order__identifiers {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.track-order__identifiers > div {
+  min-width: 0;
+  padding: 26px 32px;
+}
+
+.track-order__identifiers > div + div {
+  border-left: 1px solid var(--track-line);
+}
+
+.track-order__identifiers dt,
+.track-order__rows dt {
+  color: var(--track-muted);
+  font-size: 13px;
+}
+
+.track-order__identifiers dd {
+  margin: 2px 0 0;
+  font-size: 26px;
+  letter-spacing: 0.03em;
+}
+
+.track-order__journey {
+  margin-top: 24px;
+  padding: 36px 32px 40px;
+}
+
+.track-order__journey h2,
+.track-order__detail-card h2,
+.track-order__help h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.track-order__journey h2 {
+  margin-bottom: 34px;
+}
+
+.track-order__steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.track-order__steps::before,
+.track-order__steps::after {
+  position: absolute;
+  top: 21px;
+  left: 8%;
+  height: 2px;
+  content: "";
+}
+
+.track-order__steps::before {
+  right: 8%;
+  background: var(--track-line);
+}
+
+.track-order__steps::after {
+  width: 50.4%;
+  background: var(--track-gold);
+}
+
+.track-order__step {
+  position: relative;
+  min-width: 0;
+  padding: 0 8px;
+  text-align: center;
+}
+
+.track-order__step-icon {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  margin: 0 auto 14px;
+  border: 2px solid var(--track-line);
+  border-radius: 50%;
+  background: var(--track-card);
+  color: var(--track-muted);
+}
+
+.track-order__step-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.track-order__step--done .track-order__step-icon {
+  border-color: var(--track-gold);
+  background: var(--track-gold);
+  color: var(--track-navy);
+}
+
+.track-order__step--now .track-order__step-icon {
+  border-color: var(--track-gold);
+  color: #8a6a2a;
+  box-shadow: 0 0 0 6px rgb(201 164 92 / 20%);
+}
+
+.track-order__step--dim .track-order__step-icon {
+  border-style: dashed;
+}
+
+.track-order__step--dim {
+  opacity: 0.6;
+}
+
+.track-order__step strong,
+.track-order__step > span:last-child {
+  display: block;
+}
+
+.track-order__step strong {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.track-order__step > span:last-child {
+  margin-top: 2px;
+  color: var(--track-muted);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.track-order__step--now strong {
+  color: #8a6a2a;
+}
+
+.track-order__details {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.track-order__detail-card,
+.track-order__help {
+  padding: 32px;
+}
+
+.track-order__detail-card h2,
+.track-order__help h2 {
+  margin-bottom: 8px;
+}
+
+.track-order__rows {
+  margin: 0;
+}
+
+.track-order__rows > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--track-line);
+}
+
+.track-order__rows > div:last-child {
+  padding-bottom: 0;
+  border: 0;
+}
+
+.track-order__rows dd {
+  margin: 0;
+  font-weight: 600;
+  text-align: right;
+}
+
+.track-order__help {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  border-color: var(--track-navy);
+  background: var(--track-navy);
+  color: #fff;
+}
+
+.track-order__help p {
+  margin: 0;
+  color: #b7c3d8;
+}
+
+.track-order__help a {
+  align-self: flex-start;
+  padding: 13px 26px;
+  border-radius: 999px;
+  background: var(--track-gold);
+  color: var(--track-navy);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.track-order__help a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.track-order__visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+@keyframes track-order-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (min-width: 640px) {
+  .track-order__container {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .track-order__container {
+    padding-right: 48px;
+    padding-left: 48px;
+  }
+}
+
+@media (max-width: 860px) {
+  .track-order__hero-content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    padding-bottom: 130px;
+  }
+
+  .track-order__hero-content::before,
+  .track-order__hero-content::after {
+    display: none;
+  }
+
+  .track-order__delivery {
+    text-align: left;
+  }
+
+  .track-order__search input {
+    width: 120px;
+  }
+
+  .track-order__identifiers {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .track-order__identifiers > div + div {
+    border-top: 1px solid var(--track-line);
+    border-left: 0;
+  }
+
+  .track-order__steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+
+  .track-order__steps::before,
+  .track-order__steps::after {
+    top: 22px;
+    bottom: 22px;
+    left: 21px;
+    width: 2px;
+    height: auto;
+  }
+
+  .track-order__steps::before {
+    right: auto;
+  }
+
+  .track-order__steps::after {
+    height: 58%;
+  }
+
+  .track-order__step {
+    min-height: 44px;
+    padding: 2px 0 0 62px;
+    text-align: left;
+  }
+
+  .track-order__step-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+  }
+
+  .track-order__details {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .track-order__hero-top {
+    min-height: 70px;
+    gap: 10px;
+  }
+
+  .track-order__search input {
+    padding-right: 8px;
+    padding-left: 12px;
+  }
+
+  .track-order__search button {
+    min-width: 100px;
+    padding: 0 18px;
+  }
+
+  .track-order__identifiers > div,
+  .track-order__journey,
+  .track-order__detail-card,
+  .track-order__help {
+    padding: 24px 20px;
+  }
+
+  .track-order__rows > div {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .track-order__rows dd {
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track-order__status > span {
+    animation: none;
+  }
+}
