@@ -145,9 +145,9 @@ export default function Header() {
             <Link href="#account" aria-label="Account" className="header-icon-button header-icon-button--user">
               <FaUser aria-hidden="true" />
             </Link>
-            <Link href="#cart" aria-label="Cart" className="header-icon-button header-icon-button--cart">
+            <Link href="/checkout" aria-label="Cart" className="header-icon-button header-icon-button--cart">
               <FaShoppingCart aria-hidden="true" />
-              <span className="cart-count">0</span>
+              <span className="cart-count">3</span>
             </Link>
             <button
               type="button"
