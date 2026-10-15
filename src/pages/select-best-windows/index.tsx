@@ -119,7 +119,7 @@ function WindowCard({ product }: { product: WindowProduct }) {
         <h3>{product.title}</h3>
         <p>{product.description}</p>
         <a
-          className="select-best-windows__button select-best-windows__button--primary"
+          className="select-best-windows__button select-best-windows__button--product"
           href="https://aashiyana.tatasteel.com"
           target="_blank"
           rel="noopener noreferrer"
@@ -254,9 +254,9 @@ export default function SelectBestWindowsPage() {
           <div className="select-best-windows__container">
             <h2 id="aluminium-windows-title">System aluminium windows</h2>
             <ProductGrid products={aluminiumWindows} />
-            <p className="select-best-windows__image-note">
+            {/* <p className="select-best-windows__image-note">
               Images are from the Tata Pravesh brochure.
-            </p>
+            </p> */}
           </div>
         </section>
 
