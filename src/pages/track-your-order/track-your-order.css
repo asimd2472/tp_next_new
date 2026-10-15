@@ -83,6 +83,11 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+  transition: background-color .2s ease, color .2s ease;
+}
+
+.track-order__search button:hover {
+  background: var(--track-gold-light);
 }
 
 .track-order__search button:focus-visible {
@@ -98,6 +103,7 @@
   gap: 48px;
   padding-top: 48px;
   padding-bottom: 150px;
+  animation: track-order-fade-up .7s ease-out both;
 }
 
 .track-order__hero-content::before,
@@ -151,7 +157,7 @@
 
 .track-order__hero h1 {
   margin: 22px 0 10px;
-  font-size: clamp(34px, 5vw, 56px);
+  font-size: clamp(34px, 5vw, 40px);
   font-weight: 400;
   line-height: 1.08;
 }
@@ -178,10 +184,11 @@
 .track-order__delivery strong {
   display: block;
   margin-top: 6px;
-  font-size: clamp(48px, 7vw, 84px);
-  font-weight: 400;
+  font-size: clamp(27px, 7vw, 28px);
+  font-weight: 500;
   line-height: 1;
   white-space: nowrap;
+  margin-bottom: 5px;
 }
 
 .track-order__delivery > span:last-child {
@@ -204,6 +211,7 @@
 .track-order__identifiers {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  animation: track-order-fade-up .65s .12s ease-out both;
 }
 
 .track-order__identifiers > div {
@@ -222,14 +230,16 @@
 }
 
 .track-order__identifiers dd {
+  letter-spacing: .03em;
   margin: 2px 0 0;
-  font-size: 26px;
-  letter-spacing: 0.03em;
+  font-size: 22px;
+  font-weight: 500;
 }
 
 .track-order__journey {
   margin-top: 24px;
-  padding: 36px 32px 40px;
+  padding: 32px;
+  animation: track-order-fade-up .65s .22s ease-out both;
 }
 
 .track-order__journey h2,
@@ -241,7 +251,7 @@
 }
 
 .track-order__journey h2 {
-  margin-bottom: 34px;
+  margin-bottom: 30px;
 }
 
 .track-order__steps {
@@ -256,10 +266,12 @@
 .track-order__steps::before,
 .track-order__steps::after {
   position: absolute;
-  top: 21px;
+  z-index: 0;
+  top: 23px;
   left: 8%;
   height: 2px;
   content: "";
+  pointer-events: none;
 }
 
 .track-order__steps::before {
@@ -270,27 +282,58 @@
 .track-order__steps::after {
   width: 50.4%;
   background: var(--track-gold);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: track-order-progress-horizontal .9s .55s ease-out forwards;
 }
 
 .track-order__step {
   position: relative;
+  z-index: 1;
   min-width: 0;
-  padding: 0 8px;
+  padding: 0 10px;
   text-align: center;
+  animation: track-order-step-arrive .5s ease-out both;
+}
+
+.track-order__step:nth-child(1) {
+  animation-delay: .2s;
+}
+
+.track-order__step:nth-child(2) {
+  animation-delay: .32s;
+}
+
+.track-order__step:nth-child(3) {
+  animation-delay: .44s;
+}
+
+.track-order__step:nth-child(4) {
+  animation-delay: .56s;
+}
+
+.track-order__step:nth-child(5) {
+  animation-delay: .68s;
+}
+
+.track-order__step:nth-child(6) {
+  animation-delay: .8s;
 }
 
 .track-order__step-icon {
   position: relative;
   z-index: 1;
   display: grid;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   place-items: center;
-  margin: 0 auto 14px;
+  margin: 0 auto 16px;
   border: 2px solid var(--track-line);
   border-radius: 50%;
   background: var(--track-card);
   color: var(--track-muted);
+  box-shadow: 0 0 0 6px var(--track-card);
+  transition: border-color .2s ease, background-color .2s ease, color .2s ease;
 }
 
 .track-order__step-icon svg {
@@ -312,6 +355,11 @@
   border-color: var(--track-gold);
   color: #8a6a2a;
   box-shadow: 0 0 0 6px rgb(201 164 92 / 20%);
+  animation: track-order-current-pulse 2s 1.4s ease-in-out infinite;
+}
+
+.track-order__step--done .track-order__step-icon {
+  animation: track-order-step-pop .45s .5s cubic-bezier(.2, .8, .2, 1.2) both;
 }
 
 .track-order__step--dim .track-order__step-icon {
@@ -328,19 +376,40 @@
 }
 
 .track-order__step strong {
+  min-height: 42px;
   font-size: 14px;
   font-weight: 600;
+  line-height: 1.35;
 }
 
 .track-order__step > span:last-child {
-  margin-top: 2px;
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 7px;
+  padding: 4px 8px;
+  border: 1px solid var(--track-line);
+  border-radius: 999px;
+  background: var(--track-background);
   color: var(--track-muted);
-  font-size: 14px;
+  font-size: 12px;
+  line-height: 1.35;
   overflow-wrap: anywhere;
 }
 
 .track-order__step--now strong {
   color: #8a6a2a;
+}
+
+.track-order__step--now > span:last-child {
+  border-color: rgb(201 164 92 / 55%);
+  background: rgb(201 164 92 / 12%);
+  color: #72551f;
+}
+
+.track-order__step--done > span:last-child {
+  border-color: rgb(201 164 92 / 35%);
 }
 
 .track-order__details {
@@ -353,6 +422,11 @@
 .track-order__detail-card,
 .track-order__help {
   padding: 32px;
+  animation: track-order-fade-up .65s .32s ease-out both;
+}
+
+.track-order__help {
+  animation-delay: .44s;
 }
 
 .track-order__detail-card h2,
@@ -406,6 +480,12 @@
   color: var(--track-navy);
   font-weight: 600;
   text-decoration: none;
+  transition: transform .2s ease, background-color .2s ease;
+}
+
+.track-order__help a:hover {
+  transform: translateY(-2px);
+  background: var(--track-gold-light);
 }
 
 .track-order__help a:focus-visible {
@@ -429,6 +509,58 @@
   }
 }
 
+@keyframes track-order-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes track-order-step-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes track-order-step-pop {
+  from {
+    transform: scale(.65);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes track-order-progress-horizontal {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes track-order-progress-vertical {
+  to {
+    transform: scaleY(.6);
+  }
+}
+
+@keyframes track-order-current-pulse {
+  50% {
+    box-shadow: 0 0 0 10px rgb(201 164 92 / 8%);
+  }
+}
+
 @media (min-width: 640px) {
   .track-order__container {
     padding-right: 32px;
@@ -438,8 +570,7 @@
 
 @media (min-width: 1024px) {
   .track-order__container {
-    padding-right: 48px;
-    padding-left: 48px;
+    padding-inline: 70px;
   }
 }
 
@@ -474,14 +605,14 @@
 
   .track-order__steps {
     grid-template-columns: minmax(0, 1fr);
-    gap: 22px;
+    gap: 14px;
   }
 
   .track-order__steps::before,
   .track-order__steps::after {
-    top: 22px;
-    bottom: 22px;
-    left: 21px;
+    top: 36px;
+    bottom: 42px;
+    left: 23px;
     width: 2px;
     height: auto;
   }
@@ -491,20 +622,57 @@
   }
 
   .track-order__steps::after {
-    height: 58%;
+    right: auto;
+    transform: scaleY(0);
+    transform-origin: top center;
+    animation-name: track-order-progress-vertical;
   }
 
   .track-order__step {
-    min-height: 44px;
-    padding: 2px 0 0 62px;
+    display: flex;
+    min-height: 78px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 10px 14px 10px 78px;
+    border: 1px solid var(--track-line);
+    border-radius: 12px;
+    background: #fff;
     text-align: left;
   }
 
   .track-order__step-icon {
     position: absolute;
-    top: 0;
+    top: 14px;
     left: 0;
     margin: 0;
+    box-shadow: 0 0 0 5px var(--track-background);
+    left: 10px;
+  }
+
+  .track-order__step strong {
+    min-height: 0;
+  }
+
+  .track-order__step > span:last-child {
+    min-height: 0;
+    justify-content: flex-start;
+    margin-top: 5px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-size: 13px;
+  }
+
+  .track-order__step--now {
+    border-color: rgb(201 164 92 / 75%);
+    background: #fffdf8;
+    box-shadow: 0 8px 20px -16px rgb(10 29 56 / 55%);
+  }
+
+  .track-order__step--now > span:last-child {
+    background: transparent;
+    color: #72551f;
   }
 
   .track-order__details {
@@ -532,7 +700,7 @@
   .track-order__journey,
   .track-order__detail-card,
   .track-order__help {
-    padding: 24px 20px;
+    padding: 8px 20px;
   }
 
   .track-order__rows > div {
@@ -546,7 +714,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .track-order__status > span {
-    animation: none;
+  .track-order *,
+  .track-order *::before,
+  .track-order *::after {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+
+  .track-order__steps::after {
+    transform: none;
   }
 }
