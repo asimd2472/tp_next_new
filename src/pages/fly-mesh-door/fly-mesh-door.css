@@ -47,15 +47,15 @@
 
 .fly-mesh-door h1 {
   margin-bottom: 18px;
-  font-size: clamp(40px, 5.2vw, 64px);
+  font-size: clamp(40px, 5.2vw, 50px);
   font-weight: 700;
   line-height: 1.05;
 }
 
 .fly-mesh-door h2 {
   margin-bottom: 24px;
-  font-size: clamp(28px, 3vw, 36px);
-  font-weight: 700;
+  font-size: clamp(28px, 3.4vw, 40px);
+  font-weight: 600;
 }
 
 .fly-mesh-door h3 {
@@ -70,7 +70,7 @@
 
 .fly-mesh-door__hero-section {
   padding-top: 72px;
-  padding-bottom: 72px;
+  padding-bottom: 20px;
 }
 
 .fly-mesh-door__hero {
@@ -96,7 +96,7 @@
 .fly-mesh-door__lead {
   margin-bottom: 28px;
   color: var(--fly-mesh-muted);
-  font-size: clamp(18px, 1.8vw, 21px);
+  font-size: clamp(18px, 1.8vw, 18px);
   line-height: 1.5;
 }
 
@@ -112,10 +112,9 @@
   min-height: 48px;
   align-items: center;
   justify-content: center;
-  padding: 12px 28px;
-  border: 2px solid var(--fly-mesh-brown);
+  padding: 10px 26px;
   border-radius: 8px;
-  background: var(--fly-mesh-brown);
+  background: linear-gradient(90deg, #236bb3 0%, #79aa32 100%);
   color: #fff !important;
   font-size: 17px;
   font-weight: 600;
@@ -127,11 +126,13 @@
 .fly-mesh-door__button:hover {
   border-color: var(--fly-mesh-brown-dark);
   background: var(--fly-mesh-brown-dark);
+  background: linear-gradient(90deg, #236bb3 0%, #79aa32 100%);
 }
 
 .fly-mesh-door__button--secondary {
   background: transparent;
   color: var(--fly-mesh-brown) !important;
+  border: 1px solid var(--fly-mesh-brown);
 }
 
 .fly-mesh-door__button--secondary:hover {
@@ -160,7 +161,7 @@
   min-height: 530px;
   align-items: center;
   justify-content: center;
-  padding: 42px 28px;
+  /* padding: 42px 28px; */
   border-radius: 24px;
   background: var(--fly-mesh-sage);
 }
