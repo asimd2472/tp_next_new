@@ -19,7 +19,7 @@
 }
 
 .why-tata-pravesh-page section {
-  padding: 56px 20px;
+  padding: 56px 0px 0px 0px;
 }
 
 .why-tata-pravesh__container {
@@ -36,9 +36,9 @@
 }
 
 @media (min-width: 1024px) {
-  /* .why-tata-pravesh__container {
-    padding-inline: 48px;
-  } */
+  .why-tata-pravesh__container {
+    padding-inline: 70px;
+  }
 }
 
 .why-tata-pravesh-page h1,
@@ -64,7 +64,7 @@
 }
 
 .why-tata-pravesh-page h2 {
-  font-size: clamp(26px, 4vw, 36px);
+  font-size: clamp(28px, 3.4vw, 40px);
   font-weight: 600;
 }
 
@@ -110,13 +110,12 @@
   gap: 8px;
   align-items: center;
   justify-content: center;
-  padding: 15px 28px;
+  padding: 12px 24px;
+  font-size: 15px;
   border-radius: 8px;
-  font-size: 17px;
-  font-weight: 600;
+  font-weight: 500;
   text-decoration: none;
-  border: 1px solid var(--navy);
-  background: linear-gradient(180deg, #153a82, #0f2d6b);
+  background: linear-gradient(90deg, #236bb3 0%, #79aa32 100%);
   color: #fff;
 }
 
@@ -124,6 +123,7 @@
   background: #fff;
   color: var(--navy);
   border-color: var(--blue);
+  border: 1px solid var(--navy);
 }
 
 .why-tata-pravesh__button:hover {
@@ -395,5 +395,8 @@
 @media (max-width: 600px) {
   .why-tata-pravesh__stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .why-tata-pravesh__visual-frame {
+    min-height: 0px;
   }
 }
