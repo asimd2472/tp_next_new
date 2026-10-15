@@ -299,7 +299,6 @@ export default function FireDoorsPage() {
           <WhyIndia />
           <ChooseDoor />
           <Features panel />
-          <Features />
           <TechSpecs />
           <Hardware />
           <Faq />
