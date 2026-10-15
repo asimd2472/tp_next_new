@@ -20,7 +20,7 @@
 }
 
 .bedroom-door__section {
-  padding: 16px 0;
+  padding: 30px 0;
 }
 
 .bedroom-door__container {
@@ -56,7 +56,7 @@
 }
 
 .bedroom-door h2 {
-  font-size: clamp(23px, 3vw, 30px);
+  font-size: clamp(28px, 3.4vw, 40px);
   font-weight: 600;
 }
 
@@ -113,12 +113,12 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 24px;
-  border: 1px solid var(--bedroom-door-navy);
+  padding: 10px 22px;
+
   border-radius: 8px;
-  background: linear-gradient(180deg, #153a82, #0f2d6b);
+  background: linear-gradient(90deg, #236bb3 0%, #79aa32 100%);
   color: #fff;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   text-decoration: none;
 }
@@ -131,6 +131,7 @@
   border-color: var(--bedroom-door-blue);
   background: #fff;
   color: var(--bedroom-door-navy);
+  border: 1px solid var(--bedroom-door-navy);
 }
 
 .bedroom-door__figure {
@@ -423,7 +424,7 @@
 @media (min-width: 1024px) {
   .bedroom-door__container,
   .bedroom-door__breadcrumb {
-    padding-inline: 48px;
+    padding-inline: 70px;
   }
 }
 
@@ -452,7 +453,15 @@
   }
 
   .bedroom-door__actions {
-    flex-direction: column;
-    align-items: stretch;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bedroom-door__button {
+    min-width: 0;
+    padding-right: 4px;
+    padding-left: 4px;
+    font-size: 13px;
+    white-space: nowrap;
   }
 }
