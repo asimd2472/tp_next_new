@@ -59,14 +59,14 @@
 .double-door-designs h1 {
   margin: 6px 0 10px;
   font-size: clamp(38px, 5vw, 50px);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.05;
 }
 
 .double-door-designs h2 {
   margin: 4px 0 14px;
-  font-size: clamp(24px, 3vw, 28px);
-  font-weight: 800;
+  font-size: clamp(28px, 3.4vw, 35px);
+  font-weight: 600;
   line-height: 1.2;
 }
 
@@ -107,9 +107,8 @@
   align-items: center;
   justify-content: center;
   padding: 10px 24px;
-  border: 2px solid var(--double-door-blue);
   border-radius: 8px;
-  background: var(--double-door-blue);
+  background: linear-gradient(90deg, #236bb3 0%, #79aa32 100%);
   color: #fff;
   font-size: 16px;
   font-weight: 600;
@@ -120,7 +119,7 @@
 
 .double-door-designs__button:hover {
   border-color: #0b2a58;
-  background: #0b2a58;
+  background: linear-gradient(90deg, #236bb3 0%, #79aa32 100%);
   color: #fff;
 }
 
@@ -132,6 +131,7 @@
 .double-door-designs__button--secondary {
   background: transparent;
   color: var(--double-door-blue);
+  border: 1px solid var(--double-door-blue);
 }
 
 .double-door-designs__button--secondary:hover {
@@ -173,7 +173,7 @@
 }
 
 .double-door-designs__section {
-  padding: 36px 0 0;
+  padding: 45px 0 0;
 }
 
 .double-door-designs__section-heading {
@@ -251,7 +251,7 @@
 .double-door-designs__entrance figcaption {
   padding-top: 6px;
   color: var(--double-door-blue);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
 }
 
@@ -374,7 +374,7 @@
 
 @media (min-width: 1024px) {
   .double-door-designs__container {
-    padding-inline: 48px;
+    padding-inline: 70px;
   }
 
   .double-door-designs__footer {
