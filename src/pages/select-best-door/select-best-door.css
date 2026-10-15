@@ -37,12 +37,12 @@
 }
 
 .select-best-door h1 {
-  font-size: clamp(32px, 5vw, 52px);
+  font-size: clamp(32px, 5vw, 50px);
   font-weight: 700;
 }
 
 .select-best-door h2 {
-  font-size: clamp(24px, 3.5vw, 34px);
+  font-size: clamp(28px, 3.4vw, 40px);
   font-weight: 600;
 }
 
@@ -92,7 +92,7 @@
 @media (min-width: 1024px) {
   .select-best-door__container,
   .select-best-door__breadcrumb {
-    padding-inline: 48px;
+    padding-inline: 70px;
   }
 }
 
@@ -108,13 +108,12 @@
   gap: 8px;
   align-items: center;
   justify-content: center;
-  padding: 14px 26px;
+  padding: 10px 22px;
   border-radius: 8px;
   font-size: 17px;
   font-weight: 600;
   text-decoration: none;
-  border: 1px solid var(--select-best-door-navy);
-  background: linear-gradient(180deg, #153a82, #0f2d6b);
+  background: linear-gradient(90deg, #236bb3 0%, #79aa32 100%);
   color: #fff;
   transition: filter 0.2s ease;
 }
@@ -127,6 +126,7 @@
   background: #fff;
   color: var(--select-best-door-navy);
   border-color: var(--select-best-door-blue);
+  border: 1px solid var(--select-best-door-navy);
 }
 
 .select-best-door__hero-grid {
@@ -438,5 +438,18 @@
 @media (max-width: 600px) {
   .select-best-door__gallery--two {
     grid-template-columns: 1fr;
+  }
+
+  .select-best-door__actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .select-best-door__button {
+    min-width: 0;
+    padding: 10px 6px;
+    font-size: 14px;
+    white-space: nowrap;
   }
 }
