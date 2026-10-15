@@ -48,12 +48,12 @@
 }
 
 .doors-windows-for-villa-page h1 {
-  font-size: clamp(32px, 5vw, 54px);
+  font-size: clamp(32px, 5vw, 50px);
   font-weight: 700;
 }
 
 .doors-windows-for-villa-page h2 {
-  font-size: clamp(25px, 3.6vw, 36px);
+  font-size: clamp(28px, 3.4vw, 40px);
   font-weight: 600;
 }
 
@@ -96,7 +96,7 @@
 @media (min-width: 1024px) {
   .doors-windows-for-villa__container,
   .doors-windows-for-villa__breadcrumb {
-    padding-inline: 48px;
+    padding-inline: 70px;
   }
 }
 
@@ -118,13 +118,12 @@
   gap: 8px;
   align-items: center;
   justify-content: center;
-  padding: 14px 26px;
+  padding: 11px 24px;
   border-radius: 8px;
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 600;
   text-decoration: none;
-  border: 1px solid var(--navy);
-  background: linear-gradient(180deg, #153a82, #0f2d6b);
+  background: linear-gradient(90deg, #236bb3 0%, #79aa32 100%);
   color: #fff;
   transition: filter 0.2s ease;
 }
@@ -137,6 +136,7 @@
   background: #fff;
   color: var(--navy);
   border-color: var(--blue);
+  border: 1px solid var(--navy);
 }
 
 .doors-windows-for-villa__button--light {
