@@ -256,7 +256,7 @@ function ProductCard({ door }: { door: Door }) {
       <h3>{door.title}</h3>
       <p>{door.description}</p>
       <a
-        className="main-door-designs__button main-door-designs__button--primary"
+        className="main-door-designs__button main-door-designs__button--product"
         href={productPageUrl}
         target="_blank"
         rel="noopener noreferrer"

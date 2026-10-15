@@ -62,7 +62,7 @@
   margin: 6px 0 10px;
   color: var(--main-door-blue);
   font-size: clamp(34px, 7vw, 50px);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.05;
 }
 
@@ -86,7 +86,7 @@
   align-items: center;
   justify-content: center;
   padding: 0 20px;
-  border: 2px solid transparent;
+  
   border-radius: 8px;
   font-size: 16px;
   font-weight: 600;
@@ -108,15 +108,22 @@
 .main-door-designs__button--primary {
   background: var(--main-door-blue);
   color: #fff;
+  background: linear-gradient(90deg, #236bb3 0%, #79aa32 100%);
+}
+
+.main-door-designs__button--product {
+  background: var(--main-door-blue);
+  color: #fff;
 }
 
 .main-door-designs__button--primary:hover,
 .main-door-designs__button--primary:focus-visible {
-  background: var(--main-door-blue-dark);
+  /* background: var(--main-door-blue-dark); */
   color: #fff;
 }
 
 .main-door-designs__button--secondary {
+  border: 1px solid transparent;
   border-color: var(--main-door-blue);
   background: transparent;
   color: var(--main-door-blue);
@@ -199,8 +206,8 @@
 .main-door-designs__range h2 {
   margin-bottom: 12px;
   color: var(--main-door-blue);
-  font-size: 26px;
-  font-weight: 800;
+  font-size: clamp(28px, 3.4vw, 40px);
+  font-weight: 600;
 }
 
 .main-door-designs__grid {
@@ -429,8 +436,7 @@
 
 @media (min-width: 1024px) {
   .main-door-designs__container {
-    padding-right: 48px;
-    padding-left: 48px;
+    padding-inline: 70px;
   }
 
   .main-door-designs__grid {
