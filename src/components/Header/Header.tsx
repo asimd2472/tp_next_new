@@ -63,7 +63,7 @@ const menuCategories: MenuCategory[] = [
 const utilityLinks = [
   { label: "Download Brochure", href: "#download-brochure", icon: FaDownload },
   { label: "Find A Store", href: "/store-locator", icon: FaMapMarkerAlt },
-  { label: "Book a Demo", href: "#book-a-demo", icon: FaCalendarCheck },
+  { label: "Book a Demo", href: "/book-a-demo", icon: FaCalendarCheck },
   { label: "enquiry@tatapravesh.com", href: "#product-enquiry-mail", icon: FaEnvelope },
   { label: "1800 419 9200", href: "#product-enquiry-phone", icon: FaPhoneAlt },
 ];
