@@ -588,8 +588,7 @@
 
 @media (min-width: 1024px) {
   .checkout-page__container {
-    padding-right: 48px;
-    padding-left: 48px;
+    padding-inline: 70px;
   }
 }
 
