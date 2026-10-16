@@ -32,7 +32,7 @@ const buildDetails = [
 ];
 
 const applications = [
-	{ title: "Room partition", image: "/images/french-door/room-partition.svg" },
+	{ title: "Room partition", image: "/images/french-door/room-partition.avif" },
 	{ title: "Garage", image: "/images/french-door/garage.svg" },
 	{ title: "Lawn opening", image: "/images/french-door/lawn-opening.svg" },
 	{ title: "Patio / balcony", image: "/images/french-door/patio-balcony.svg" },
@@ -209,7 +209,7 @@ export default function FrenchDoorPage() {
 								<div className="french-door__hero-metric"><strong>97<span>%</span></strong><span>clear opening when folded back</span></div>
 							</div>
 							<figure className="french-door__hero-image">
-								<Image src="/images/french-door/hero.svg" alt="Lumiére French door in a bright living room" width={1400} height={913} priority />
+								<Image src="/images/french-door/banner.avif" alt="Lumiére French door in a bright living room" width={1400} height={913} priority />
 								<figcaption>Fully foldable. Open up your view.</figcaption>
 							</figure>
 						</div>
@@ -219,7 +219,7 @@ export default function FrenchDoorPage() {
 				<section className="french-door__section french-door__overview" aria-labelledby="french-door-overview-title">
 					<div className="french-door__container french-door__overview-grid">
 						<div className="french-door__overview-image">
-							<Image src="/images/french-door/exterior-dusk.svg" alt="Illustration of a Lumiére French door lit warmly at dusk" width={900} height={675} loading="lazy" />
+							<Image src="/images/french-door/proportion-symmetry.avif" alt="Illustration of a Lumiére French door lit warmly at dusk" width={900} height={675} loading="lazy" />
 							<div className="french-door__image-note"><FaDoorOpen aria-hidden="true" /><span>Room to open up</span></div>
 						</div>
 						<div className="french-door__overview-copy">
