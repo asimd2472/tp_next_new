@@ -1160,11 +1160,11 @@
 @media (min-width: 1024px) {
   .pdp-wrap,
   .pdp-banner-copy {
-    padding-inline: 48px;
+    padding-inline: 70px;
   }
 
   .pdp-faq-in {
-    padding-inline: 48px;
+    padding-inline: 70px;
   }
 }
 
