@@ -237,7 +237,7 @@
 }
 
 @media (min-width: 1024px) {
-  .features__container { padding-inline: 48px; }
+  .features__container { padding-inline: 70px; }
 }
 
 @media (max-width: 480px) {
