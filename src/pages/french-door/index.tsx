@@ -3,8 +3,9 @@ import Header from "@/components/Header";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { FaArrowRight, FaCheck, FaDoorOpen, FaLeaf, FaShieldAlt } from "react-icons/fa";
+import { getFrenchDoor, type FrenchDoorResponse } from "@/services/common.service";
 
 const grillDesigns = [
 	{ code: "SEHB001", path: "M0 20H60M0 40H60M0 60H60M0 80H60M0 100H60M0 120H60M0 140H60M0 160H60M0 180H60" },
@@ -38,26 +39,98 @@ const applications = [
 	{ title: "Patio / balcony", image: "/images/french-door/patio-balcony.svg" },
 ];
 
-const selectorDesigns = ["Lumiére Pro", "Lumiére Classic", "Lumiére Classic Plus", "Lumiére Basic"];
-const selectorShades = [
-	{ name: "Forest Brown", color: "#4a2f27" },
-	{ name: "Snowflake White", color: "#f3f2ea" },
-];
-const selectorSizes = ["2134X2134", "2134X2285", "2134X2440", "2440X2134", "2440X2285", "2440X2440"];
-
 function FrenchDoorSelector() {
-	const [designIndex, setDesignIndex] = useState(0);
-	const [shadeIndex, setShadeIndex] = useState(0);
-	const [sizeIndex, setSizeIndex] = useState(0);
-	const shade = selectorShades[shadeIndex];
-	const [width, height] = selectorSizes[sizeIndex].split("X").map(Number);
+	const [productData, setProductData] = useState<FrenchDoorResponse | null>(null);
+	const [selectedDesignId, setSelectedDesignId] = useState<number | null>(null);
+	const [selectedShadeId, setSelectedShadeId] = useState<number | null>(null);
+	const [selectedSizeId, setSelectedSizeId] = useState<number | null>(null);
+	const [loading, setLoading] = useState(true);
+	const [loadError, setLoadError] = useState("");
+	const [retryCount, setRetryCount] = useState(0);
+
+	useEffect(() => {
+		let isCurrent = true;
+
+		const loadFrenchDoor = async () => {
+			setLoading(true);
+			setLoadError("");
+
+			try {
+				const response = await getFrenchDoor();
+				const data = response.data;
+
+				if (!data.success || !data.designs?.length || !data.sizes?.length) {
+					throw new Error("French door options are currently unavailable.");
+				}
+
+				if (!isCurrent) return;
+
+				const defaultDesign =
+					data.designs.find((design) => design.id === data.defaults.design_id)
+					?? data.designs.find((design) => design.is_default)
+					?? data.designs[0];
+				const defaultShade =
+					defaultDesign.shades.find((shade) => shade.id === data.defaults.shade_id)
+					?? defaultDesign.shades.find((shade) => shade.is_default)
+					?? defaultDesign.shades[0];
+				const defaultSize =
+					data.sizes.find((size) => size.id === data.defaults.size_id)
+					?? data.sizes.find((size) => size.is_default)
+					?? data.sizes[0];
+
+				setProductData(data);
+				setSelectedDesignId(defaultDesign.id);
+				setSelectedShadeId(defaultShade?.id ?? null);
+				setSelectedSizeId(defaultSize.id);
+			} catch (error) {
+				if (!isCurrent) return;
+				setLoadError(
+					error instanceof Error
+						? error.message
+						: "Unable to load French door options. Please try again.",
+				);
+			} finally {
+				if (isCurrent) setLoading(false);
+			}
+		};
+
+		void loadFrenchDoor();
+
+		return () => {
+			isCurrent = false;
+		};
+	}, [retryCount]);
+
+	const selectedDesign =
+		productData?.designs.find((design) => design.id === selectedDesignId)
+		?? productData?.designs[0];
+	const shade = selectedDesign?.shades.find((option) => option.id === selectedShadeId)
+		?? selectedDesign?.shades[0];
+	const size =
+		productData?.sizes.find((option) => option.id === selectedSizeId)
+		?? productData?.sizes[0];
+	const width = size?.width_mm ?? 2134;
+	const height = size?.height_mm ?? 2134;
 	const previewHeight = 300;
 	const previewWidth = Math.round(previewHeight * width / height);
 	const frameWidth = Math.max(150, Math.min(260, previewWidth));
 	const frameLeft = (300 - frameWidth) / 2;
-	const paneStroke = shade.color === "#f3f2ea" ? "#000" : "#fff";
+	const paneStroke = shade?.name.toLowerCase().includes("white") ? "#000" : "#fff";
 	const feet = (millimetres: number) => `${(millimetres / 304.8).toFixed(1).replace(/\.0$/, "")} ft`;
-	const selection = `French Door · ${selectorDesigns[designIndex]} · ${shade.name} · ${width} × ${height} mm`;
+	const selection = selectedDesign && shade && size
+		? `French Door · ${selectedDesign.name} · ${shade.name} · ${size.label}`
+		: "";
+
+	const selectDesign = (designId: number) => {
+		const nextDesign = productData?.designs.find((design) => design.id === designId);
+		if (!nextDesign) return;
+
+		const nextShade =
+			nextDesign.shades.find((option) => option.is_default)
+			?? nextDesign.shades[0];
+		setSelectedDesignId(nextDesign.id);
+		setSelectedShadeId(nextShade?.id ?? null);
+	};
 
 	const fillEnquiry = () => {
 		const form = document.getElementById("french-door-enquiry-form");
@@ -96,12 +169,26 @@ function FrenchDoorSelector() {
 			<div className="french-door__container">
 				<div className="french-door__section-heading">
 					<p className="french-door__eyebrow">CHOOSE YOUR CONFIGURATION</p>
-					<h2 id="french-door-selector-title">Select your Lumiére.</h2>
+					<h2 id="french-door-selector-title">Select your Lumière.</h2>
 					<p className="french-door__section-intro">Pick a design, shade and size. Prices depend on your location, so book a demo or enquire for an exact quote.</p>
 				</div>
+				{loading && (
+					<p className="french-door__selector-status" role="status" aria-live="polite">
+						Loading French door options…
+					</p>
+				)}
+				{loadError && (
+					<div className="french-door__selector-error" role="alert">
+						<p>{loadError}</p>
+						<button type="button" onClick={() => setRetryCount((count) => count + 1)}>
+							Try again
+						</button>
+					</div>
+				)}
+				{!loading && !loadError && productData && selectedDesign && shade && size && (
 				<div className="french-door__selector-grid">
 					<div className="french-door__selector-preview">
-						<svg viewBox={`0 0 300 ${previewHeight + 10}`} role="img" aria-label={`Preview of ${selectorDesigns[designIndex]} French door in ${shade.name}, ${width} by ${height} mm`}>
+						<svg viewBox={`0 0 300 ${previewHeight + 10}`} role="img" aria-label={`Preview of ${selectedDesign.name} French door in ${shade.name}, ${width} by ${height} mm`}>
 							<rect x={frameLeft} y="8" width={frameWidth} height={previewHeight - 2} fill={shade.color} />
 							{[0, 1].map((paneIndex) => {
 								const paneLeft = frameLeft + 8 + paneIndex * (frameWidth - 16) / 2;
@@ -126,30 +213,36 @@ function FrenchDoorSelector() {
 								);
 							})}
 						</svg>
-						<p>{selectorDesigns[designIndex]} in {shade.name}</p>
+						<p>{selectedDesign.name} in {shade.name}</p>
 					</div>
 					<div className="french-door__selector-controls">
 						<h3><i>1</i>Select Design</h3>
 						<div className="french-door__selector-options" role="group" aria-label="Design">
-							{selectorDesigns.map((design, index) => (
-								<button className="french-door__selector-chip" type="button" key={design} aria-pressed={designIndex === index} onClick={() => setDesignIndex(index)}>{design}</button>
+						{productData.designs.map((design) => (
+							<button className="french-door__selector-chip" type="button" key={design.id} aria-pressed={selectedDesign.id === design.id} onClick={() => selectDesign(design.id)}>{design.name}</button>
 							))}
 						</div>
 
 						<h3><i>2</i>Choose Shade</h3>
 						<div className="french-door__selector-options" role="group" aria-label="Shade">
-							{selectorShades.map((option, index) => (
-								<button className="french-door__selector-swatch" type="button" key={option.name} aria-pressed={shadeIndex === index} onClick={() => setShadeIndex(index)}>
-									<b style={{ background: option.color }} aria-hidden="true" />{option.name}
-								</button>
-							))}
-						</div>
+						{selectedDesign.shades.map((option) => (
+							<button className="french-door__selector-swatch" type="button" key={option.id} aria-pressed={shade.id === option.id} onClick={() => setSelectedShadeId(option.id)}>
+								<b
+									style={{
+										backgroundColor: option.color,
+										...(option.image_url ? { backgroundImage: `url("${option.image_url}")` } : {}),
+									}}
+									aria-hidden="true"
+								/>{option.name}
+							</button>
+						))}
+					</div>
 
-						<h3><i>3</i>Select Size (W × H mm)</h3>
-						<div className="french-door__selector-options" role="group" aria-label="Size">
-							{selectorSizes.map((size, index) => (
-								<button className="french-door__selector-chip" type="button" key={size} aria-pressed={sizeIndex === index} onClick={() => setSizeIndex(index)}>{size.replace("X", " × ")}</button>
-							))}
+					<h3><i>3</i>Select Size (W × H mm)</h3>
+					<div className="french-door__selector-options" role="group" aria-label="Size">
+						{productData.sizes.map((option) => (
+							<button className="french-door__selector-chip" type="button" key={option.id} aria-pressed={size.id === option.id} onClick={() => setSelectedSizeId(option.id)}>{option.label}</button>
+						))}
 						</div>
 
 						<div className="french-door__selector-summary" aria-live="polite">
@@ -162,7 +255,8 @@ function FrenchDoorSelector() {
 						</div>
 						<p className="french-door__selector-note">Swatches and previews are indicative. Final colour may vary on screen.</p>
 					</div>
-				</div>
+					</div>
+					)}
 			</div>
 		</section>
 	);

@@ -361,6 +361,40 @@
 	font-size: 14px;
 }
 
+.french-door__selector-status,
+.french-door__selector-error {
+	margin: 20px 0 0;
+	padding: 14px 16px;
+	border: 1px solid var(--selector-line);
+	border-radius: 12px;
+	background: #fff;
+}
+
+.french-door__selector-error {
+	border-color: #d9a5a5;
+	color: #8b1f1f;
+}
+
+.french-door__selector-error p {
+	margin: 0 0 10px;
+}
+
+.french-door__selector-error button {
+	padding: 8px 14px;
+	border: 0;
+	border-radius: 8px;
+	color: #fff;
+	background: var(--selector-accent);
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.french-door__selector-error button:focus-visible {
+	outline: 3px solid var(--selector-blue);
+	outline-offset: 2px;
+}
+
 .french-door__selector-controls h3 {
 	display: flex;
 	align-items: center;
@@ -428,6 +462,8 @@
 	height: 28px;
 	border: 1px solid rgba(0, 0, 0, .2);
 	border-radius: 50%;
+	background-position: center;
+	background-size: cover;
 }
 
 .french-door__selector-swatch[aria-pressed="true"] {
