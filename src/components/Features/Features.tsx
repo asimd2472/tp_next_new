@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { useRef } from "react";
 
 const features = [
@@ -7,42 +8,49 @@ const features = [
     alt: "A modern living room with a large window",
     title: "Superior noise insulation",
     description: "Advanced soundproofing blocks outside noise and keeps your home calm.",
+    href: "/blogs/blog-noise-insulation",
   },
   {
     image: "/images/f2.jpg",
     alt: "A woman beside a modern window",
     title: "Energy efficient",
     description: "Keeps rooms comfortable all year and helps reduce energy bills.",
+    href: "/blogs/strength-that-lasts",
   },
   {
     image: "/images/f3.jpg",
     alt: "A woman beside a modern window",
     title: "Energy efficient",
     description: "Keeps rooms comfortable all year and helps reduce energy bills.",
+    href: "/blogs",
   },
   {
     image: "/images/custome.jpeg",
     alt: "A modern living room with a large window",
     title: "Superior noise insulation",
     description: "Advanced soundproofing blocks outside noise and keeps your home calm.",
+    href: "/blogs/blog-noise-insulation",
   },
   {
     image: "/images/f1.jpeg",
     alt: "A woman beside a modern window",
     title: "Energy efficient",
     description: "Keeps rooms comfortable all year and helps reduce energy bills.",
+    href: "/blogs",
   },
   {
     image: "/images/f1.jpeg",
     alt: "A woman beside a modern window",
     title: "Energy efficient",
     description: "Keeps rooms comfortable all year and helps reduce energy bills.",
+    href: "/blogs",
   },
   {
     image: "/images/custome.jpeg",
     alt: "A modern living room with a large window",
     title: "Superior noise insulation",
     description: "Advanced soundproofing blocks outside noise and keeps your home calm.",
+    href: "/blogs/blog-noise-insulation",
   },
 ];
 
@@ -91,7 +99,9 @@ export default function Features() {
                 <div className="features__copy">
                   <h3>{feature.title}</h3>
                   <p>{feature.description}</p>
-                  <span className="features__read-more">Read More</span>
+                  <Link className="features__read-more" href={feature.href}>
+                    Read More
+                  </Link>
                 </div>
               </article>
             ))}

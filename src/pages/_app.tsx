@@ -24,6 +24,7 @@ import "./checkout/checkout.css";
 import "./select-best-windows/select-best-windows.css";
 import "./book-a-demo/book-a-demo.css";
 import "./blogs/blog-noise-insulation/blog-noise-insulation.css";
+import "./blogs/strength-that-lasts/strength-that-lasts.css";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
