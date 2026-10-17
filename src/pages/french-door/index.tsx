@@ -188,31 +188,41 @@ function FrenchDoorSelector() {
 				{!loading && !loadError && productData && selectedDesign && shade && size && (
 				<div className="french-door__selector-grid">
 					<div className="french-door__selector-preview">
-						<svg viewBox={`0 0 300 ${previewHeight + 10}`} role="img" aria-label={`Preview of ${selectedDesign.name} French door in ${shade.name}, ${width} by ${height} mm`}>
-							<rect x={frameLeft} y="8" width={frameWidth} height={previewHeight - 2} fill={shade.color} />
-							{[0, 1].map((paneIndex) => {
-								const paneLeft = frameLeft + 8 + paneIndex * (frameWidth - 16) / 2;
-								const paneWidth = (frameWidth - 16) / 2;
-								return (
-									<g key={paneIndex}>
-										<rect x={paneLeft} y="18" width={paneWidth} height={previewHeight - 28} fill="none" stroke={paneStroke} strokeOpacity=".4" strokeWidth="2" />
-										{[0, 1, 2].map((row) => (
-											<rect
-												key={row}
-												x={paneLeft + 8}
-												y={28 + row * ((previewHeight - 48) / 3)}
-												width={paneWidth - 16}
-												height={(previewHeight - 48) / 3 - 8}
-												fill="#cfe6f0"
-												opacity=".85"
-												stroke="#555"
-											/>
-										))}
-										<rect x={paneIndex ? paneLeft + 4 : paneLeft + paneWidth - 10} y={previewHeight / 2} width="6" height="26" rx="3" fill="#ccc" />
-									</g>
-								);
-							})}
-						</svg>
+						{shade.image_url ? (
+							<div className="french-door__selector-visual" style={{ backgroundColor: shade.color }}>
+								<img
+									src={shade.image_url}
+									alt={`Preview of ${selectedDesign.name} French door in ${shade.name}`}
+									loading="eager"
+								/>
+							</div>
+						) : (
+							<svg viewBox={`0 0 300 ${previewHeight + 10}`} role="img" aria-label={`Preview of ${selectedDesign.name} French door in ${shade.name}, ${width} by ${height} mm`}>
+								<rect x={frameLeft} y="8" width={frameWidth} height={previewHeight - 2} fill={shade.color} />
+								{[0, 1].map((paneIndex) => {
+									const paneLeft = frameLeft + 8 + paneIndex * (frameWidth - 16) / 2;
+									const paneWidth = (frameWidth - 16) / 2;
+									return (
+										<g key={paneIndex}>
+											<rect x={paneLeft} y="18" width={paneWidth} height={previewHeight - 28} fill="none" stroke={paneStroke} strokeOpacity=".4" strokeWidth="2" />
+											{[0, 1, 2].map((row) => (
+												<rect
+													key={row}
+													x={paneLeft + 8}
+													y={28 + row * ((previewHeight - 48) / 3)}
+													width={paneWidth - 16}
+													height={(previewHeight - 48) / 3 - 8}
+													fill="#cfe6f0"
+													opacity=".85"
+													stroke="#555"
+												/>
+											))}
+											<rect x={paneIndex ? paneLeft + 4 : paneLeft + paneWidth - 10} y={previewHeight / 2} width="6" height="26" rx="3" fill="#ccc" />
+										</g>
+									);
+								})}
+							</svg>
+						)}
 						<p>{selectedDesign.name} in {shade.name}</p>
 					</div>
 					<div className="french-door__selector-controls">
@@ -228,10 +238,7 @@ function FrenchDoorSelector() {
 						{selectedDesign.shades.map((option) => (
 							<button className="french-door__selector-swatch" type="button" key={option.id} aria-pressed={shade.id === option.id} onClick={() => setSelectedShadeId(option.id)}>
 								<b
-									style={{
-										backgroundColor: option.color,
-										...(option.image_url ? { backgroundImage: `url("${option.image_url}")` } : {}),
-									}}
+									style={{ backgroundColor: option.color }}
 									aria-hidden="true"
 								/>{option.name}
 							</button>
