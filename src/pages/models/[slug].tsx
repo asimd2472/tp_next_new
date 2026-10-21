@@ -35,9 +35,6 @@ export default function ModelListingPage() {
 
   useEffect(() => {
     if (!router.isReady || !slug) {
-      if (router.isReady && !slug) {
-        setLoading(false);
-      }
       return;
     }
 
@@ -55,7 +52,7 @@ export default function ModelListingPage() {
 
         setProduct(response.data.product);
         setModels(response.data.models);
-      } catch (error) {
+      } catch {
         setProduct(null);
         setModels([]);
       } finally {
@@ -63,7 +60,7 @@ export default function ModelListingPage() {
       }
     };
 
-    fetchModels();
+    void fetchModels();
   }, [router.isReady, slug]);
 
   if (!router.isReady || loading) {
@@ -120,8 +117,8 @@ export default function ModelListingPage() {
               </div>
 
               <div className="model-listing__grid">
-                {Array.from({ length: 4 }).map((_, index) => (
-                  <article key={index} className="model-listing__card model-listing__card--skeleton">
+                {Array.from({ length: 4 }).map((_, cardIndex) => (
+                  <article key={cardIndex} className="model-listing__card model-listing__card--skeleton">
                     <div className="model-listing__skeleton-card-media" />
                     <div className="model-listing__card-body">
                       <div className="model-listing__skeleton-line card-title" />
@@ -134,6 +131,24 @@ export default function ModelListingPage() {
               </div>
             </div>
           </section>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  if (router.isReady && !slug) {
+    return (
+      <>
+        <Header />
+        <main className="model-listing">
+          <div className="model-listing__container" style={{ padding: "60px 20px", textAlign: "center" }}>
+            <h1>Model not found</h1>
+            <p>The requested collection could not be found.</p>
+            <Link href="/" style={{ color: "#2d68c4", fontWeight: 700 }}>
+              Go back home
+            </Link>
+          </div>
         </main>
         <Footer />
       </>
@@ -253,7 +268,7 @@ export default function ModelListingPage() {
             </div>
 
             <div className="model-listing__grid">
-              {models.map((model, index) => (
+              {models.map((model) => (
                 <article key={model.id} className="model-listing__card">
                   <div className="model-listing__card-media">
                     <Image
@@ -279,7 +294,17 @@ export default function ModelListingPage() {
                     </div>
 
                     <div className="model-listing__card-actions">
-                      <button type="button" aria-label={`View ${model.name}`}>
+                      <button
+                        type="button"
+                        aria-label={`View ${model.name}`}
+                        onClick={() => {
+                          if (typeof window !== "undefined") {
+                            window.localStorage.setItem("tata_pravesh_selected_model_id", String(model.id));
+                          }
+
+                          void router.push(`/product/${model.slug}?modelId=${model.id}`);
+                        }}
+                      >
                         Explore Model
                       </button>
                     </div>

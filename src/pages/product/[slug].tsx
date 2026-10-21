@@ -1,8 +1,10 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import api from "@/config/api.config";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState, type ChangeEvent, type TouchEvent, type WheelEvent } from "react";
 import {
   FaArrowLeft,
@@ -27,35 +29,74 @@ import {
   FaXmark,
 } from "react-icons/fa6";
 
-const GALLERY = [
-  "/images/product-1.jpg",
-  "/images/product-1.jpg",
-  "/images/product-2.jpg",
-  "/images/product-3.jpg",
-  "/images/product-2.jpg",
-  "/images/product-3.jpg",
-];
-const DESIGNS: { name: string; img: string }[] = [
-  { name: "Coral", img: "/images/product-1.jpg" },
-  { name: "Quartz", img: "/images/product-2.jpg" },
-  { name: "Everest", img: "/images/product-3.jpg" },
-  { name: "Amber", img: "/images/product-1.jpg" },
-  { name: "Onyx", img: "/images/product-2.jpg" },
-  { name: "Topaz", img: "/images/product-3.jpg" },
-];
-const SHADES: { name: string; bg: string }[] = [
-  { name: "Walnut Brown", bg: "#6b3a22" },
-  { name: "Teak Wood", bg: "#b8691f" },
-  { name: "Charcoal Grey", bg: "#454a52" },
-  { name: "Matte Black", bg: "#1c1c1e" },
-  { name: "Ivory White", bg: "#f2ecde" },
-  { name: "Beige Grey", bg: "#d8bfa6" },
-  { name: "Silver Grey", bg: "#9b9b9d" },
-  {
-    name: "Custom (RAL)",
-    bg: "conic-gradient(#f44, #fb3, #7d3, #3cd, #46f, #b4d, #f44)",
-  },
-];
+type ProductDetailsApiResponse = {
+  success: boolean;
+  product: {
+    id: number;
+    name: string;
+    category: string | null;
+    slug: string;
+    short_description: string | null;
+    description: string | null;
+    main_image_url: string | null;
+  };
+  model: {
+    id: number;
+    name: string;
+    slug: string;
+    short_description: string | null;
+    description: string | null;
+    starting_price: number | null;
+    is_premium: boolean;
+    is_active: boolean;
+    main_image_url: string | null;
+  };
+  designs: Array<{
+    id: number;
+    name: string;
+    code: string | null;
+    thumbnail_url: string | null;
+    shades: Array<{
+      id: number;
+      name: string;
+      color: string | null;
+      swatch_url: string | null;
+      primary_image_url: string | null;
+      gallery: Array<{ id: number; image_url: string | null }>;
+      sizes: Array<{ id: number; width_mm: number; height_mm: number; label: string }>;
+    }>;
+  }>;
+  defaults: {
+    design_id: number | null;
+    shade_id: number | null;
+    size_id: number | null;
+  };
+};
+
+const STORAGE_KEY = "tata_pravesh_selected_model_id";
+const FALLBACK_IMAGE = "/images/default/model.png";
+
+const getStoredModelId = () => {
+  if (typeof window === "undefined") return null;
+
+  const storedValue = window.localStorage.getItem(STORAGE_KEY);
+  if (!storedValue) return null;
+
+  const parsedValue = Number(storedValue);
+  return Number.isFinite(parsedValue) ? parsedValue : null;
+};
+
+const formatPrice = (value: number | null | undefined) => {
+  if (value === null || value === undefined || Number.isNaN(value)) {
+    return "₹ 0";
+  }
+
+  return `₹ ${Number(value).toLocaleString("en-IN")}`;
+};
+
+const getImageSource = (...values: Array<string | null | undefined>) => {
+  return values.find((value) => Boolean(value)) || FALLBACK_IMAGE;
+};
 const SPECS: [string, string][] = [
   ["Material", "Engineered Wood"],
   ["Finish", "Laminated / Powder Coated"],
@@ -86,12 +127,11 @@ const FAQS: [string, string][] = [
   ["What kind of warranty is provided?", "Warranty support is included. Our team will share the terms with you."],
   ["Can I see more shade options?", "Yes, use “View all Shades” to see the full range including RAL colours."],
 ];
-const WIDTHS = [800, 900, 1000, 1200];
-const HEIGHTS = [2000, 2100, 2200, 2400];
-
-
 /* ---------- Page ---------- */
 export default function ProductDetailsPage() {
+  const router = useRouter();
+  const [productData, setProductData] = useState<ProductDetailsApiResponse | null>(null);
+  const [loading, setLoading] = useState(true);
   const [img, setImg] = useState(0);
   const [design, setDesign] = useState(0);
   const [shade, setShade] = useState(0);
@@ -107,6 +147,96 @@ export default function ProductDetailsPage() {
   const closeShadesRef = useRef<HTMLButtonElement>(null);
   const modalTriggerRef = useRef<HTMLElement | null>(null);
   const modalOpen = shadesOpen || galleryOpen;
+
+  const designOptions = productData?.designs ?? [];
+  const activeDesign = designOptions[design] ?? designOptions[0];
+  const shadeOptions = activeDesign?.shades ?? [];
+  const activeShade = shadeOptions[shade] ?? shadeOptions[0];
+  const sizeOptions = activeShade?.sizes ?? [];
+  const galleryImages = activeShade?.gallery?.length
+    ? activeShade.gallery.map((item) => getImageSource(item.image_url, activeShade.primary_image_url, productData?.product.main_image_url, FALLBACK_IMAGE))
+    : [getImageSource(activeShade?.primary_image_url, productData?.product.main_image_url, activeDesign?.thumbnail_url, FALLBACK_IMAGE)];
+  const product = productData?.product ?? null;
+  const model = productData?.model ?? null;
+  const productName = model?.name || product?.name || "Product";
+  const productShortDescription = model?.short_description || product?.short_description || "Modern design. Timeless appeal.";
+  const productDescription = model?.description || product?.description || "Crafted for strength, security and long-lasting performance.";
+
+  const queryModelId = typeof router.query.modelId === "string" ? Number(router.query.modelId) : null;
+  const resolvedModelId = router.isReady ? (queryModelId ?? getStoredModelId()) : null;
+
+  useEffect(() => {
+    if (!router.isReady || !resolvedModelId) return;
+
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(STORAGE_KEY, String(resolvedModelId));
+    }
+
+    const fetchProductDetails = async () => {
+      setLoading(true);
+
+      try {
+        const response = await api.get<ProductDetailsApiResponse>(`product-details/${resolvedModelId}`);
+        setProductData(response.data);
+
+        const nextDesignId = response.data.defaults?.design_id ?? response.data.designs[0]?.id ?? null;
+        const nextDesignIndex = nextDesignId === null ? 0 : response.data.designs.findIndex((item) => item.id === nextDesignId);
+        setDesign(nextDesignIndex >= 0 ? nextDesignIndex : 0);
+
+        const selectedDesign = response.data.designs[nextDesignIndex >= 0 ? nextDesignIndex : 0] ?? response.data.designs[0];
+        const nextShadeId = response.data.defaults?.shade_id ?? selectedDesign?.shades[0]?.id ?? null;
+        const nextShadeIndex = nextShadeId === null || !selectedDesign ? 0 : selectedDesign.shades.findIndex((item) => item.id === nextShadeId);
+        setShade(nextShadeIndex >= 0 ? nextShadeIndex : 0);
+
+        const selectedShade = selectedDesign?.shades[nextShadeIndex >= 0 ? nextShadeIndex : 0] ?? selectedDesign?.shades[0];
+        const defaultSize = response.data.defaults?.size_id
+          ? selectedShade?.sizes.find((item) => item.id === response.data.defaults.size_id) ?? selectedShade?.sizes[0]
+          : selectedShade?.sizes[0];
+
+        if (defaultSize) {
+          setW(defaultSize.width_mm);
+          setH(defaultSize.height_mm);
+        }
+      } catch {
+        setProductData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void fetchProductDetails();
+  }, [router.isReady, resolvedModelId]);
+
+  const selectDesign = (index: number) => {
+    setDesign(index);
+    setShade(0);
+    const nextDesign = designOptions[index];
+    const nextShade = nextDesign?.shades[0];
+    const nextSize = nextShade?.sizes[0];
+    if (nextSize) {
+      setW(nextSize.width_mm);
+      setH(nextSize.height_mm);
+    }
+    setImg(0);
+  };
+
+  const moveDesign = (direction: -1 | 1) => {
+    if (!designOptions.length) return;
+    selectDesign((design + direction + designOptions.length) % designOptions.length);
+  };
+
+  const selectShade = (index: number) => {
+    setShade(index);
+    const nextSize = shadeOptions[index]?.sizes[0];
+    if (nextSize) {
+      setW(nextSize.width_mm);
+      setH(nextSize.height_mm);
+    }
+    setImg(0);
+  };
+
+  const GALLERY = galleryImages.length ? galleryImages : [FALLBACK_IMAGE];
+  const safeImg = GALLERY.length ? img % GALLERY.length : 0;
 
   useEffect(() => {
     if (!modalOpen) {
@@ -150,17 +280,7 @@ export default function ProductDetailsPage() {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [galleryOpen, modalOpen]);
-
-  const selectDesign = (index: number) => {
-    setDesign(index);
-    const matchingImage = GALLERY.findIndex((src) => src === DESIGNS[index].img);
-    if (matchingImage >= 0) setImg(matchingImage);
-  };
-
-  const moveDesign = (direction: -1 | 1) => {
-    selectDesign((design + direction + DESIGNS.length) % DESIGNS.length);
-  };
+  }, [GALLERY.length, galleryOpen, modalOpen]);
 
   const openGallery = () => {
     const activeElement = document.activeElement;
@@ -202,19 +322,73 @@ export default function ProductDetailsPage() {
     setZoom(1);
   };
 
+  if (!router.isReady || loading) {
+    return (
+      <>
+        <Header />
+        <main className="pdp" aria-busy="true">
+          <div className="pdp-wrap">
+            <div className="pdp-loading">Loading product details...</div>
+          </div>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  if (router.isReady && !resolvedModelId) {
+    return (
+      <>
+        <Header />
+        <main className="pdp">
+          <div className="pdp-wrap" style={{ padding: "80px 20px", textAlign: "center" }}>
+            <h1>Product not found</h1>
+            <p>The selected model details are unavailable.</p>
+            <Link href="/" style={{ color: "#2d68c4", fontWeight: 700 }}>
+              Go back home
+            </Link>
+          </div>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  if (!productData || !product || !model) {
+    return (
+      <>
+        <Header />
+        <main className="pdp">
+          <div className="pdp-wrap" style={{ padding: "80px 20px", textAlign: "center" }}>
+            <h1>Product not found</h1>
+            <p>The selected model details are unavailable.</p>
+            <Link href="/" style={{ color: "#2d68c4", fontWeight: 700 }}>
+              Go back home
+            </Link>
+          </div>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
   return (
     <>
       <Head>
-        <title>Coral | Tata Pravesh</title>
-        <meta name="description" content="Coral premium engineered door from Tata Pravesh. Explore the modern design, finishes, sizes and pricing." />
+        <title>{`${productName} | Tata Pravesh`}</title>
+        <meta name="description" content={productDescription || `${productName} premium engineered door from Tata Pravesh.`} />
       </Head>
 
       <Header />
       <main className="pdp">
         <div className="pdp-wrap">
         <nav className="pdp-crumbs" aria-label="Breadcrumb">
-          {["Home", "Doors", "Premium Doors", "Engineered Doors", "Coral"].map((c, i, a) => (
-            <span key={c} style={{ display: "contents" }}>
+          {[
+            "Home",
+            product?.category || "Products",
+            model?.name || productName,
+          ].map((c, i, a) => (
+            <span key={`${c}-${i}`} style={{ display: "contents" }}>
               <a href="#">{c}</a>
               {i < a.length - 1 && <FaChevronRight />}
             </span>
@@ -222,11 +396,10 @@ export default function ProductDetailsPage() {
         </nav>
 
         <section className="pdp-top">
-          {/* Gallery */}
           <div className="pdp-gallery">
             <div className="pdp-thumbs">
               {GALLERY.map((src, i) => (
-                <button key={`${src}-${i}`} className={`pdp-thumb ${img === i ? "is-active" : ""}`} onMouseEnter={() => setImg(i)} onFocus={() => setImg(i)} onClick={() => setImg(i)} aria-label={`View image ${i + 1}`} aria-pressed={img === i}>
+                <button key={`${src}-${i}`} className={`pdp-thumb ${safeImg === i ? "is-active" : ""}`} onMouseEnter={() => setImg(i)} onFocus={() => setImg(i)} onClick={() => setImg(i)} aria-label={`View image ${i + 1}`} aria-pressed={safeImg === i}>
                   <Image src={src} alt="" fill sizes="70px" />
                   {i === GALLERY.length - 1 && (
                     <span className="play">
@@ -244,26 +417,25 @@ export default function ProductDetailsPage() {
               }
               openGallery();
             }} onTouchStart={handleGalleryTouchStart} onTouchEnd={handleGalleryTouchEnd} aria-label="Open product image gallery">
-              <Image src={GALLERY[img]} alt="Coral engineered door" fill sizes="(max-width: 1023px) 100vw, 60vw" priority />
+              <Image src={GALLERY[safeImg] || FALLBACK_IMAGE} alt={`${productName} engineered door`} fill sizes="(max-width: 1023px) 100vw, 60vw" priority />
               <span className="pdp-main-hint"><FaPlus /> View gallery</span>
             </button>
             <div className="pdp-mobile-gallery-controls">
-              <div className="pdp-mobile-gallery-dots" aria-label={`Image ${img + 1} of ${GALLERY.length}`}>
+              <div className="pdp-mobile-gallery-dots" aria-label={`Image ${safeImg + 1} of ${GALLERY.length}`}>
                 {GALLERY.map((src, i) => (
-                  <button key={`${src}-${i}`} type="button" className={img === i ? "is-active" : ""} onClick={() => setImg(i)} aria-label={`View image ${i + 1}`} aria-pressed={img === i} />
+                  <button key={`${src}-${i}`} type="button" className={safeImg === i ? "is-active" : ""} onClick={() => setImg(i)} aria-label={`View image ${i + 1}`} aria-pressed={safeImg === i} />
                 ))}
               </div>
               <div className="pdp-mobile-actions">
-                <button className="pdp-mobile-action" type="button" aria-label="Save Coral"><FaHeart /></button>
-                <button className="pdp-mobile-action" type="button" aria-label="Share Coral"><FaShareNodes /></button>
+                <button className="pdp-mobile-action" type="button" aria-label={`Save ${productName}`}><FaHeart /></button>
+                <button className="pdp-mobile-action" type="button" aria-label={`Share ${productName}`}><FaShareNodes /></button>
               </div>
             </div>
           </div>
 
-          {/* Info */}
           <div className="pdp-info">
             <div className="pdp-info-head">
-              <span className="pdp-badge">Premium</span>
+              <span className="pdp-badge">{model.is_premium ? "Premium" : "Popular"}</span>
               <div className="pdp-actions">
                 <button className="pdp-action"><FaHeart /> Save</button>
                 <button className="pdp-action"><FaShareNodes /> Share</button>
@@ -282,11 +454,9 @@ export default function ProductDetailsPage() {
               </div>
             </div>
 
-            <h1 className="pdp-title">Coral</h1>
-            <p className="pdp-sub">Modern design. Timeless appeal.</p>
-            <p className="pdp-desc">
-              The Coral design brings a contemporary look to your space with its elegant vertical lines. Crafted for strength, security and long-lasting performance, it’s a perfect blend of modern lifestyle and refined beauty.
-            </p>
+            <h1 className="pdp-title">{productName}</h1>
+            <p className="pdp-sub">{productShortDescription}</p>
+            <p className="pdp-desc">{productDescription}</p>
             <div className="pdp-rating">
               <span className="pdp-stars">{[0, 1, 2, 3, 4].map((i) => <FaStar key={i} />)}</span>
               <b>4.8</b> (320+ reviews)
@@ -295,7 +465,7 @@ export default function ProductDetailsPage() {
             <div className="pdp-price-row">
               <div>
                 <div className="pdp-price-label">Starting Price*</div>
-                <div className="pdp-price">₹ XX,XXX</div>
+                <div className="pdp-price">{formatPrice(model?.starting_price)}</div>
               </div>
               <div className="pdp-price-note">As per your location, we require please book a demo for the exact pricing.</div>
             </div>
@@ -305,15 +475,14 @@ export default function ProductDetailsPage() {
               <button className="pdp-btn pdp-btn--ghost">Enquire Now</button>
             </div>
 
-            {/* 1 Design */}
             <div className="pdp-block pdp-design-block">
               <div className="pdp-step"><div className="pdp-step-title"><span className="pdp-step-num">1</span>Select Design</div></div>
               <div className="pdp-designs">
                 <button className="pdp-arrow" type="button" onClick={() => moveDesign(-1)} aria-label="Previous design"><FaArrowLeft /></button>
                 <div className="pdp-design-list">
-                  {DESIGNS.map((d, i) => (
-                    <button key={d.name} type="button" className={`pdp-design ${design === i ? "is-active" : ""}`} onClick={() => selectDesign(i)} aria-pressed={design === i}>
-                      <span className="box"><Image src={d.img} alt="" fill sizes="80px" /></span>
+                  {designOptions.map((d, i) => (
+                    <button key={d.id} type="button" className={`pdp-design ${design === i ? "is-active" : ""}`} onClick={() => selectDesign(i)} aria-pressed={design === i}>
+                      <span className="box"><Image src={getImageSource(d.thumbnail_url, product.main_image_url, FALLBACK_IMAGE)} alt="" fill sizes="80px" /></span>
                       {d.name}
                     </button>
                   ))}
@@ -322,40 +491,64 @@ export default function ProductDetailsPage() {
               </div>
             </div>
 
-            {/* 2 Shade */}
             <div className="pdp-block pdp-shade-block">
               <div className="pdp-step">
                 <div className="pdp-step-title"><span className="pdp-step-num">2</span>Select Shade</div>
                 <button className="pdp-link" type="button" onClick={openShades}>View all Shades <FaArrowRight /></button>
               </div>
               <div className="pdp-shades">
-                {SHADES.map((s, i) => (
-                  <button key={s.name} type="button" className={`pdp-shade ${shade === i ? "is-active" : ""}`} onClick={() => setShade(i)} aria-pressed={shade === i}>
-                    <i style={{ background: s.bg }} />
+                {shadeOptions.map((s, i) => (
+                  <button key={s.id} type="button" className={`pdp-shade ${shade === i ? "is-active" : ""}`} onClick={() => selectShade(i)} aria-pressed={shade === i}>
+                    <i style={{ background: s.color || `url(${s.swatch_url || ""})`, backgroundSize: "cover" }} />
                     {s.name}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* 3 Size */}
             <div className="pdp-size-block">
               <div className="pdp-step">
                 <div className="pdp-step-title"><span className="pdp-step-num">3</span>Select Size</div>
-                <button className="pdp-link"><FaRulerCombined /> Size Guide</button>
+                <button className="pdp-link" type="button"><FaRulerCombined /> Size Guide</button>
               </div>
               <div className="pdp-size-grid">
                 <div className="pdp-field">
                   <label htmlFor="w">Width (mm)</label>
                   <div className="pdp-select">
-                    <select id="w" value={w} onChange={(e: ChangeEvent<HTMLSelectElement>) => setW(+e.target.value)}>{WIDTHS.map((v) => <option key={v}>{v}</option>)}</select>
+                    <select id="w" value={w} onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                      const nextWidth = Number(e.target.value);
+                      setW(nextWidth);
+
+                      const exactSize = sizeOptions.find((item) => item.width_mm === nextWidth && item.height_mm === h);
+                      if (exactSize) {
+                        setW(exactSize.width_mm);
+                        setH(exactSize.height_mm);
+                      }
+                    }}>
+                      {sizeOptions.map((size) => (
+                        <option key={size.id} value={size.width_mm}>{size.width_mm}</option>
+                      ))}
+                    </select>
                     <FaChevronDown />
                   </div>
                 </div>
                 <div className="pdp-field">
                   <label htmlFor="h">Height (mm)</label>
                   <div className="pdp-select">
-                    <select id="h" value={h} onChange={(e: ChangeEvent<HTMLSelectElement>) => setH(+e.target.value)}>{HEIGHTS.map((v) => <option key={v}>{v}</option>)}</select>
+                    <select id="h" value={h} onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                      const nextHeight = Number(e.target.value);
+                      setH(nextHeight);
+
+                      const exactSize = sizeOptions.find((item) => item.width_mm === w && item.height_mm === nextHeight);
+                      if (exactSize) {
+                        setW(exactSize.width_mm);
+                        setH(exactSize.height_mm);
+                      }
+                    }}>
+                      {sizeOptions.map((size) => (
+                        <option key={size.id} value={size.height_mm}>{size.height_mm}</option>
+                      ))}
+                    </select>
                     <FaChevronDown />
                   </div>
                 </div>
@@ -366,7 +559,6 @@ export default function ProductDetailsPage() {
         </section>
       </div>
 
-      {/* Lifestyle banner */}
       <section className="pdp-banner">
         <Image src="/images/product-uses-background.jpg" alt="" fill sizes="100vw" />
         <div className="pdp-banner-copy">
@@ -375,7 +567,6 @@ export default function ProductDetailsPage() {
         </div>
       </section>
 
-      {/* Details */}
       <div className="pdp-wrap">
         <section className="pdp-details">
           <div className="pdp-col">
@@ -403,7 +594,6 @@ export default function ProductDetailsPage() {
         </section>
       </div>
 
-      {/* FAQ */}
       <section className="pdp-faq">
         <div className="pdp-faq-in">
           <h2>Frequently<br />Asked Questions</h2>
@@ -436,9 +626,9 @@ export default function ProductDetailsPage() {
             </div>
             <p className="pdp-modal-description">Choose a finish that feels right for your space.</p>
             <div className="pdp-shades-modal-grid">
-              {SHADES.map((s, i) => (
-                <button key={s.name} type="button" className={`pdp-shade-option ${shade === i ? "is-active" : ""}`} onClick={() => { setShade(i); setShadesOpen(false); }} aria-pressed={shade === i}>
-                  <i style={{ background: s.bg }} />
+              {shadeOptions.map((s, i) => (
+                <button key={s.id} type="button" className={`pdp-shade-option ${shade === i ? "is-active" : ""}`} onClick={() => { setShade(i); setShadesOpen(false); }} aria-pressed={shade === i}>
+                  <i style={{ background: s.color || `url(${s.swatch_url || ""})`, backgroundSize: "cover" }} />
                   <span>{s.name}</span>
                   {shade === i && <FaCheck aria-hidden="true" />}
                 </button>
@@ -452,7 +642,7 @@ export default function ProductDetailsPage() {
         <div className="pdp-modal-backdrop pdp-gallery-backdrop" onClick={() => setGalleryOpen(false)}>
           <section className="pdp-gallery-modal" role="dialog" aria-modal="true" aria-labelledby="pdp-gallery-title" onClick={(event) => event.stopPropagation()}>
             <div className="pdp-gallery-modal-header">
-              <h2 id="pdp-gallery-title">Coral product gallery</h2>
+              <h2 id="pdp-gallery-title">{productName} product gallery</h2>
               <div className="pdp-gallery-tools">
                 <button type="button" onClick={() => setZoom((current) => Math.max(1, current - 0.25))} disabled={zoom <= 1} aria-label="Zoom out"><FaMinus /></button>
                 <span>{Math.round(zoom * 100)}%</span>
@@ -463,13 +653,13 @@ export default function ProductDetailsPage() {
             <div className="pdp-gallery-viewer" onTouchStart={handleGalleryTouchStart} onTouchEnd={handleGalleryTouchEnd}>
               <button className="pdp-gallery-nav" type="button" onClick={() => { setImg((current) => (current - 1 + GALLERY.length) % GALLERY.length); setZoom(1); }} aria-label="Previous image"><FaArrowLeft /></button>
               <div className="pdp-gallery-zoom-area" onWheel={handleGalleryWheel}>
-                <Image src={GALLERY[img]} alt={`Coral product image ${img + 1}`} fill sizes="(max-width: 700px) 70vw, 900px" style={{ transform: `scale(${zoom})` }} />
+                <Image src={GALLERY[safeImg] || FALLBACK_IMAGE} alt={`${productName} product image ${safeImg + 1}`} fill sizes="(max-width: 700px) 70vw, 900px" style={{ transform: `scale(${zoom})` }} />
               </div>
               <button className="pdp-gallery-nav" type="button" onClick={() => { setImg((current) => (current + 1) % GALLERY.length); setZoom(1); }} aria-label="Next image"><FaArrowRight /></button>
             </div>
             <div className="pdp-gallery-modal-thumbs" aria-label="Choose a gallery image">
               {GALLERY.map((src, i) => (
-                <button key={`${src}-${i}`} type="button" className={`pdp-gallery-modal-thumb ${img === i ? "is-active" : ""}`} onClick={() => { setImg(i); setZoom(1); }} aria-label={`View image ${i + 1}`} aria-pressed={img === i}>
+                <button key={`${src}-${i}`} type="button" className={`pdp-gallery-modal-thumb ${safeImg === i ? "is-active" : ""}`} onClick={() => { setImg(i); setZoom(1); }} aria-label={`View image ${i + 1}`} aria-pressed={safeImg === i}>
                   <Image src={src} alt="" fill sizes="62px" />
                 </button>
               ))}
