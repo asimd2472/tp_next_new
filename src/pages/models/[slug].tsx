@@ -1,10 +1,11 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import api from "@/config/api.config";
-import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export type ModelListItem = {
   id: number;
@@ -25,50 +26,78 @@ export type ModelListResponse = {
   models: ModelListItem[];
 };
 
-export const getStaticPaths: GetStaticPaths = async () => ({
-  paths: [
-    {
-      params: {
-        slug: "embossed-wood-finish-doors",
-      },
-    },
-  ],
-  fallback: false,
-});
+export default function ModelListingPage() {
+  const router = useRouter();
+  const slug = typeof router.query.slug === "string" ? router.query.slug : "";
+  const [product, setProduct] = useState<ModelListResponse["product"] | null>(null);
+  const [models, setModels] = useState<ModelListItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export const getStaticProps: GetStaticProps<{
-  product: ModelListResponse["product"];
-  models: ModelListItem[];
-}> = async ({ params }) => {
-  const slug = typeof params?.slug === "string" ? params.slug : "";
+  useEffect(() => {
+    if (!router.isReady || !slug) {
+      if (router.isReady && !slug) {
+        setLoading(false);
+      }
+      return;
+    }
 
-  if (!slug) {
-    return { notFound: true };
-  }
+    const fetchModels = async () => {
+      setLoading(true);
 
-  try {
-    const response = await api.get<ModelListResponse>(`products/${slug}/models`);
+      try {
+        const response = await api.get<ModelListResponse>(`products/${slug}/models`);
 
+        if (!response.data?.product || !Array.isArray(response.data.models)) {
+          setProduct(null);
+          setModels([]);
+          return;
+        }
 
-    // if (!response.data?.success || !response.data.product || !Array.isArray(response.data.models)) {
-    //   return { notFound: true };
-    // }
-
-    return {
-      props: {
-        product: response.data.product,
-        models: response.data.models,
-      },
+        setProduct(response.data.product);
+        setModels(response.data.models);
+      } catch (error) {
+        setProduct(null);
+        setModels([]);
+      } finally {
+        setLoading(false);
+      }
     };
-  } catch (error) {
-    return { notFound: true };
-  }
-};
 
-export default function ModelListingPage({
-  product,
-  models,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+    fetchModels();
+  }, [router.isReady, slug]);
+
+  if (!router.isReady || loading) {
+    return (
+      <>
+        <Header />
+        <main className="model-listing">
+          <div className="model-listing__container" style={{ padding: "60px 20px", textAlign: "center" }}>
+            <p>Loading models...</p>
+          </div>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  if (!product) {
+    return (
+      <>
+        <Header />
+        <main className="model-listing">
+          <div className="model-listing__container" style={{ padding: "60px 20px", textAlign: "center" }}>
+            <h1>Model not found</h1>
+            <p>The requested collection could not be found.</p>
+            <Link href="/" style={{ color: "#2d68c4", fontWeight: 700 }}>
+              Go back home
+            </Link>
+          </div>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
   const formattedProductName = product.name || "Premium Model Collection";
   const heroDescription = `Explore premium ${formattedProductName.toLowerCase()} models crafted for modern homes and architectural spaces.`;
 
