@@ -70,10 +70,70 @@ export default function ModelListingPage() {
     return (
       <>
         <Header />
-        <main className="model-listing">
-          <div className="model-listing__container" style={{ padding: "60px 20px", textAlign: "center" }}>
-            <p>Loading models...</p>
-          </div>
+        <main className="model-listing model-listing--loading" aria-busy="true">
+          <section className="model-listing__hero">
+            <div className="model-listing__container">
+              <div className="model-listing__breadcrumbs model-listing__skeleton-group">
+                <span className="model-listing__skeleton-line short" />
+                <span className="model-listing__skeleton-line short" />
+                <span className="model-listing__skeleton-line medium" />
+              </div>
+
+              <div className="model-listing__hero-grid">
+                <div className="model-listing__hero-copy">
+                  <span className="model-listing__skeleton-line eyebrow" />
+                  <div className="model-listing__skeleton-line title" />
+                  <div className="model-listing__skeleton-line title short-title" />
+                  <div className="model-listing__skeleton-block paragraph" />
+                  <div className="model-listing__skeleton-block paragraph" />
+
+                  <div className="model-listing__quick-stats">
+                    {Array.from({ length: 3 }).map((_, index) => (
+                      <div key={index} className="model-listing__skeleton-stat">
+                        <span className="model-listing__skeleton-line stat-label" />
+                        <span className="model-listing__skeleton-line stat-value" />
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="model-listing__actions">
+                    <span className="model-listing__skeleton-button primary" />
+                    <span className="model-listing__skeleton-button secondary" />
+                  </div>
+                </div>
+
+                <div className="model-listing__hero-visual">
+                  <div className="model-listing__skeleton-visual" />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="model-listing__section">
+            <div className="model-listing__container">
+              <div className="model-listing__section-head">
+                <div>
+                  <span className="model-listing__skeleton-line section-kicker" />
+                  <div className="model-listing__skeleton-line section-title" />
+                </div>
+                <span className="model-listing__skeleton-line section-copy" />
+              </div>
+
+              <div className="model-listing__grid">
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <article key={index} className="model-listing__card model-listing__card--skeleton">
+                    <div className="model-listing__skeleton-card-media" />
+                    <div className="model-listing__card-body">
+                      <div className="model-listing__skeleton-line card-title" />
+                      <div className="model-listing__skeleton-line card-line" />
+                      <div className="model-listing__skeleton-line card-line short" />
+                      <div className="model-listing__skeleton-button card-button" />
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
         </main>
         <Footer />
       </>
