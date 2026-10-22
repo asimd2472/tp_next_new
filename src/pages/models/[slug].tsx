@@ -205,7 +205,7 @@ export default function ModelListingPage() {
 
             <div className="model-listing__hero-grid">
               <div className="model-listing__hero-copy">
-                <span className="model-listing__eyebrow">Premium Collection</span>
+                {/* <span className="model-listing__eyebrow">Premium Collection</span> */}
                 <h1>{formattedProductName}</h1>
                 <p>{heroDescription}</p>
 
