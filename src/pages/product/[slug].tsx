@@ -486,7 +486,9 @@ export default function ProductDetailsPage() {
             <div className="pdp-block pdp-design-block">
               <div className="pdp-step"><div className="pdp-step-title"><span className="pdp-step-num">1</span>Select Design</div></div>
               <div className="pdp-designs">
-                <button className="pdp-arrow" type="button" onClick={() => moveDesign(-1)} aria-label="Previous design"><FaArrowLeft /></button>
+                {designOptions.length >= 4 && (
+                  <button className="pdp-arrow" type="button" onClick={() => moveDesign(-1)} aria-label="Previous design"><FaArrowLeft /></button>
+                )}
                 <div ref={designListRef} className="pdp-design-list">
                   {designOptions.map((d, i) => (
                     <button key={d.id} type="button" className={`pdp-design ${design === i ? "is-active" : ""}`} onClick={() => selectDesign(i)} aria-pressed={design === i}>
@@ -495,7 +497,9 @@ export default function ProductDetailsPage() {
                     </button>
                   ))}
                 </div>
-                <button className="pdp-arrow" type="button" onClick={() => moveDesign(1)} aria-label="Next design"><FaArrowRight /></button>
+                {designOptions.length >= 4 && (
+                  <button className="pdp-arrow" type="button" onClick={() => moveDesign(1)} aria-label="Next design"><FaArrowRight /></button>
+                )}
               </div>
             </div>
 
