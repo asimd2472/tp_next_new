@@ -334,9 +334,59 @@ export default function ProductDetailsPage() {
     return (
       <>
         <Header />
-        <main className="pdp" aria-busy="true">
-          <div className="pdp-wrap">
-            <div className="pdp-loading">Loading product details...</div>
+        <main className="pdp pdp--loading" aria-busy="true" aria-label="Loading product details">
+          <div className="pdp-wrap pdp-skeleton">
+            <div className="pdp-skeleton__breadcrumbs" aria-hidden="true">
+              <span className="pdp-skeleton__shape pdp-skeleton__crumb" />
+              <span className="pdp-skeleton__shape pdp-skeleton__crumb" />
+              <span className="pdp-skeleton__shape pdp-skeleton__crumb pdp-skeleton__crumb--long" />
+            </div>
+
+            <section className="pdp-skeleton__top" aria-hidden="true">
+              <div className="pdp-skeleton__gallery">
+                <div className="pdp-skeleton__thumbs">
+                  {Array.from({ length: 4 }).map((_, index) => (
+                    <span key={index} className="pdp-skeleton__shape pdp-skeleton__thumb" />
+                  ))}
+                </div>
+                <div className="pdp-skeleton__shape pdp-skeleton__main-image" />
+              </div>
+
+              <div className="pdp-skeleton__info">
+                <span className="pdp-skeleton__shape pdp-skeleton__badge" />
+                <span className="pdp-skeleton__shape pdp-skeleton__title" />
+                <span className="pdp-skeleton__shape pdp-skeleton__line" />
+                <span className="pdp-skeleton__shape pdp-skeleton__line pdp-skeleton__line--short" />
+
+                <div className="pdp-skeleton__price">
+                  <span className="pdp-skeleton__shape pdp-skeleton__price-value" />
+                  <span className="pdp-skeleton__shape pdp-skeleton__price-note" />
+                </div>
+
+                <div className="pdp-skeleton__actions">
+                  <span className="pdp-skeleton__shape pdp-skeleton__action" />
+                  <span className="pdp-skeleton__shape pdp-skeleton__action" />
+                </div>
+
+                <div className="pdp-skeleton__selector">
+                  <span className="pdp-skeleton__shape pdp-skeleton__section-title" />
+                  <div className="pdp-skeleton__options">
+                    {Array.from({ length: 4 }).map((_, index) => (
+                      <span key={index} className="pdp-skeleton__shape pdp-skeleton__option" />
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pdp-skeleton__selector">
+                  <span className="pdp-skeleton__shape pdp-skeleton__section-title" />
+                  <div className="pdp-skeleton__options">
+                    {Array.from({ length: 3 }).map((_, index) => (
+                      <span key={index} className="pdp-skeleton__shape pdp-skeleton__swatch" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
           </div>
         </main>
         <Footer />
