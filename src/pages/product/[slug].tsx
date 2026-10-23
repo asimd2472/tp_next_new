@@ -24,6 +24,7 @@ import {
   FaRulerCombined,
   FaShareNodes,
   FaStar,
+  FaStarHalfStroke,
   FaTruck,
   FaWrench,
   FaXmark,
@@ -39,6 +40,10 @@ type ProductDetailsApiResponse = {
     short_description: string | null;
     description: string | null;
     main_image_url: string | null;
+    faqs?: Array<{ question: string; answer: string }> | null;
+    specifications?: Array<{ question: string; answer: string }> | null;
+    rating?: number | null;
+    review?: string | number | null;
   };
   model: {
     id: number;
@@ -102,15 +107,20 @@ const getImageSource = (...values: Array<string | null | undefined>) => {
   return values.find((value) => Boolean(value)) || FALLBACK_IMAGE;
 };
 const isVideoSource = (source: string) => /\.(mp4|webm|ogg|mov|m4v)(?:$|[?#])/i.test(source);
-const SPECS: [string, string][] = [
-  ["Material", "Engineered Wood"],
-  ["Finish", "Laminated / Powder Coated"],
-  ["Door Thickness", "65 mm (Standard)"],
-  ["Frame Material", "Galvanized Steel"],
-  ["Available Sizes", "Standard & Custom"],
-  ["Available Shades", "Wide range of colours including wooden finish and RAL shades"],
-  ["Applications", "Residential, Commercial"],
-];
+
+function RatingStars({ rating }: { rating: number }) {
+  return (
+    <span className="pdp-stars" aria-label={`Rated ${rating} out of 5`}>
+      {Array.from({ length: 5 }, (_, index) => {
+        const starRating = rating - index;
+        if (starRating >= 1) return <FaStar key={index} aria-hidden="true" />;
+        if (starRating >= 0.5) return <FaStarHalfStroke key={index} aria-hidden="true" />;
+        return <FaStar key={index} aria-hidden="true" style={{ color: "#d5d9e0" }} />;
+      })}
+    </span>
+  );
+}
+
 const DELIVERY: ["truck" | "wrench" | "clock" | "headset", string, string][] = [
   ["truck", "Pan India Delivery", "We deliver across India through trusted network."],
   ["wrench", "Expert Installation", "Our trained professionals ensure a seamless installation."],
@@ -123,14 +133,6 @@ const INCLUDED = [
   "Premium Hardware & Accessories",
   "Professional Installation",
   "Warranty Support",
-];
-const FAQS: [string, string][] = [
-  ["What is the starting price of the Coral door?", "Pricing depends on your location. Please book a demo for the exact price."],
-  ["Can I get custom sizes?", "Yes, custom sizes are available. Contact our team for assistance."],
-  ["Is the door suitable for main entrance?", "Yes, it is crafted for strength and security, suitable for main entrances."],
-  ["How long does delivery and installation take?", "Timelines vary by location and size; our team will confirm at booking."],
-  ["What kind of warranty is provided?", "Warranty support is included. Our team will share the terms with you."],
-  ["Can I see more shade options?", "Yes, use “View all Shades” to see the full range including RAL colours."],
 ];
 /* ---------- Page ---------- */
 export default function ProductDetailsPage() {
@@ -164,6 +166,14 @@ export default function ProductDetailsPage() {
     .filter((source): source is string => Boolean(source)) ?? [];
   const product = productData?.product ?? null;
   const model = productData?.model ?? null;
+  const specifications = product?.specifications ?? [];
+  const faqs = product?.faqs ?? [];
+  const rating = typeof product?.rating === "number" && Number.isFinite(product.rating)
+    ? Math.min(5, Math.max(0, product.rating))
+    : null;
+  const reviewCount = product?.review === null || product?.review === undefined || String(product.review).trim() === ""
+    ? null
+    : String(product.review);
   const productName = model?.name || product?.name || "Product";
   const productShortDescription = model?.short_description || product?.short_description || "Modern design. Timeless appeal.";
   const productDescription = model?.description || product?.description || "Crafted for strength, security and long-lasting performance.";
@@ -517,20 +527,25 @@ export default function ProductDetailsPage() {
                 <b>Tata Pravesh</b>
                 <Link href="/">Visit the store</Link>
               </div>
-              <div className="pdp-mobile-rating" aria-label="Rated 4.8 out of 5, from over 320 reviews">
-                <b>4.8</b>
-                <span className="pdp-stars">{[0, 1, 2, 3, 4].map((i) => <FaStar key={i} />)}</span>
-                <span>(320+)</span>
-              </div>
+              {rating !== null && (
+                <div className="pdp-mobile-rating">
+                  <b>{rating}</b>
+                  <RatingStars rating={rating} />
+                  {reviewCount && <span>({reviewCount})</span>}
+                </div>
+              )}
             </div>
 
             <h1 className="pdp-title">{productName}</h1>
             <p className="pdp-sub">{productShortDescription}</p>
             <p className="pdp-desc">{productDescription}</p>
-            <div className="pdp-rating">
-              <span className="pdp-stars">{[0, 1, 2, 3, 4].map((i) => <FaStar key={i} />)}</span>
-              <b>4.8</b> (320+ reviews)
-            </div>
+            {rating !== null && (
+              <div className="pdp-rating">
+                <RatingStars rating={rating} />
+                <b>{rating}</b>
+                {reviewCount && <span>({reviewCount} reviews)</span>}
+              </div>
+            )}
 
             <div className="pdp-price-row">
               <div>
@@ -643,12 +658,16 @@ export default function ProductDetailsPage() {
 
       <div className="pdp-wrap">
         <section className="pdp-details">
-          <div className="pdp-col">
-            <h3><FaClipboardList /> Product Specifications</h3>
-            <table className="pdp-spec"><tbody>
-              {SPECS.map(([k, v]) => <tr key={k}><td>{k}</td><td>{v}</td></tr>)}
-            </tbody></table>
-          </div>
+          {specifications.length > 0 && (
+            <div className="pdp-col">
+              <h3><FaClipboardList /> Product Specifications</h3>
+              <table className="pdp-spec"><tbody>
+                {specifications.map(({ question, answer }, index) => (
+                  <tr key={`${question}-${index}`}><td>{question}</td><td>{answer}</td></tr>
+                ))}
+              </tbody></table>
+            </div>
+          )}
           <div className="pdp-col">
             <h3><FaTruck /> Delivery &amp; Installation</h3>
             <ul className="pdp-deliv">
@@ -668,21 +687,23 @@ export default function ProductDetailsPage() {
         </section>
       </div>
 
-      <section className="pdp-faq">
-        <div className="pdp-faq-in">
-          <h2>Frequently<br />Asked Questions</h2>
-          <div className="pdp-faq-list">
-            {FAQS.map(([q, a], i) => (
-              <div key={q}>
-                <button className="pdp-q" aria-expanded={open === i} onClick={() => setOpen(open === i ? null : i)}>
-                  {q} <FaPlus />
-                </button>
-                {open === i && <p className="pdp-a">{a}</p>}
-              </div>
-            ))}
+      {faqs.length > 0 && (
+        <section className="pdp-faq">
+          <div className="pdp-faq-in">
+            <h2>Frequently<br />Asked Questions</h2>
+            <div className="pdp-faq-list">
+              {faqs.map(({ question, answer }, i) => (
+                <div key={`${question}-${i}`}>
+                  <button className="pdp-q" type="button" aria-expanded={open === i} onClick={() => setOpen(open === i ? null : i)}>
+                    {question} <FaPlus />
+                  </button>
+                  {open === i && <p className="pdp-a">{answer}</p>}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       </main>
 
