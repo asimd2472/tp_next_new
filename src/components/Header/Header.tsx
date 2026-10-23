@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FaDownload, FaMapMarkerAlt, FaCalendarCheck, FaEnvelope, FaPhoneAlt, FaUser, FaShoppingCart, FaArrowRight } from "react-icons/fa";
+import { useCart } from "@/context/CartContext";
 
 type MenuCategory = {
   name: string;
@@ -70,6 +71,7 @@ const utilityLinks = [
 
 export default function Header() {
   const { pathname } = useRouter();
+  const { itemCount } = useCart();
   const isHomePage = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -145,9 +147,9 @@ export default function Header() {
             <Link href="#account" aria-label="Account" className="header-icon-button header-icon-button--user">
               <FaUser aria-hidden="true" />
             </Link>
-            <Link href="/checkout" aria-label="Cart" className="header-icon-button header-icon-button--cart">
+            <Link href="/checkout" aria-label={`Cart, ${itemCount} ${itemCount === 1 ? "item" : "items"}`} className="header-icon-button header-icon-button--cart">
               <FaShoppingCart aria-hidden="true" />
-              <span className="cart-count">3</span>
+              {itemCount > 0 && <span className="cart-count">{itemCount > 99 ? "99+" : itemCount}</span>}
             </Link>
             <button
               type="button"

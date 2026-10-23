@@ -97,6 +97,35 @@
   padding-bottom: 32px;
 }
 
+.checkout-page__empty {
+  display: flex;
+  min-height: 360px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 32px 20px;
+  text-align: center;
+}
+
+.checkout-page__empty h1 {
+  margin: 0;
+  color: var(--checkout-primary);
+  font-size: clamp(24px, 5vw, 32px);
+}
+
+.checkout-page__empty p {
+  margin: 0 0 8px;
+  color: var(--checkout-muted);
+}
+
+.checkout-page__empty .continue-browsing {
+  flex: 0 1 auto;
+  min-width: 240px;
+  color: #fff;
+  background: linear-gradient(90deg, #236bb3 0%, #79aa32 100%);
+}
+
 .checkout-page__form-column {
   display: flex;
   min-width: 0;
@@ -157,7 +186,7 @@
   justify-content: center;
   overflow: hidden;
   border-radius: 10px;
-  background: #e3eefa;
+  /* background: #e3eefa; */
 }
 
 .checkout-page__image img {
@@ -247,6 +276,11 @@
   background: #cfe0f5;
 }
 
+.checkout-page__quantity-control button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .checkout-page__quantity-control button:focus-visible {
   outline: 3px solid var(--checkout-blue);
   outline-offset: -3px;
@@ -257,6 +291,41 @@
   font-size: 17px;
   font-weight: 700;
   text-align: center;
+}
+
+.checkout-page__remove {
+  display: inline-grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: #ffe4e2;
+  color: #cf1209;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.checkout-page__remove:hover {
+  background: #a12a24;
+  color: #fff;
+}
+
+.checkout-page__remove svg {
+  width: 15px;
+  height: 15px;
+}
+
+.checkout-page__remove:focus-visible {
+  outline: 2px solid var(--checkout-blue);
+  outline-offset: 3px;
+}
+
+.checkout-page__remove:active {
+  background: #761c18;
+  color: #fff;
 }
 
 .checkout-page__fields {
@@ -572,7 +641,7 @@
 
   .checkout-page__image {
     width: 96px;
-    height: 128px;
+    /* height: 128px; */
   }
 
   .checkout-page__button {

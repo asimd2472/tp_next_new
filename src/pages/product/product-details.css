@@ -428,6 +428,14 @@
   margin-bottom: 26px;
 }
 
+.pdp-cart-feedback {
+  min-height: 0;
+  margin: -18px 0 18px;
+  color: #18864b;
+  font-size: 12px;
+  font-weight: 600;
+}
+
 .pdp-btn {
   height: 38px;
   border-radius: 4px;
@@ -1739,6 +1747,11 @@
     order: 8;
     grid-template-columns: 1fr;
     margin-bottom: 22px;
+  }
+
+  .pdp-cart-feedback {
+    order: 8;
+    margin: -16px 0 16px;
   }
 
   .pdp-design-block {

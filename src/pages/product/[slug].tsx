@@ -1,5 +1,6 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { useCart } from "@/context/CartContext";
 import api from "@/config/api.config";
 import Head from "next/head";
 import Image from "next/image";
@@ -288,6 +289,7 @@ const INCLUDED = [
 /* ---------- Page ---------- */
 export default function ProductDetailsPage() {
   const router = useRouter();
+  const { addItem } = useCart();
   const [productData, setProductData] = useState<ProductDetailsApiResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [img, setImg] = useState(0);
@@ -296,6 +298,7 @@ export default function ProductDetailsPage() {
   const [w, setW] = useState(900);
   const [h, setH] = useState(2100);
   const [open, setOpen] = useState<number | null>(null);
+  const [cartFeedback, setCartFeedback] = useState("");
   const [shadesOpen, setShadesOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [zoom, setZoom] = useState(1);
@@ -408,6 +411,26 @@ export default function ProductDetailsPage() {
       setH(nextSize.height_mm);
     }
     setImg(0);
+  };
+
+  const addProductToCart = () => {
+    if (!product || !model) return;
+
+    const selectedSize = sizeOptions.find((item) => item.width_mm === w && item.height_mm === h);
+    addItem({
+      id: `${product.slug}-${model.id}-${activeDesign?.id ?? "design"}-${activeShade?.id ?? "shade"}-${selectedSize?.id ?? `${w}x${h}`}`,
+      productSlug: product.slug,
+      productName: product.name,
+      modelName: model.name,
+      designName: activeDesign?.name || "Standard design",
+      shadeName: activeShade?.name || "Standard shade",
+      sizeLabel: selectedSize?.label || `${w} × ${h} mm`,
+      image: getImageSource(activeShade?.primary_image_url, product.main_image_url, activeDesign?.thumbnail_url, FALLBACK_IMAGE),
+      unitPrice: model.starting_price && model.starting_price > 0 ? model.starting_price : null,
+      quantity: 1,
+    });
+    setCartFeedback(`${model.name} added to cart.`);
+    window.setTimeout(() => setCartFeedback(""), 2500);
   };
 
   const GALLERY = galleryImages.length
@@ -708,8 +731,9 @@ export default function ProductDetailsPage() {
 
             <div className="pdp-cta">
               <Link className="pdp-btn pdp-btn--solid" href="/book-a-demo">Book a Demo <FaArrowRight /></Link>
-              <button className="pdp-btn pdp-btn--ghost">Enquire Now</button>
+              <button className="pdp-btn pdp-btn--ghost" type="button" onClick={addProductToCart}>Add to cart</button>
             </div>
+            <p className="pdp-cart-feedback" aria-live="polite">{cartFeedback}</p>
 
             <div className="pdp-block pdp-design-block">
               <div className="pdp-step"><div className="pdp-step-title"><span className="pdp-step-num">1</span>Select Design</div></div>

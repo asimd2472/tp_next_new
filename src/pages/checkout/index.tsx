@@ -1,32 +1,11 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { useCart } from "@/context/CartContext";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
-
-const products = [
-  {
-    name: "Fly Mesh Door",
-    type: "Door · Fly mesh",
-    model: "Deluxe",
-    design: "Embossed · Coast (E01)",
-    shade: "Nest Mahogany (R0401)",
-    size: "1000 × 2062 mm",
-    image: "/images/fly-mesh-door/fly-mesh-door.jpg",
-    quantity: 2,
-  },
-  {
-    name: "Pebble Classic Window",
-    type: "Window · Steel casement",
-    model: "Pebble Classic",
-    design: "Straight grill",
-    shade: "Forest Brown (RAL 8017)",
-    size: "1219 × 1219 mm",
-    image: "/images/product-1.jpg",
-    quantity: 1,
-  },
-];
+import { FaTrashCan } from "react-icons/fa6";
 
 const constructionStages = [
   "Planning",
@@ -37,7 +16,7 @@ const constructionStages = [
 ];
 
 export default function CheckoutPage() {
-  const [quantities, setQuantities] = useState(products.map((product) => product.quantity));
+  const { items, itemCount, isLoaded, updateQuantity, removeItem } = useCart();
   const [pincode, setPincode] = useState("");
   const [address, setAddress] = useState("");
   const [constructionStage, setConstructionStage] = useState("");
@@ -45,16 +24,7 @@ export default function CheckoutPage() {
   const [error, setError] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const totalProducts = quantities.reduce((total, quantity) => total + quantity, 0);
-  const productCountLabel = `${totalProducts} ${totalProducts === 1 ? "product" : "products"}`;
-
-  const updateQuantity = (index: number, change: number) => {
-    setQuantities((current) =>
-      current.map((quantity, currentIndex) =>
-        currentIndex === index ? Math.min(99, Math.max(1, quantity + change)) : quantity,
-      ),
-    );
-  };
+  const productCountLabel = `${itemCount} ${itemCount === 1 ? "product" : "products"}`;
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -117,6 +87,16 @@ export default function CheckoutPage() {
               </div>
             </div>
           </section>
+        ) : !isLoaded ? (
+          <section className="checkout-page__empty" aria-live="polite" aria-busy="true">
+            <h1>Loading your cart…</h1>
+          </section>
+        ) : items.length === 0 ? (
+          <section className="checkout-page__empty">
+            <h1>Your cart is empty</h1>
+            <p>Choose a product and add it to your cart to see it here.</p>
+            <Link className="checkout-page__button continue-browsing" href="/">Continue browsing</Link>
+          </section>
         ) : (
           <form className="checkout-page__container checkout-page__layout" onSubmit={handleSubmit}>
             <div className="checkout-page__form-column">
@@ -129,12 +109,12 @@ export default function CheckoutPage() {
                 <h2 id="checkout-selection">
                   Your selection (<span>{productCountLabel}</span>)
                 </h2>
-                {products.map((product, index) => (
-                  <article className="checkout-page__item" key={product.name}>
+                {items.map((item, index) => (
+                  <article className="checkout-page__item" key={item.id}>
                     <div className="checkout-page__image">
                       <Image
-                        src={product.image}
-                        alt={product.name}
+                        src={item.image}
+                        alt={item.modelName}
                         width={96}
                         height={128}
                       />
@@ -143,48 +123,64 @@ export default function CheckoutPage() {
                       <span className="checkout-page__product-label">
                         Product {index + 1}
                       </span>
-                      <h3>{product.name}</h3>
+                      {/* <h3>{item.modelName}</h3> */}
+                      <h3>{item.productName}</h3>
                       <dl className="checkout-page__product-specs">
-                        <div>
+                        {/* <div>
                           <dt>Type</dt>
-                          <dd>{product.type}</dd>
-                        </div>
+                          <dd>{item.productName}</dd>
+                        </div> */}
                         <div>
                           <dt>Model</dt>
-                          <dd>{product.model}</dd>
+                          <dd>{item.modelName}</dd>
                         </div>
                         <div>
                           <dt>Design</dt>
-                          <dd>{product.design}</dd>
+                          <dd>{item.designName}</dd>
                         </div>
                         <div>
                           <dt>Shade</dt>
-                          <dd>{product.shade}</dd>
+                          <dd>{item.shadeName}</dd>
                         </div>
                         <div>
                           <dt>Size</dt>
-                          <dd>{product.size}</dd>
+                          <dd>{item.sizeLabel}</dd>
+                        </div>
+                        <div>
+                          <dt>Price</dt>
+                          <dd>{item.unitPrice === null ? "Price on request" : `₹ ${item.unitPrice.toLocaleString("en-IN")}`}</dd>
                         </div>
                       </dl>
                       <div className="checkout-page__quantity">
                         <span>Quantity</span>
                         <div className="checkout-page__quantity-control">
                           <button
-                            aria-label={`Decrease quantity of ${product.name}`}
-                            onClick={() => updateQuantity(index, -1)}
+                            aria-label={`Decrease quantity of ${item.modelName}`}
+                            disabled={item.quantity <= 1}
+                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
                             type="button"
                           >
                             −
                           </button>
-                          <output aria-live="polite">{quantities[index]}</output>
+                          <output aria-live="polite">{item.quantity}</output>
                           <button
-                            aria-label={`Increase quantity of ${product.name}`}
-                            onClick={() => updateQuantity(index, 1)}
+                            aria-label={`Increase quantity of ${item.modelName}`}
+                            disabled={item.quantity >= 99}
+                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
                             type="button"
                           >
                             +
                           </button>
                         </div>
+                        <button
+                          aria-label={`Remove ${item.modelName} from cart`}
+                          className="checkout-page__remove"
+                          onClick={() => removeItem(item.id)}
+                          title="Remove from cart"
+                          type="button"
+                        >
+                          <FaTrashCan aria-hidden="true" />
+                        </button>
                       </div>
                     </div>
                   </article>
