@@ -228,6 +228,116 @@
   color: var(--pdp-primary);
 }
 
+.pdp-share {
+  position: relative;
+  z-index: 5;
+  display: inline-flex;
+}
+
+.pdp-share-menu {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 164px;
+  overflow: hidden;
+  border: 1px solid #d5d8dd;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(13, 35, 62, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-5px);
+  transform-origin: top right;
+  transition: opacity 160ms ease, transform 160ms ease, visibility 160ms;
+}
+
+.pdp-share-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.pdp-share-option {
+  display: flex;
+  width: 100%;
+  min-height: 37px;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border: 0;
+  border-bottom: 1px solid #e7e8ea;
+  background: #fff;
+  color: #17212b;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.2;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 140ms ease;
+}
+
+.pdp-share-option:last-child {
+  border-bottom: 0;
+}
+
+.pdp-share-option:hover,
+.pdp-share-option:focus-visible {
+  background: #f2f5f8;
+}
+
+.pdp-share-option:focus-visible {
+  outline: 2px solid var(--pdp-primary);
+  outline-offset: -2px;
+}
+
+.pdp-share-icon {
+  width: 25px;
+  height: 25px;
+  flex: 0 0 25px;
+  padding: 4px;
+  border-radius: 50%;
+  color: #fff;
+}
+
+.pdp-share-icon--whatsapp {
+  background: #25d366;
+}
+
+.pdp-share-icon--instagram {
+  /* background: #d62976; */
+  background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+
+}
+
+.pdp-share-icon--facebook {
+  background: #1877f2;
+}
+
+.pdp-share-icon--x {
+  background: #111;
+}
+
+.pdp-share-icon--link {
+  color: #222;
+}
+
+.pdp-share-icon--copied {
+  background: #18864b;
+}
+
+.pdp-share-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
 .pdp-title {
   margin: 2px 0 0;
   font-family: var(--pdp-serif);
@@ -722,8 +832,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pdp-skeleton__shape::after {
+  .pdp-skeleton__shape::after,
+  .pdp-share-menu,
+  .pdp-share-option {
     animation: none;
+    transition: none;
   }
 }
 

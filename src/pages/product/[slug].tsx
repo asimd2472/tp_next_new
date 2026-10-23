@@ -18,6 +18,7 @@ import {
   FaClock,
   FaHeadphones,
   FaHeart,
+  FaLink,
   FaMinus,
   FaPlay,
   FaPlus,
@@ -27,8 +28,10 @@ import {
   FaStarHalfStroke,
   FaTruck,
   FaWrench,
+  FaXTwitter,
   FaXmark,
 } from "react-icons/fa6";
+import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa6";
 
 type ProductDetailsApiResponse = {
   success: boolean;
@@ -118,6 +121,154 @@ function RatingStars({ rating }: { rating: number }) {
         return <FaStar key={index} aria-hidden="true" style={{ color: "#d5d9e0" }} />;
       })}
     </span>
+  );
+}
+
+function ProductShareMenu({ productName, mobile = false }: { productName: string; mobile?: boolean }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [copyFeedback, setCopyFeedback] = useState("");
+  const shareRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (event.target instanceof Node && !shareRef.current?.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+        triggerRef.current?.focus();
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
+
+  const getShareUrl = () => window.location.href;
+
+  const copyProductLink = async () => {
+    const shareUrl = getShareUrl();
+    const copyWithSelection = () => {
+      const input = document.createElement("textarea");
+      input.value = shareUrl;
+      input.setAttribute("readonly", "");
+      input.style.position = "fixed";
+      input.style.opacity = "0";
+      document.body.appendChild(input);
+      try {
+        input.select();
+        return document.execCommand("copy");
+      } catch {
+        return false;
+      } finally {
+        input.remove();
+      }
+    };
+    let didCopy = false;
+    if (navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        didCopy = true;
+      } catch {
+        didCopy = copyWithSelection();
+      }
+    } else {
+      didCopy = copyWithSelection();
+    }
+    setCopied(didCopy);
+    setCopyFeedback(didCopy ? "Product link copied to clipboard." : "Could not copy the link. Please copy the page URL manually.");
+    if (didCopy) window.setTimeout(() => {
+      setCopied(false);
+      setCopyFeedback("");
+    }, 1800);
+  };
+
+  const openShareLink = (url: string) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+    setIsOpen(false);
+  };
+
+  const shareWithInstagram = async () => {
+    const shareUrl = getShareUrl();
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: productName, text: productName, url: shareUrl });
+        setIsOpen(false);
+        return;
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setCopied(false);
+      }
+    }
+
+    window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer");
+    await copyProductLink();
+  };
+
+  return (
+    <div
+      ref={shareRef}
+      className={`pdp-share${mobile ? " pdp-share--mobile" : ""}`}
+      onMouseEnter={() => {
+        if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) setIsOpen(true);
+      }}
+      onMouseLeave={() => {
+        if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) setIsOpen(false);
+      }}
+    >
+      <button
+        ref={triggerRef}
+        className={mobile ? "pdp-mobile-action" : "pdp-action"}
+        type="button"
+        aria-label={`Share ${productName}`}
+        aria-expanded={isOpen}
+        aria-haspopup="menu"
+        onClick={() => setIsOpen((current) => !current)}
+      >
+        <FaShareNodes />
+        {!mobile && "Share"}
+      </button>
+      <div className={`pdp-share-menu${isOpen ? " is-open" : ""}`} role="menu" aria-hidden={!isOpen}>
+        <button className="pdp-share-option" type="button" role="menuitem" tabIndex={isOpen ? 0 : -1} onClick={() => {
+          const shareUrl = getShareUrl();
+          openShareLink(`https://wa.me/?text=${encodeURIComponent(`${productName} - ${shareUrl}`)}`);
+        }}>
+          <FaWhatsapp className="pdp-share-icon pdp-share-icon--whatsapp" /> WhatsApp
+        </button>
+        <button className="pdp-share-option" type="button" role="menuitem" tabIndex={isOpen ? 0 : -1} onClick={shareWithInstagram}>
+          <FaInstagram className="pdp-share-icon pdp-share-icon--instagram" /> Instagram
+        </button>
+        <button className="pdp-share-option" type="button" role="menuitem" tabIndex={isOpen ? 0 : -1} onClick={() => {
+          openShareLink(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}`);
+        }}>
+          <FaFacebookF className="pdp-share-icon pdp-share-icon--facebook" /> Facebook
+        </button>
+        <button className="pdp-share-option" type="button" role="menuitem" tabIndex={isOpen ? 0 : -1} onClick={() => {
+          openShareLink(`https://twitter.com/intent/tweet?url=${encodeURIComponent(getShareUrl())}&text=${encodeURIComponent(productName)}`);
+        }}>
+          <FaXTwitter className="pdp-share-icon pdp-share-icon--x" /> X
+        </button>
+        <button className="pdp-share-option" type="button" role="menuitem" tabIndex={isOpen ? 0 : -1} onClick={copyProductLink}>
+          {copied
+            ? <FaCheck className="pdp-share-icon pdp-share-icon--copied" />
+            : <FaLink className="pdp-share-icon pdp-share-icon--link" />}
+          {copied ? "Copied!" : copyFeedback ? "Copy failed" : "Copy Link"}
+        </button>
+      </div>
+      <span className="pdp-share-status" aria-live="polite">
+        {copyFeedback}
+      </span>
+    </div>
   );
 }
 
@@ -508,7 +659,7 @@ export default function ProductDetailsPage() {
               </div>
               <div className="pdp-mobile-actions">
                 <button className="pdp-mobile-action" type="button" aria-label={`Save ${productName}`}><FaHeart /></button>
-                <button className="pdp-mobile-action" type="button" aria-label={`Share ${productName}`}><FaShareNodes /></button>
+                <ProductShareMenu productName={productName} mobile />
               </div>
             </div>
           </div>
@@ -518,7 +669,7 @@ export default function ProductDetailsPage() {
               <span className="pdp-badge">{model.is_premium ? "Premium" : "Popular"}</span>
               <div className="pdp-actions">
                 <button className="pdp-action"><FaHeart /> Save</button>
-                <button className="pdp-action"><FaShareNodes /> Share</button>
+                <ProductShareMenu productName={productName} />
               </div>
             </div>
 
