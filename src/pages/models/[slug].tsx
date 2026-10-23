@@ -300,6 +300,7 @@ export default function ModelListingPage() {
                         onClick={() => {
                           if (typeof window !== "undefined") {
                             window.localStorage.setItem("tata_pravesh_selected_model_id", String(model.id));
+                            window.localStorage.setItem("tata_pravesh_product_slug", String(product.slug));
                           }
 
                           void router.push(`/product/${product.slug}`);
