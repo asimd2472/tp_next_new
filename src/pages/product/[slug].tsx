@@ -76,14 +76,18 @@ type ProductDetailsApiResponse = {
 const STORAGE_KEY = "tata_pravesh_selected_model_id";
 const FALLBACK_IMAGE = "/images/default/model.png";
 
+const parseModelId = (value: string | null | undefined) => {
+  if (!value?.trim()) return null;
+
+  const parsedValue = Number(value);
+  return Number.isSafeInteger(parsedValue) && parsedValue > 0 ? parsedValue : null;
+};
+
 const getStoredModelId = () => {
   if (typeof window === "undefined") return null;
 
   const storedValue = window.localStorage.getItem(STORAGE_KEY);
-  if (!storedValue) return null;
-
-  const parsedValue = Number(storedValue);
-  return Number.isFinite(parsedValue) ? parsedValue : null;
+  return parseModelId(storedValue);
 };
 
 const formatPrice = (value: number | null | undefined) => {
@@ -164,13 +168,16 @@ export default function ProductDetailsPage() {
   const productShortDescription = model?.short_description || product?.short_description || "Modern design. Timeless appeal.";
   const productDescription = model?.description || product?.description || "Crafted for strength, security and long-lasting performance.";
 
-  const queryModelId = typeof router.query.modelId === "string" ? Number(router.query.modelId) : null;
+  const queryModelId = typeof router.query.modelId === "string" ? parseModelId(router.query.modelId) : null;
   const resolvedModelId = router.isReady ? (queryModelId ?? getStoredModelId()) : null;
+  const productSlug = typeof router.query.slug === "string" ? router.query.slug : null;
 
   useEffect(() => {
-    if (!router.isReady || !resolvedModelId) return;
+    if (!router.isReady) return;
 
-    if (typeof window !== "undefined") {
+    if (!productSlug) return;
+
+    if (typeof window !== "undefined" && resolvedModelId !== null) {
       window.localStorage.setItem(STORAGE_KEY, String(resolvedModelId));
     }
 
@@ -178,7 +185,12 @@ export default function ProductDetailsPage() {
       setLoading(true);
 
       try {
-        const response = await api.get<ProductDetailsApiResponse>(`product-details/${resolvedModelId}`);
+        const response = await api.get<ProductDetailsApiResponse>("product-details", {
+          params: {
+            product_slug: productSlug,
+            ...(resolvedModelId !== null ? { model_id: resolvedModelId } : {}),
+          },
+        });
         setProductData(response.data);
 
         const nextDesignId = response.data.defaults?.design_id ?? response.data.designs[0]?.id ?? null;
@@ -207,7 +219,7 @@ export default function ProductDetailsPage() {
     };
 
     void fetchProductDetails();
-  }, [router.isReady, resolvedModelId]);
+  }, [router.isReady, productSlug, resolvedModelId]);
 
   const selectDesign = (index: number) => {
     setDesign(index);
@@ -330,7 +342,7 @@ export default function ProductDetailsPage() {
     setZoom(1);
   };
 
-  if (!router.isReady || loading) {
+  if (!router.isReady || (loading && Boolean(productSlug))) {
     return (
       <>
         <Header />
@@ -394,7 +406,7 @@ export default function ProductDetailsPage() {
     );
   }
 
-  if (router.isReady && !resolvedModelId) {
+  if (router.isReady && !productSlug) {
     return (
       <>
         <Header />
