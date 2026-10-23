@@ -543,20 +543,20 @@ export default function ProductDetailsPage() {
               <div className="pdp-rating">
                 <RatingStars rating={rating} />
                 <b>{rating}</b>
-                {reviewCount && <span>({reviewCount} reviews)</span>}
+                {reviewCount && <span>({reviewCount}+ reviews)</span>}
               </div>
             )}
 
             <div className="pdp-price-row">
               <div>
                 <div className="pdp-price-label">Starting Price*</div>
-                <div className="pdp-price">{formatPrice(model?.starting_price)}</div>
+                <div className="pdp-price">{model?.starting_price===0 ? `XX,XXX` : formatPrice(model?.starting_price)}</div>
               </div>
               <div className="pdp-price-note">As per your location, we require please book a demo for the exact pricing.</div>
             </div>
 
             <div className="pdp-cta">
-              <button className="pdp-btn pdp-btn--solid">Book a Demo <FaArrowRight /></button>
+              <Link className="pdp-btn pdp-btn--solid" href="/book-a-demo">Book a Demo <FaArrowRight /></Link>
               <button className="pdp-btn pdp-btn--ghost">Enquire Now</button>
             </div>
 
@@ -659,14 +659,14 @@ export default function ProductDetailsPage() {
       <div className="pdp-wrap">
         <section className="pdp-details">
           {specifications.length > 0 && (
-            <div className="pdp-col">
-              <h3><FaClipboardList /> Product Specifications</h3>
-              <table className="pdp-spec"><tbody>
-                {specifications.map(({ question, answer }, index) => (
-                  <tr key={`${question}-${index}`}><td>{question}</td><td>{answer}</td></tr>
-                ))}
-              </tbody></table>
-            </div>
+          <div className="pdp-col">
+            <h3><FaClipboardList /> Product Specifications</h3>
+            <table className="pdp-spec"><tbody>
+              {specifications.map(({ question, answer }, index) => (
+                <tr key={`${question}-${index}`}><td>{question}</td><td>{answer}</td></tr>
+              ))}
+            </tbody></table>
+          </div>
           )}
           <div className="pdp-col">
             <h3><FaTruck /> Delivery &amp; Installation</h3>

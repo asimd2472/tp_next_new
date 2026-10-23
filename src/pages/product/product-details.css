@@ -335,7 +335,7 @@
 }
 
 .pdp-btn--solid {
-  background: linear-gradient(180deg, #123c85, var(--pdp-navy));
+  background: linear-gradient(90deg, #236bb3 0%, #79aa32 100%);
   color: #fff;
   border: 0;
 }
