@@ -238,7 +238,7 @@ function VentilatorConfigurator() {
             <p>Pricing depends on your location. Book a demo for an exact quote.</p>
           </div>
           <div className="ventilator-page__actions">
-            <button type="button" className="ventilator-page__button" onClick={() => setModal("demo")}>Book a Demo <span aria-hidden="true">→</span></button>
+            <Link href="/book-a-demo" className="ventilator-page__button">Book a Demo <span aria-hidden="true">→</span></Link>
             <button type="button" className="ventilator-page__button ventilator-page__button--outline" onClick={() => setModal("enquiry")}>Enquire Now</button>
           </div>
 
@@ -254,7 +254,7 @@ function VentilatorConfigurator() {
           <ChoiceGroup label="Ventilator type" values={ventilatorTypes.map((name) => ({ name }))} selected={selection.ventilatorType} onSelect={(value) => updateSelection("ventilatorType", value)} />
           <div className="ventilator-page__summary"><strong>Your selection</strong><br />{summary}</div>
           <div className="ventilator-page__actions">
-            <button type="button" className="ventilator-page__button" onClick={() => setModal("demo")}>Book a Demo <span aria-hidden="true">→</span></button>
+            <Link href="/book-a-demo" className="ventilator-page__button">Book a Demo <span aria-hidden="true">→</span></Link>
             <button type="button" className="ventilator-page__button ventilator-page__button--outline" onClick={() => setModal("enquiry")}>Enquire Now</button>
           </div>
         </div>

@@ -37,7 +37,7 @@
 
 @media (min-width: 1024px) {
 	.ventilator-page__container {
-		padding-inline: 48px;
+		padding-inline: 70px;
 	}
 }
 
@@ -189,9 +189,9 @@
 	justify-content: center;
 	gap: 8px;
 	padding: 12px 16px;
-	border: 1px solid var(--ventilator-blue);
 	border-radius: 6px;
-	background: linear-gradient(180deg, #153a82, #0f2d6b);
+	/* background: linear-gradient(180deg, #153a82, #0f2d6b); */
+	background: linear-gradient(90deg, #236bb3 0%, #79aa32 100%);
 	color: #fff;
 	font: inherit;
 	font-size: 15px;
@@ -207,6 +207,7 @@
 
 .ventilator-page__button--outline {
 	background: #fff;
+	border: 1px solid var(--ventilator-blue);
 	color: var(--ventilator-navy);
 }
 
