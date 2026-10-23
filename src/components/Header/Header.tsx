@@ -15,7 +15,7 @@ const menuCategories: MenuCategory[] = [
     name: "Doors",
     href: "#doors",
     items: [
-      { label: "Embossed Wood Finish Doors", href: "/product/embossed-wood-finish-doors" },
+      { label: "Embossed Wood Finish Doors", href: "/models/embossed-wood-finish-doors" },
       { label: "Plain Wood Finish Doors", href: "#doors" },
       { label: "Plain Steel Finish Doors", href: "#doors" },
       { label: "Fly Mesh Doors", href: "#doors" },

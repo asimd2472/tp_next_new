@@ -302,7 +302,7 @@ export default function ModelListingPage() {
                             window.localStorage.setItem("tata_pravesh_selected_model_id", String(model.id));
                           }
 
-                          void router.push(`/product/${model.slug}?modelId=${model.id}`);
+                          void router.push(`/product/${product.slug}`);
                         }}
                       >
                         Explore Model
