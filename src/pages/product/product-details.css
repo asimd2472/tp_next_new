@@ -430,12 +430,14 @@
   flex: 1;
   display: flex;
   gap: 10px;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
 }
 
 .pdp-design {
-  flex: 1 1 0;
-  min-width: 0;
+  flex: 0 0 64px;
+  width: 64px;
   background: none;
   border: 0;
   padding: 0;

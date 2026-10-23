@@ -142,6 +142,7 @@ export default function ProductDetailsPage() {
   const [shadesOpen, setShadesOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [zoom, setZoom] = useState(1);
+  const designListRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
   const suppressGalleryClick = useRef(false);
   const closeGalleryRef = useRef<HTMLButtonElement>(null);
@@ -240,6 +241,10 @@ export default function ProductDetailsPage() {
     ? galleryImages
     : [getImageSource(activeShade?.primary_image_url, productData?.product.main_image_url, activeDesign?.thumbnail_url, FALLBACK_IMAGE)];
   const safeImg = GALLERY.length ? img % GALLERY.length : 0;
+
+  useEffect(() => {
+    designListRef.current?.children.item(design)?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+  }, [design]);
 
   useEffect(() => {
     if (!modalOpen) {
@@ -482,7 +487,7 @@ export default function ProductDetailsPage() {
               <div className="pdp-step"><div className="pdp-step-title"><span className="pdp-step-num">1</span>Select Design</div></div>
               <div className="pdp-designs">
                 <button className="pdp-arrow" type="button" onClick={() => moveDesign(-1)} aria-label="Previous design"><FaArrowLeft /></button>
-                <div className="pdp-design-list">
+                <div ref={designListRef} className="pdp-design-list">
                   {designOptions.map((d, i) => (
                     <button key={d.id} type="button" className={`pdp-design ${design === i ? "is-active" : ""}`} onClick={() => selectDesign(i)} aria-pressed={design === i}>
                       <span className="box"><Image src={getImageSource(d.thumbnail_url, product.main_image_url, FALLBACK_IMAGE)} alt="" fill sizes="80px" /></span>
