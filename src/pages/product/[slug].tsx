@@ -62,7 +62,7 @@ type ProductDetailsApiResponse = {
       color: string | null;
       swatch_url: string | null;
       primary_image_url: string | null;
-      gallery: Array<{ id: number; image_url: string | null }>;
+      gallery: Array<{ id: number; url: string | null; image_url?: string | null }>;
       sizes: Array<{ id: number; width_mm: number; height_mm: number; label: string }>;
     }>;
   }>;
@@ -97,6 +97,7 @@ const formatPrice = (value: number | null | undefined) => {
 const getImageSource = (...values: Array<string | null | undefined>) => {
   return values.find((value) => Boolean(value)) || FALLBACK_IMAGE;
 };
+const isVideoSource = (source: string) => /\.(mp4|webm|ogg|mov|m4v)(?:$|[?#])/i.test(source);
 const SPECS: [string, string][] = [
   ["Material", "Engineered Wood"],
   ["Finish", "Laminated / Powder Coated"],
@@ -153,9 +154,9 @@ export default function ProductDetailsPage() {
   const shadeOptions = activeDesign?.shades ?? [];
   const activeShade = shadeOptions[shade] ?? shadeOptions[0];
   const sizeOptions = activeShade?.sizes ?? [];
-  const galleryImages = activeShade?.gallery?.length
-    ? activeShade.gallery.map((item) => getImageSource(item.image_url, activeShade.primary_image_url, productData?.product.main_image_url, FALLBACK_IMAGE))
-    : [getImageSource(activeShade?.primary_image_url, productData?.product.main_image_url, activeDesign?.thumbnail_url, FALLBACK_IMAGE)];
+  const galleryImages = activeShade?.gallery
+    ?.map((item) => item.url || item.image_url)
+    .filter((source): source is string => Boolean(source)) ?? [];
   const product = productData?.product ?? null;
   const model = productData?.model ?? null;
   const productName = model?.name || product?.name || "Product";
@@ -235,7 +236,9 @@ export default function ProductDetailsPage() {
     setImg(0);
   };
 
-  const GALLERY = galleryImages.length ? galleryImages : [FALLBACK_IMAGE];
+  const GALLERY = galleryImages.length
+    ? galleryImages
+    : [getImageSource(activeShade?.primary_image_url, productData?.product.main_image_url, activeDesign?.thumbnail_url, FALLBACK_IMAGE)];
   const safeImg = GALLERY.length ? img % GALLERY.length : 0;
 
   useEffect(() => {
@@ -401,7 +404,7 @@ export default function ProductDetailsPage() {
               {GALLERY.map((src, i) => (
                 <button key={`${src}-${i}`} className={`pdp-thumb ${safeImg === i ? "is-active" : ""}`} onMouseEnter={() => setImg(i)} onFocus={() => setImg(i)} onClick={() => setImg(i)} aria-label={`View image ${i + 1}`} aria-pressed={safeImg === i}>
                   <Image src={src} alt="" fill sizes="70px" />
-                  {i === GALLERY.length - 1 && (
+                  {isVideoSource(src) && (
                     <span className="play">
                       <span><FaPlay /></span>
                     </span>
