@@ -34,8 +34,27 @@ import {
 } from "react-icons/fa6";
 import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa6";
 
+type ProductShade = {
+  id: number;
+  name: string;
+  color: string | null;
+  swatch_url: string | null;
+  primary_image_url: string | null;
+  gallery: Array<{ id: number; url: string | null; image_url?: string | null }>;
+  sizes: Array<{ id: number; width_mm: number; height_mm: number; label: string }>;
+};
+
+type ProductDesign = {
+  id: number;
+  name: string;
+  code: string | null;
+  thumbnail_url: string | null;
+  shades: ProductShade[];
+};
+
 type ProductDetailsApiResponse = {
   success: boolean;
+  type: "door" | "window";
   product: {
     id: number;
     name: string;
@@ -60,21 +79,8 @@ type ProductDetailsApiResponse = {
     is_active: boolean;
     main_image_url: string | null;
   };
-  designs: Array<{
-    id: number;
-    name: string;
-    code: string | null;
-    thumbnail_url: string | null;
-    shades: Array<{
-      id: number;
-      name: string;
-      color: string | null;
-      swatch_url: string | null;
-      primary_image_url: string | null;
-      gallery: Array<{ id: number; url: string | null; image_url?: string | null }>;
-      sizes: Array<{ id: number; width_mm: number; height_mm: number; label: string }>;
-    }>;
-  }>;
+  designs: ProductDesign[];
+  shades?: ProductShade[];
   defaults: {
     design_id: number | null;
     shade_id: number | null;
@@ -311,8 +317,9 @@ export default function ProductDetailsPage() {
   const modalOpen = shadesOpen || galleryOpen;
 
   const designOptions = productData?.designs ?? [];
+  const isWindow = productData?.type === "window";
   const activeDesign = designOptions[design] ?? designOptions[0];
-  const shadeOptions = activeDesign?.shades ?? [];
+  const shadeOptions = isWindow ? productData?.shades ?? [] : activeDesign?.shades ?? [];
   const activeShade = shadeOptions[shade] ?? shadeOptions[0];
   const sizeOptions = activeShade?.sizes ?? [];
   const galleryImages = activeShade?.gallery
@@ -357,16 +364,18 @@ export default function ProductDetailsPage() {
         });
         setProductData(response.data);
 
-        const nextDesignId = response.data.defaults?.design_id ?? response.data.designs[0]?.id ?? null;
-        const nextDesignIndex = nextDesignId === null ? 0 : response.data.designs.findIndex((item) => item.id === nextDesignId);
+        const responseDesigns = response.data.designs ?? [];
+        const nextDesignId = response.data.defaults?.design_id ?? responseDesigns[0]?.id ?? null;
+        const nextDesignIndex = nextDesignId === null ? 0 : responseDesigns.findIndex((item) => item.id === nextDesignId);
         setDesign(nextDesignIndex >= 0 ? nextDesignIndex : 0);
 
-        const selectedDesign = response.data.designs[nextDesignIndex >= 0 ? nextDesignIndex : 0] ?? response.data.designs[0];
-        const nextShadeId = response.data.defaults?.shade_id ?? selectedDesign?.shades[0]?.id ?? null;
-        const nextShadeIndex = nextShadeId === null || !selectedDesign ? 0 : selectedDesign.shades.findIndex((item) => item.id === nextShadeId);
+        const selectedDesign = responseDesigns[nextDesignIndex >= 0 ? nextDesignIndex : 0] ?? responseDesigns[0];
+        const responseShades = response.data.type === "window" ? response.data.shades ?? [] : selectedDesign?.shades ?? [];
+        const nextShadeId = response.data.defaults?.shade_id ?? responseShades[0]?.id ?? null;
+        const nextShadeIndex = nextShadeId === null ? 0 : responseShades.findIndex((item) => item.id === nextShadeId);
         setShade(nextShadeIndex >= 0 ? nextShadeIndex : 0);
 
-        const selectedShade = selectedDesign?.shades[nextShadeIndex >= 0 ? nextShadeIndex : 0] ?? selectedDesign?.shades[0];
+        const selectedShade = responseShades[nextShadeIndex >= 0 ? nextShadeIndex : 0] ?? responseShades[0];
         const defaultSize = response.data.defaults?.size_id
           ? selectedShade?.sizes.find((item) => item.id === response.data.defaults.size_id) ?? selectedShade?.sizes[0]
           : selectedShade?.sizes[0];
@@ -671,7 +680,7 @@ export default function ProductDetailsPage() {
               }
               openGallery();
             }} onTouchStart={handleGalleryTouchStart} onTouchEnd={handleGalleryTouchEnd} aria-label="Open product image gallery">
-              <Image src={GALLERY[safeImg] || FALLBACK_IMAGE} alt={`${productName} engineered door`} fill sizes="(max-width: 1023px) 100vw, 60vw" priority />
+              <Image src={GALLERY[safeImg] || FALLBACK_IMAGE} alt={`${productName} ${isWindow ? "window" : "door"}`} fill sizes="(max-width: 1023px) 100vw, 60vw" priority />
               <span className="pdp-main-hint"><FaPlus /> View gallery</span>
             </button>
             <div className="pdp-mobile-gallery-controls">
@@ -735,29 +744,31 @@ export default function ProductDetailsPage() {
             </div>
             <p className="pdp-cart-feedback" aria-live="polite">{cartFeedback}</p>
 
-            <div className="pdp-block pdp-design-block">
-              <div className="pdp-step"><div className="pdp-step-title"><span className="pdp-step-num">1</span>Select Design</div></div>
-              <div className="pdp-designs">
-                {designOptions.length >= 4 && (
-                  <button className="pdp-arrow" type="button" onClick={() => moveDesign(-1)} aria-label="Previous design"><FaArrowLeft /></button>
-                )}
-                <div ref={designListRef} className="pdp-design-list">
-                  {designOptions.map((d, i) => (
-                    <button key={d.id} type="button" className={`pdp-design ${design === i ? "is-active" : ""}`} onClick={() => selectDesign(i)} aria-pressed={design === i}>
-                      <span className="box"><Image src={getImageSource(d.thumbnail_url, product.main_image_url, FALLBACK_IMAGE)} alt="" fill sizes="80px" /></span>
-                      {d.name}
-                    </button>
-                  ))}
+            {!isWindow && (
+              <div className="pdp-block pdp-design-block">
+                <div className="pdp-step"><div className="pdp-step-title"><span className="pdp-step-num">1</span>Select Design</div></div>
+                <div className="pdp-designs">
+                  {designOptions.length >= 4 && (
+                    <button className="pdp-arrow" type="button" onClick={() => moveDesign(-1)} aria-label="Previous design"><FaArrowLeft /></button>
+                  )}
+                  <div ref={designListRef} className="pdp-design-list">
+                    {designOptions.map((d, i) => (
+                      <button key={d.id} type="button" className={`pdp-design ${design === i ? "is-active" : ""}`} onClick={() => selectDesign(i)} aria-pressed={design === i}>
+                        <span className="box"><Image src={getImageSource(d.thumbnail_url, product.main_image_url, FALLBACK_IMAGE)} alt="" fill sizes="80px" /></span>
+                        {d.name}
+                      </button>
+                    ))}
+                  </div>
+                  {designOptions.length >= 4 && (
+                    <button className="pdp-arrow" type="button" onClick={() => moveDesign(1)} aria-label="Next design"><FaArrowRight /></button>
+                  )}
                 </div>
-                {designOptions.length >= 4 && (
-                  <button className="pdp-arrow" type="button" onClick={() => moveDesign(1)} aria-label="Next design"><FaArrowRight /></button>
-                )}
               </div>
-            </div>
+            )}
 
             <div className="pdp-block pdp-shade-block">
               <div className="pdp-step">
-                <div className="pdp-step-title"><span className="pdp-step-num">2</span>Select Shade</div>
+                <div className="pdp-step-title"><span className="pdp-step-num">{isWindow ? "1" : "2"}</span>Select Shade</div>
                 <button className="pdp-link" type="button" onClick={openShades}>View all Shades <FaArrowRight /></button>
               </div>
               <div className="pdp-shades">
@@ -772,7 +783,7 @@ export default function ProductDetailsPage() {
 
             <div className="pdp-size-block">
               <div className="pdp-step">
-                <div className="pdp-step-title"><span className="pdp-step-num">3</span>Select Size</div>
+                <div className="pdp-step-title"><span className="pdp-step-num">{isWindow ? "2" : "3"}</span>Select Size</div>
                 <button className="pdp-link" type="button"><FaRulerCombined /> Size Guide</button>
               </div>
               <div className="pdp-size-grid">
@@ -887,7 +898,7 @@ export default function ProductDetailsPage() {
           <section className="pdp-modal pdp-shades-modal" role="dialog" aria-modal="true" aria-labelledby="pdp-shades-title" onClick={(event) => event.stopPropagation()}>
             <div className="pdp-modal-header">
               <div>
-                <span className="pdp-modal-eyebrow">Personalise your door</span>
+                <span className="pdp-modal-eyebrow">Personalise your {isWindow ? "window" : "door"}</span>
                 <h2 id="pdp-shades-title">Explore all shades</h2>
               </div>
               <button ref={closeShadesRef} className="pdp-modal-close" type="button" onClick={() => setShadesOpen(false)} aria-label="Close shades">
@@ -897,7 +908,7 @@ export default function ProductDetailsPage() {
             <p className="pdp-modal-description">Choose a finish that feels right for your space.</p>
             <div className="pdp-shades-modal-grid">
               {shadeOptions.map((s, i) => (
-                <button key={s.id} type="button" className={`pdp-shade-option ${shade === i ? "is-active" : ""}`} onClick={() => { setShade(i); setShadesOpen(false); }} aria-pressed={shade === i}>
+                <button key={s.id} type="button" className={`pdp-shade-option ${shade === i ? "is-active" : ""}`} onClick={() => { selectShade(i); setShadesOpen(false); }} aria-pressed={shade === i}>
                   <i style={{ background: s.color || `url(${s.swatch_url || ""})`, backgroundSize: "cover" }} />
                   <span>{s.name}</span>
                   {shade === i && <FaCheck aria-hidden="true" />}
