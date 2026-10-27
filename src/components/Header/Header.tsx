@@ -31,7 +31,7 @@ const menuCategories: MenuCategory[] = [
     name: "Windows",
     href: "#windows",
     items: [
-      { label: "Swing & Slide Window", href: "#windows" },
+      { label: "Swing & Slide Window", href: "/windows-models/swing-and-slide-window" },
       { label: "Vista Window", href: "#windows" },
       { label: "Casement Window", href: "#windows" },
     ],
