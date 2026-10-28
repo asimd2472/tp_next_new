@@ -27,6 +27,7 @@ import "./book-a-demo/book-a-demo.css";
 import "./blogs/blog-noise-insulation/blog-noise-insulation.css";
 import "./blogs/strength-that-lasts/strength-that-lasts.css";
 import "./blogs/ready-for-every-weather/ready-for-every-weather.css";
+import "./blogs/better-for-today-better-for-tomorrow/better-for-today-better-for-tomorrow.css";
 import "./door-models/model-listing.css";
 import type { AppProps } from "next/app";
 import { CartProvider } from "@/context/CartContext";

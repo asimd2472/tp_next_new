@@ -14,7 +14,7 @@ const features = [
     image: "/images/blog-strength-that-lasts/strength-that-lasts-hero.jpg",
     alt: "A woman beside a modern window",
     title: "Strength That Lasts",
-    description: "Keeps rooms comfortable all year and helps reduce energy bills.",
+    description: "Our doors and windows are built to last, providing long-term durability and performance for your home.",
     href: "/blogs/strength-that-lasts",
   },
   {
@@ -25,32 +25,11 @@ const features = [
     href: "/blogs/ready-for-every-weather",
   },
   {
-    image: "/images/custome.jpeg",
-    alt: "A modern living room with a large window",
-    title: "Superior noise insulation",
-    description: "Advanced soundproofing blocks outside noise and keeps your home calm.",
-    href: "/blogs/blog-noise-insulation",
-  },
-  {
-    image: "/images/f1.jpeg",
-    alt: "A woman beside a modern window",
-    title: "Energy efficient",
-    description: "Keeps rooms comfortable all year and helps reduce energy bills.",
-    href: "/blogs",
-  },
-  {
-    image: "/images/f1.jpeg",
-    alt: "A woman beside a modern window",
-    title: "Energy efficient",
-    description: "Keeps rooms comfortable all year and helps reduce energy bills.",
-    href: "/blogs",
-  },
-  {
-    image: "/images/custome.jpeg",
-    alt: "A modern living room with a large window",
-    title: "Superior noise insulation",
-    description: "Advanced soundproofing blocks outside noise and keeps your home calm.",
-    href: "/blogs/blog-noise-insulation",
+    image: "/images/blog-better-for-today-tomorrow/sustainable-home-hero.jpg",
+    alt: "Better for Today. Better for Tomorrow",
+    title: "Better for Today. Better for Tomorrow",
+    description: "Our doors and windows are designed to be energy-efficient, helping you save on energy bills while reducing your carbon footprint.",
+    href: "/blogs/better-for-today-better-for-tomorrow",
   },
 ];
 
