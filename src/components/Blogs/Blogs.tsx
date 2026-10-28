@@ -5,6 +5,7 @@ import Link from "next/link";
 
 interface BlogPost {
   id: number;
+  slug: string;
   image: string | null;
   alt: string;
   category: string | null;
@@ -15,6 +16,7 @@ interface BlogPost {
 
 interface ApiBlog {
   id: number;
+  slug: string;
   title: string;
   category: string | null;
   excerpt: string | null;
@@ -55,6 +57,7 @@ export default function Blogs() {
 
           return {
             id: post.id,
+            slug: post.slug,
             image: post.featured_image_url,
             alt: post.title,
             category: post.category,
@@ -155,11 +158,13 @@ export default function Blogs() {
                   <article className="blogs__card" key={post.id}>
                     <div className="blogs__image">
                       {post.image && (
-                        <Image src={post.image} alt={post.alt} fill sizes="(max-width: 700px) 90vw, (max-width: 1023px) 44vw, 30vw" />
+                        <Link href={`/blogs/${post.slug}`} aria-label={`Read ${post.title}`}>
+                          <Image src={post.image} alt={post.alt} fill sizes="(max-width: 700px) 90vw, (max-width: 1023px) 44vw, 30vw" />
+                        </Link>
                       )}
                     </div>
                     {meta && <p className="blogs__meta">{meta}</p>}
-                    <h3>{post.title}</h3>
+                    <h3><Link href={`/blogs/${post.slug}`}>{post.title}</Link></h3>
                     {post.summary && <p className="blogs__summary">{post.summary}</p>}
                   </article>
                 );
