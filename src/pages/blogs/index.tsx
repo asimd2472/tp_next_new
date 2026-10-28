@@ -265,7 +265,7 @@ export default function BlogListPage() {
                   )}
                   <div className="blog-list-page__feature-footer">
                     <span>{formatDate(featuredPost.published_at)}</span>
-                    <Link href="#">Read article</Link>
+                    <Link href={`/blogs/${featuredPost.slug}`}>Read article</Link>
                   </div>
                 </div>
               </article>
@@ -297,7 +297,7 @@ export default function BlogListPage() {
                     {(post.excerpt || post.content) && <p>{post.excerpt || post.content}</p>}
                     <div className="blog-list-page__card-footer">
                       <span>{formatDate(post.published_at)}</span>
-                      <Link href="#">Read more</Link>
+                      <Link href={`/blogs/${post.slug}`}>Read more</Link>
                     </div>
                   </div>
                 </article>

@@ -14,6 +14,7 @@ import "./why-tata-pravesh-doors-and-windows/why-tata-pravesh-doors-and-windows.
 import "./select-best-door/select-best-door.css";
 import "./doors-windows-for-villa/doors-windows-for-villa.css";
 import "./blogs/blog-list.css";
+import "./blogs/blog-details.css";
 import "./doors-for-bedroom/doors-for-bedroom.css";
 import "./fly-mesh-door/fly-mesh-door.css";
 import "./double-door-designs/double-door-designs.css";
