@@ -49,6 +49,9 @@ type ProductDesign = {
   name: string;
   code: string | null;
   thumbnail_url: string | null;
+  primary_image_url?: string | null;
+  gallery?: Array<{ id: number; url: string | null; image_url?: string | null }>;
+  sizes?: Array<{ id: number; width_mm: number; height_mm: number; label: string }>;
   shades: ProductShade[];
 };
 
@@ -321,10 +324,17 @@ export default function ProductDetailsPage() {
   const activeDesign = designOptions[design] ?? designOptions[0];
   const shadeOptions = isWindow ? productData?.shades ?? [] : activeDesign?.shades ?? [];
   const activeShade = shadeOptions[shade] ?? shadeOptions[0];
-  const sizeOptions = activeShade?.sizes ?? [];
-  const galleryImages = activeShade?.gallery
+  const designSizeOptions = activeDesign?.sizes ?? [];
+  const sizeOptions = activeShade?.sizes.length ? activeShade.sizes : designSizeOptions;
+  const shadeGalleryImages = activeShade?.gallery
     ?.map((item) => item.url || item.image_url)
     .filter((source): source is string => Boolean(source)) ?? [];
+  const designGalleryImages = activeDesign?.gallery
+    ?.map((item) => item.url || item.image_url)
+    .filter((source): source is string => Boolean(source)) ?? [];
+  const galleryImages = shadeGalleryImages.length ? shadeGalleryImages : designGalleryImages;
+  const widthOptions = Array.from(new Set(sizeOptions.map((item) => item.width_mm)));
+  const heightOptions = Array.from(new Set(sizeOptions.map((item) => item.height_mm)));
   const product = productData?.product ?? null;
   const model = productData?.model ?? null;
   const specifications = product?.specifications ?? [];
@@ -376,9 +386,12 @@ export default function ProductDetailsPage() {
         setShade(nextShadeIndex >= 0 ? nextShadeIndex : 0);
 
         const selectedShade = responseShades[nextShadeIndex >= 0 ? nextShadeIndex : 0] ?? responseShades[0];
+        const selectedDesignSizes = selectedShade?.sizes.length
+          ? selectedShade.sizes
+          : selectedDesign?.sizes ?? [];
         const defaultSize = response.data.defaults?.size_id
-          ? selectedShade?.sizes.find((item) => item.id === response.data.defaults.size_id) ?? selectedShade?.sizes[0]
-          : selectedShade?.sizes[0];
+          ? selectedDesignSizes.find((item) => item.id === response.data.defaults.size_id) ?? selectedDesignSizes[0]
+          : selectedDesignSizes[0];
 
         if (defaultSize) {
           setW(defaultSize.width_mm);
@@ -399,7 +412,7 @@ export default function ProductDetailsPage() {
     setShade(0);
     const nextDesign = designOptions[index];
     const nextShade = nextDesign?.shades[0];
-    const nextSize = nextShade?.sizes[0];
+    const nextSize = nextShade?.sizes[0] ?? nextDesign?.sizes?.[0];
     if (nextSize) {
       setW(nextSize.width_mm);
       setH(nextSize.height_mm);
@@ -432,9 +445,9 @@ export default function ProductDetailsPage() {
       productName: product.name,
       modelName: model.name,
       designName: activeDesign?.name || "Standard design",
-      shadeName: activeShade?.name || "Standard shade",
+      shadeName: activeShade?.name || "No shade",
       sizeLabel: selectedSize?.label || `${w} × ${h} mm`,
-      image: getImageSource(activeShade?.primary_image_url, product.main_image_url, activeDesign?.thumbnail_url, FALLBACK_IMAGE),
+      image: getImageSource(activeShade?.primary_image_url, activeDesign?.primary_image_url, galleryImages[0], product.main_image_url, activeDesign?.thumbnail_url, FALLBACK_IMAGE),
       unitPrice: model.starting_price && model.starting_price > 0 ? model.starting_price : null,
       quantity: 1,
     });
@@ -444,7 +457,7 @@ export default function ProductDetailsPage() {
 
   const GALLERY = galleryImages.length
     ? galleryImages
-    : [getImageSource(activeShade?.primary_image_url, productData?.product.main_image_url, activeDesign?.thumbnail_url, FALLBACK_IMAGE)];
+    : [getImageSource(activeShade?.primary_image_url, activeDesign?.primary_image_url, productData?.product.main_image_url, activeDesign?.thumbnail_url, FALLBACK_IMAGE)];
   const safeImg = GALLERY.length ? img % GALLERY.length : 0;
 
   useEffect(() => {
@@ -766,24 +779,26 @@ export default function ProductDetailsPage() {
               </div>
             )}
 
-            <div className="pdp-block pdp-shade-block">
-              <div className="pdp-step">
-                <div className="pdp-step-title"><span className="pdp-step-num">{isWindow ? "1" : "2"}</span>Select Shade</div>
-                <button className="pdp-link" type="button" onClick={openShades}>View all Shades <FaArrowRight /></button>
+            {shadeOptions.length > 0 && (
+              <div className="pdp-block pdp-shade-block">
+                <div className="pdp-step">
+                  <div className="pdp-step-title"><span className="pdp-step-num">{isWindow ? "1" : "2"}</span>Select Shade</div>
+                  <button className="pdp-link" type="button" onClick={openShades}>View all Shades <FaArrowRight /></button>
+                </div>
+                <div className="pdp-shades">
+                  {shadeOptions.map((s, i) => (
+                    <button key={s.id} type="button" className={`pdp-shade ${shade === i ? "is-active" : ""}`} onClick={() => selectShade(i)} aria-pressed={shade === i}>
+                      <i style={{ background: s.color || `url(${s.swatch_url || ""})`, backgroundSize: "cover" }} />
+                      {s.name}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div className="pdp-shades">
-                {shadeOptions.map((s, i) => (
-                  <button key={s.id} type="button" className={`pdp-shade ${shade === i ? "is-active" : ""}`} onClick={() => selectShade(i)} aria-pressed={shade === i}>
-                    <i style={{ background: s.color || `url(${s.swatch_url || ""})`, backgroundSize: "cover" }} />
-                    {s.name}
-                  </button>
-                ))}
-              </div>
-            </div>
+            )}
 
             <div className="pdp-size-block">
               <div className="pdp-step">
-                <div className="pdp-step-title"><span className="pdp-step-num">{isWindow ? "2" : "3"}</span>Select Size</div>
+                <div className="pdp-step-title"><span className="pdp-step-num">{!isWindow && shadeOptions.length > 0 ? "3" : "2"}</span>Select Size</div>
                 <button className="pdp-link" type="button"><FaRulerCombined /> Size Guide</button>
               </div>
               <div className="pdp-size-grid">
@@ -792,16 +807,15 @@ export default function ProductDetailsPage() {
                   <div className="pdp-select">
                     <select id="w" value={w} onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                       const nextWidth = Number(e.target.value);
-                      setW(nextWidth);
-
-                      const exactSize = sizeOptions.find((item) => item.width_mm === nextWidth && item.height_mm === h);
-                      if (exactSize) {
-                        setW(exactSize.width_mm);
-                        setH(exactSize.height_mm);
+                      const nextSize = sizeOptions.find((item) => item.width_mm === nextWidth && item.height_mm === h)
+                        ?? sizeOptions.find((item) => item.width_mm === nextWidth);
+                      if (nextSize) {
+                        setW(nextSize.width_mm);
+                        setH(nextSize.height_mm);
                       }
                     }}>
-                      {sizeOptions.map((size) => (
-                        <option key={size.id} value={size.width_mm}>{size.width_mm}</option>
+                      {widthOptions.map((width) => (
+                        <option key={width} value={width}>{width}</option>
                       ))}
                     </select>
                     <FaChevronDown />
@@ -812,16 +826,15 @@ export default function ProductDetailsPage() {
                   <div className="pdp-select">
                     <select id="h" value={h} onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                       const nextHeight = Number(e.target.value);
-                      setH(nextHeight);
-
-                      const exactSize = sizeOptions.find((item) => item.width_mm === w && item.height_mm === nextHeight);
-                      if (exactSize) {
-                        setW(exactSize.width_mm);
-                        setH(exactSize.height_mm);
+                      const nextSize = sizeOptions.find((item) => item.width_mm === w && item.height_mm === nextHeight)
+                        ?? sizeOptions.find((item) => item.height_mm === nextHeight);
+                      if (nextSize) {
+                        setW(nextSize.width_mm);
+                        setH(nextSize.height_mm);
                       }
                     }}>
-                      {sizeOptions.map((size) => (
-                        <option key={size.id} value={size.height_mm}>{size.height_mm}</option>
+                      {heightOptions.map((height) => (
+                        <option key={height} value={height}>{height}</option>
                       ))}
                     </select>
                     <FaChevronDown />
