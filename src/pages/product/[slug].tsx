@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState, type ChangeEvent, type TouchEvent, type WheelEvent } from "react";
+import { toast } from "react-toastify";
 import {
   FaArrowLeft,
   FaArrowRight,
@@ -307,7 +308,6 @@ export default function ProductDetailsPage() {
   const [w, setW] = useState(900);
   const [h, setH] = useState(2100);
   const [open, setOpen] = useState<number | null>(null);
-  const [cartFeedback, setCartFeedback] = useState("");
   const [shadesOpen, setShadesOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [zoom, setZoom] = useState(1);
@@ -451,8 +451,7 @@ export default function ProductDetailsPage() {
       unitPrice: model.starting_price && model.starting_price > 0 ? model.starting_price : null,
       quantity: 1,
     });
-    setCartFeedback(`${model.name} added to cart.`);
-    window.setTimeout(() => setCartFeedback(""), 2500);
+    toast.success(`${model.name} added to cart.`);
   };
 
   const GALLERY = galleryImages.length
@@ -755,8 +754,6 @@ export default function ProductDetailsPage() {
               <Link className="pdp-btn pdp-btn--solid" href="/book-a-demo">Book a Demo <FaArrowRight /></Link>
               <button className="pdp-btn pdp-btn--ghost" type="button" onClick={addProductToCart}>Add to cart</button>
             </div>
-            <p className="pdp-cart-feedback" aria-live="polite">{cartFeedback}</p>
-
             {!isWindow && (
               <div className="pdp-block pdp-design-block">
                 <div className="pdp-step"><div className="pdp-step-title"><span className="pdp-step-num">1</span>Select Design</div></div>

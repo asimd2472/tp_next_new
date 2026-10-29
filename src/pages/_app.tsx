@@ -29,13 +29,16 @@ import "./blogs/strength-that-lasts/strength-that-lasts.css";
 import "./blogs/ready-for-every-weather/ready-for-every-weather.css";
 import "./blogs/better-for-today-better-for-tomorrow/better-for-today-better-for-tomorrow.css";
 import "./door-models/model-listing.css";
+import "react-toastify/dist/ReactToastify.css";
 import type { AppProps } from "next/app";
 import { CartProvider } from "@/context/CartContext";
+import { ToastContainer } from "react-toastify";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <CartProvider>
       <Component {...pageProps} />
+      <ToastContainer position="top-right" />
     </CartProvider>
   );
 }
