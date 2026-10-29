@@ -274,7 +274,7 @@ export default function ModelListingPage() {
                     <Image
                       src={model.main_image_url || "/images/default/model.png"}
                       alt={model.name}
-                      width={640}
+                      width={600}
                       height={480}
                       sizes="(max-width: 767px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       unoptimized
@@ -282,17 +282,7 @@ export default function ModelListingPage() {
                   </div>
 
                   <div className="model-listing__card-body">
-                    {/* <span className="model-listing__card-tag">Model {index + 1}</span> */}
                     <h3>{model.name}</h3>
-                    {/* <p>
-                      Designed to balance premium craftsmanship, modern aesthetics, and long-lasting durability.
-                    </p> */}
-
-                    <div className="model-listing__card-meta">
-                      <span>Collection</span>
-                      <strong>{formattedProductName}</strong>
-                    </div>
-
                     <div className="model-listing__card-actions">
                       <button
                         type="button"
