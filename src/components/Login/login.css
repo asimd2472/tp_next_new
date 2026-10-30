@@ -1,0 +1,239 @@
+.login-component {
+  width: 100%;
+  color: #33475f;
+  font-family: inherit;
+}
+
+.login-component *,
+.login-component *::before,
+.login-component *::after {
+  box-sizing: border-box;
+}
+
+.login-component__card {
+  width: 100%;
+  /* max-width: 480px; */
+  margin: 0 auto;
+  padding: clamp(20px, 5vw, 32px);
+  border: 1px solid #d3e0f0;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 28px rgba(20, 64, 127, 0.08);
+}
+
+.login-component__eyebrow {
+  margin: 0 0 6px;
+  color: #2a6ab5;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.login-component__title {
+  margin: 0;
+  color: #14407f;
+  font-size: clamp(23px, 5vw, 30px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.login-component__intro {
+  margin: 10px 0 22px;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.login-component__intro strong {
+  color: #14407f;
+  overflow-wrap: anywhere;
+}
+
+.login-component__form {
+  display: grid;
+  gap: 10px;
+}
+
+.login-component__form--email {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.login-component__email-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.login-component__label {
+  color: #1d2b3f;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.login-component__input {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid #c3d3e8;
+  border-radius: 8px;
+  background: #fff;
+  color: #1d2b3f;
+  font: inherit;
+  font-size: 16px;
+}
+
+.login-component__input:focus {
+  border-color: #2a6ab5;
+  outline: 3px solid rgba(42, 106, 181, 0.18);
+}
+
+.login-component__otp-fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.login-component__otp-fieldset legend {
+  margin-bottom: 8px;
+  padding: 0;
+}
+
+.login-component__otp-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.login-component__otp-inputs {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.login-component__otp-input {
+  min-width: 0;
+  padding: 8px 4px;
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.login-component__otp-row .login-component__submit {
+  margin-top: 0;
+  padding-right: 16px;
+  padding-left: 16px;
+  white-space: nowrap;
+}
+
+.login-component__submit {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 6px;
+  padding: 10px 50px;
+  border: 0;
+  border-radius: 8px;
+  background: #14407f;
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login-component__email-row .login-component__submit {
+  margin-top: 0;
+  white-space: nowrap;
+}
+
+.login-component__submit:hover:not(:disabled) {
+  background: #0b2a58;
+}
+
+.login-component__submit:focus-visible,
+.login-component__text-button:focus-visible {
+  outline: 3px solid #2a6ab5;
+  outline-offset: 3px;
+}
+
+.login-component__submit:disabled,
+.login-component__text-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.login-component__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.login-component__text-button {
+  justify-self: start;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  color: #14407f;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.login-component__text-button:hover:not(:disabled) {
+  color: #2a6ab5;
+  text-decoration: underline;
+}
+
+.login-component__error,
+.login-component__message,
+.login-component__success {
+  margin: 14px 0 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.login-component__error {
+  border: 1px solid #f0c4c4;
+  background: #fff4f4;
+  color: #9e2020;
+}
+
+.login-component__message,
+.login-component__success {
+  border: 1px solid #c8dfd1;
+  background: #f2fbf5;
+  color: #245c39;
+}
+
+@media (max-width: 480px) {
+  .login-component__otp-row {
+    gap: 8px;
+  }
+
+  .login-component__otp-inputs {
+    gap: 4px;
+  }
+
+  .login-component__otp-input {
+    min-height: 42px;
+    padding-right: 2px;
+    padding-left: 2px;
+    font-size: 18px;
+  }
+
+  .login-component__otp-row .login-component__submit {
+    padding-right: 10px;
+    padding-left: 10px;
+    font-size: 13px;
+  }
+}

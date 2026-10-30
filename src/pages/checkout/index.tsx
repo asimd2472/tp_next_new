@@ -1,10 +1,16 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import Login from "@/components/Login";
 import { useCart } from "@/context/CartContext";
+import {
+  getAuthSessionSnapshot,
+  getServerAuthSessionSnapshot,
+  subscribeToAuthSession,
+} from "@/services/auth.service";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, type FormEvent } from "react";
+import { useState, useSyncExternalStore, type FormEvent } from "react";
 import { FaTrashCan } from "react-icons/fa6";
 
 const constructionStages = [
@@ -23,6 +29,12 @@ export default function CheckoutPage() {
   const [termsAccepted, setTermsAccepted] = useState(true);
   const [error, setError] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const authSnapshot = useSyncExternalStore(
+    subscribeToAuthSession,
+    getAuthSessionSnapshot,
+    getServerAuthSessionSnapshot,
+  );
+  const user = authSnapshot.session?.user ?? null;
 
   const productCountLabel = `${itemCount} ${itemCount === 1 ? "product" : "products"}`;
 
@@ -98,7 +110,7 @@ export default function CheckoutPage() {
             <Link className="checkout-page__button continue-browsing" href="/">Continue browsing</Link>
           </section>
         ) : (
-          <form className="checkout-page__container checkout-page__layout" onSubmit={handleSubmit}>
+          <div className="checkout-page__container checkout-page__layout">
             <div className="checkout-page__form-column">
               <section className="checkout-page__card checkout-page__title-card">
                 <h1>Submit details for booking &amp; schedule demo</h1>
@@ -187,114 +199,130 @@ export default function CheckoutPage() {
                 ))}
               </section>
 
-              <section className="checkout-page__card" aria-labelledby="checkout-address">
-                <h2 id="checkout-address">Delivery address</h2>
-                <div className="checkout-page__fields">
-                  <div className="checkout-page__field">
-                    <label htmlFor="checkout-pincode">
-                      Pincode <span>*</span>
-                    </label>
-                    <input
-                      autoComplete="postal-code"
-                      id="checkout-pincode"
-                      inputMode="numeric"
-                      maxLength={6}
-                      onChange={(event) => setPincode(event.target.value)}
-                      placeholder="6-digit pincode"
-                      value={pincode}
-                    />
-                  </div>
-                  <div className="checkout-page__field">
-                    <label htmlFor="checkout-address">
-                      Address <span>*</span>
-                    </label>
-                    <textarea
-                      autoComplete="street-address"
-                      id="checkout-address"
-                      onChange={(event) => setAddress(event.target.value)}
-                      placeholder="House / flat no., building, street, area"
-                      value={address}
-                    />
-                  </div>
-                </div>
-              </section>
+              {authSnapshot.isLoaded && (
+                user ? (
+                  <section className="checkout-page__card" aria-label="Signed-in account">
+                    <p className="checkout-page__account-status">
+                      Signed in as <strong>{user.email}</strong>
+                    </p>
+                  </section>
+                ) : (
+                  <Login />
+                )
+              )}
 
-              <section className="checkout-page__card" aria-labelledby="checkout-customer">
-                <h2 id="checkout-customer">
-                  Your details <span className="checkout-page__badge">From your login</span>
-                </h2>
-                <div className="checkout-page__fields checkout-page__fields--two">
-                  <div className="checkout-page__field">
-                    <label htmlFor="checkout-name">Name</label>
-                    <input id="checkout-name" readOnly value="Rohan Sharma" />
+              <form className="checkout-page__form-column" onSubmit={handleSubmit}>
+                <section className="checkout-page__card" aria-labelledby="checkout-address">
+                  <h2 id="checkout-address">Delivery address</h2>
+                  <div className="checkout-page__fields">
+                    <div className="checkout-page__field">
+                      <label htmlFor="checkout-pincode">
+                        Pincode <span>*</span>
+                      </label>
+                      <input
+                        autoComplete="postal-code"
+                        id="checkout-pincode"
+                        inputMode="numeric"
+                        maxLength={6}
+                        onChange={(event) => setPincode(event.target.value)}
+                        placeholder="6-digit pincode"
+                        value={pincode}
+                      />
+                    </div>
+                    <div className="checkout-page__field">
+                      <label htmlFor="checkout-address">
+                        Address <span>*</span>
+                      </label>
+                      <textarea
+                        autoComplete="street-address"
+                        id="checkout-address"
+                        onChange={(event) => setAddress(event.target.value)}
+                        placeholder="House / flat no., building, street, area"
+                        value={address}
+                      />
+                    </div>
                   </div>
-                  <div className="checkout-page__field">
-                    <label htmlFor="checkout-mobile">Mobile number</label>
-                    <input id="checkout-mobile" readOnly value="+91 98765 43210" />
-                  </div>
-                  <div className="checkout-page__field checkout-page__field--full">
-                    <label htmlFor="checkout-email">Email ID</label>
-                    <input id="checkout-email" readOnly value="rohan.sharma@example.com" />
-                  </div>
-                </div>
-              </section>
+                </section>
 
-              <section className="checkout-page__card" aria-labelledby="checkout-project">
-                <h2 id="checkout-project">Project details</h2>
-                <div className="checkout-page__fields checkout-page__fields--two">
-                  <div className="checkout-page__field">
-                    <label htmlFor="checkout-stage">
-                      Construction stage <span>*</span>
-                    </label>
-                    <select
-                      id="checkout-stage"
-                      onChange={(event) => setConstructionStage(event.target.value)}
-                      value={constructionStage}
-                    >
-                      <option value="" disabled>
-                        Select stage
-                      </option>
-                      {constructionStages.map((stage) => (
-                        <option key={stage}>{stage}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="checkout-page__field">
-                    <label htmlFor="checkout-quantity">Total products ordered</label>
-                    <input id="checkout-quantity" readOnly value={productCountLabel} />
-                  </div>
-                </div>
-              </section>
-
-              <section className="checkout-page__card">
-                <div className="checkout-page__submit-area">
-                  <input
-                    checked={termsAccepted}
-                    className="checkout-page__checkbox"
-                    id="checkout-terms"
-                    onChange={(event) => setTermsAccepted(event.target.checked)}
-                    type="checkbox"
-                  />
-                  <label htmlFor="checkout-terms">
-                    I agree to the <a href="#top">Terms &amp; Conditions</a> and to be contacted
-                    by Tata Pravesh about this request.
-                  </label>
-                  <button className="checkout-page__button" disabled={!termsAccepted} type="submit">
-                    Submit details for booking &amp; schedule demo
-                  </button>
-                </div>
-                {error && (
-                  <p className="checkout-page__error" role="alert">
-                    {error}
-                  </p>
+                {user && (
+                  <section className="checkout-page__card" aria-labelledby="checkout-customer">
+                    <h2 id="checkout-customer">
+                      Your details <span className="checkout-page__badge">From your login</span>
+                    </h2>
+                    <div className="checkout-page__fields checkout-page__fields--two">
+                      <div className="checkout-page__field">
+                        <label htmlFor="checkout-name">Name</label>
+                        <input id="checkout-name" readOnly value={user.name} />
+                      </div>
+                      <div className="checkout-page__field">
+                        <label htmlFor="checkout-mobile">Mobile number</label>
+                        <input id="checkout-mobile" readOnly value={user.phone ?? ""} />
+                      </div>
+                      <div className="checkout-page__field checkout-page__field--full">
+                        <label htmlFor="checkout-email">Email ID</label>
+                        <input id="checkout-email" readOnly value={user.email} />
+                      </div>
+                    </div>
+                  </section>
                 )}
-                <p className="checkout-page__fine-print">
-                  No payment now. PDF email is not available in this preview.
-                </p>
-                <p className="checkout-page__preview-note">
-                  Checkout preview only: request submission and PDF email are not connected yet.
-                </p>
-              </section>
+
+                <section className="checkout-page__card" aria-labelledby="checkout-project">
+                  <h2 id="checkout-project">Project details</h2>
+                  <div className="checkout-page__fields checkout-page__fields--two">
+                    <div className="checkout-page__field">
+                      <label htmlFor="checkout-stage">
+                        Construction stage <span>*</span>
+                      </label>
+                      <select
+                        id="checkout-stage"
+                        onChange={(event) => setConstructionStage(event.target.value)}
+                        value={constructionStage}
+                      >
+                        <option value="" disabled>
+                          Select stage
+                        </option>
+                        {constructionStages.map((stage) => (
+                          <option key={stage}>{stage}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="checkout-page__field">
+                      <label htmlFor="checkout-quantity">Total products ordered</label>
+                      <input id="checkout-quantity" readOnly value={productCountLabel} />
+                    </div>
+                  </div>
+                </section>
+
+                <section className="checkout-page__card">
+                  <div className="checkout-page__submit-area">
+                    <input
+                      checked={termsAccepted}
+                      className="checkout-page__checkbox"
+                      id="checkout-terms"
+                      onChange={(event) => setTermsAccepted(event.target.checked)}
+                      type="checkbox"
+                    />
+                    <label htmlFor="checkout-terms">
+                      I agree to the <a href="#top">Terms &amp; Conditions</a> and to be contacted
+                      by Tata Pravesh about this request.
+                    </label>
+                    <button className="checkout-page__button" disabled={!termsAccepted || !user} type="submit">
+                      Submit Pre-Order Request
+                    </button>
+                  </div>
+                  {error && (
+                    <p className="checkout-page__error" role="alert">
+                      {error}
+                    </p>
+                  )}
+                  <p className="checkout-page__fine-print">
+                    No payment now. PDF email is not available in this preview.
+                  </p>
+                  <p className="checkout-page__preview-note">
+                    Checkout preview only: request submission and PDF email are not connected yet.
+                  </p>
+                </section>
+              </form>
             </div>
 
             <aside className="checkout-page__card checkout-page__next" aria-labelledby="checkout-next">
@@ -324,7 +352,7 @@ export default function CheckoutPage() {
               </ol>
               <p>Need help? Call 1-800-4199-200</p>
             </aside>
-          </form>
+          </div>
         )}
       </div>
 

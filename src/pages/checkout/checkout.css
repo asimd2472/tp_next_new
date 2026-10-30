@@ -148,6 +148,16 @@
   font-weight: 800;
 }
 
+.checkout-page__account-status {
+  margin: 0;
+  color: var(--checkout-muted);
+  font-size: 14px;
+}
+
+.checkout-page__account-status strong {
+  color: var(--checkout-primary);
+}
+
 .checkout-page__title-card h1 {
   margin: 0 0 6px;
   color: var(--checkout-primary);
