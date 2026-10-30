@@ -24,7 +24,7 @@ const menuCategories: MenuCategory[] = [
       { label: "Door With Side Window", href: "/door-models/door-with-side-window" },
       { label: "Door With Ventilator", href: "/doors-with-ventilators" },
       { label: "Glazed Door", href: "/door-models/glazed-door" },
-      { label: "Shaft Duct Access Door", href: "/door-models/shaft-duct-access-door" },
+      { label: "Shaft Duct Access Door", href: "/shaft-duct-access-door" },
     ],
   },
   {
