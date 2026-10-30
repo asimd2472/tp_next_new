@@ -125,20 +125,33 @@ export default function Header() {
             <Image src="/images/tatasteel-logo.png" alt="Tata Steel" width={108} height={32} priority />
           </Link>
           <nav aria-label="Primary navigation" className="desktop-navigation">
-            {menuCategories.map((category) => (
-              <button
-                key={category.name}
-                type="button"
-                className={activeCategory === category.name ? "desktop-navigation__trigger desktop-navigation__trigger--active" : "desktop-navigation__trigger"}
-                aria-expanded={activeCategory === category.name}
-                aria-controls="header-mega-menu"
-                onMouseEnter={() => setActiveCategory(category.name)}
-                onFocus={() => setActiveCategory(category.name)}
-                onClick={() => setActiveCategory(category.name)}
-              >
-                {category.name}
-              </button>
-            ))}
+            {menuCategories.map((category) =>
+              category.items.length > 0 ? (
+                <button
+                  key={category.name}
+                  type="button"
+                  className={activeCategory === category.name ? "desktop-navigation__trigger desktop-navigation__trigger--active" : "desktop-navigation__trigger"}
+                  aria-expanded={activeCategory === category.name}
+                  aria-controls="header-mega-menu"
+                  onMouseEnter={() => setActiveCategory(category.name)}
+                  onFocus={() => setActiveCategory(category.name)}
+                  onClick={() => setActiveCategory(category.name)}
+                >
+                  {category.name}
+                </button>
+              ) : (
+                <Link
+                  key={category.name}
+                  href={category.href}
+                  className="desktop-navigation__trigger"
+                  onMouseEnter={() => setActiveCategory(null)}
+                  onFocus={() => setActiveCategory(null)}
+                  onClick={() => setActiveCategory(null)}
+                >
+                  {category.name}
+                </Link>
+              ),
+            )}
           </nav>
           <Link href="#home" aria-label="Tata Pravesh" className="tata-pravesh-logo">
             <Image src="/images/Tata-Pravesh-logo.png" alt="Tata Pravesh" fill priority sizes="166px" />
