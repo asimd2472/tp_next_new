@@ -18,11 +18,11 @@
 }
 
 .checkout-page a {
-  color: var(--checkout-primary);
+  color: #ffff;
 }
 
 .checkout-page a:hover {
-  color: var(--checkout-primary-dark);
+  color: #ffff;
 }
 
 .checkout-page__container {
@@ -119,12 +119,12 @@
   color: var(--checkout-muted);
 }
 
-.checkout-page__empty .continue-browsing {
+/* .checkout-page__empty .continue-browsing {
   flex: 0 1 auto;
   min-width: 240px;
   color: #fff;
   background: linear-gradient(90deg, #236bb3 0%, #79aa32 100%);
-}
+} */
 
 .checkout-page__form-column {
   display: flex;

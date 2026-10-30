@@ -1,16 +1,18 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Login from "@/components/Login";
+import axios from "axios";
 import { useCart } from "@/context/CartContext";
 import {
   getAuthSessionSnapshot,
   getServerAuthSessionSnapshot,
   subscribeToAuthSession,
 } from "@/services/auth.service";
+import { submitCartDetails } from "@/services/checkout.service";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useSyncExternalStore, type FormEvent } from "react";
+import { useRef, useState, useSyncExternalStore, type FormEvent } from "react";
 import { FaTrashCan } from "react-icons/fa6";
 
 const constructionStages = [
@@ -29,6 +31,9 @@ export default function CheckoutPage() {
   const [termsAccepted, setTermsAccepted] = useState(true);
   const [error, setError] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [confirmationMessage, setConfirmationMessage] = useState("");
+  const addressRef = useRef<HTMLTextAreaElement>(null);
   const authSnapshot = useSyncExternalStore(
     subscribeToAuthSession,
     getAuthSessionSnapshot,
@@ -38,11 +43,27 @@ export default function CheckoutPage() {
 
   const productCountLabel = `${itemCount} ${itemCount === 1 ? "product" : "products"}`;
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!/^\d{6}$/.test(pincode.trim()) || !address.trim() || !constructionStage) {
-      setError("Please enter a 6-digit pincode, your delivery address and construction stage.");
+    if (!user) {
+      setError("Please sign in before submitting your pre-order request.");
+      return;
+    }
+
+    if (!address.trim()) {
+      setError("Delivery address is required.");
+      addressRef.current?.focus();
+      return;
+    }
+
+    if (!/^\d{6}$/.test(pincode.trim())) {
+      setError("Please enter a valid 6-digit pincode.");
+      return;
+    }
+
+    if (!constructionStage) {
+      setError("Please select your construction stage.");
       return;
     }
 
@@ -52,8 +73,39 @@ export default function CheckoutPage() {
     }
 
     setError("");
-    setShowConfirmation(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setIsSubmitting(true);
+
+    try {
+      const response = await submitCartDetails({
+        cart_details: items,
+        construction_stage: constructionStage,
+        pincode: pincode.trim(),
+        address: address.trim(),
+      });
+
+      if (response.success === false) {
+        throw new Error(response.message || "We couldn’t submit your pre-order request. Please try again.");
+      }
+
+      setConfirmationMessage(response.message || "Your pre-order request has been submitted successfully.");
+      setShowConfirmation(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (submitError) {
+      if (axios.isAxiosError<{ message?: string }>(submitError)) {
+        setError(
+          submitError.response?.data?.message
+            || (submitError.response?.status === 401
+              ? "Your sign-in session has expired. Please sign in again."
+              : "We couldn’t submit your pre-order request. Please try again."),
+        );
+      } else {
+        setError(submitError instanceof Error
+          ? submitError.message
+          : "We couldn’t submit your pre-order request. Please try again.");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -78,13 +130,7 @@ export default function CheckoutPage() {
                 </svg>
               </span>
               <h1>Details ready</h1>
-              <p>
-                Your booking and demo request details have been checked. Connect this page to
-                the booking service to send them to Tata Pravesh.
-              </p>
-              <p className="checkout-page__confirmation-note">
-                This page preview does not send your details or email a PDF.
-              </p>
+              <p>{confirmationMessage}</p>
               <div className="checkout-page__confirmation-actions">
                 <Link className="checkout-page__button" href="/">
                   Continue browsing
@@ -211,9 +257,9 @@ export default function CheckoutPage() {
                 )
               )}
 
-              <form className="checkout-page__form-column" onSubmit={handleSubmit}>
-                <section className="checkout-page__card" aria-labelledby="checkout-address">
-                  <h2 id="checkout-address">Delivery address</h2>
+              <form className="checkout-page__form-column" noValidate onSubmit={handleSubmit}>
+                <section className="checkout-page__card" aria-labelledby="checkout-delivery-address">
+                  <h2 id="checkout-delivery-address">Delivery address</h2>
                   <div className="checkout-page__fields">
                     <div className="checkout-page__field">
                       <label htmlFor="checkout-pincode">
@@ -224,6 +270,7 @@ export default function CheckoutPage() {
                         id="checkout-pincode"
                         inputMode="numeric"
                         maxLength={6}
+                        required
                         onChange={(event) => setPincode(event.target.value)}
                         placeholder="6-digit pincode"
                         value={pincode}
@@ -236,6 +283,8 @@ export default function CheckoutPage() {
                       <textarea
                         autoComplete="street-address"
                         id="checkout-address"
+                        ref={addressRef}
+                        required
                         onChange={(event) => setAddress(event.target.value)}
                         placeholder="House / flat no., building, street, area"
                         value={address}
@@ -275,6 +324,7 @@ export default function CheckoutPage() {
                       </label>
                       <select
                         id="checkout-stage"
+                        required
                         onChange={(event) => setConstructionStage(event.target.value)}
                         value={constructionStage}
                       >
@@ -306,8 +356,8 @@ export default function CheckoutPage() {
                       I agree to the <a href="#top">Terms &amp; Conditions</a> and to be contacted
                       by Tata Pravesh about this request.
                     </label>
-                    <button className="checkout-page__button" disabled={!termsAccepted || !user} type="submit">
-                      Submit Pre-Order Request
+                    <button className="checkout-page__button" disabled={!termsAccepted || !user || isSubmitting} type="submit">
+                      {isSubmitting ? "Submitting request…" : "Submit Pre-Order Request"}
                     </button>
                   </div>
                   {error && (
@@ -316,10 +366,10 @@ export default function CheckoutPage() {
                     </p>
                   )}
                   <p className="checkout-page__fine-print">
-                    No payment now. PDF email is not available in this preview.
+                    No payment is due when you submit your pre-order request.
                   </p>
                   <p className="checkout-page__preview-note">
-                    Checkout preview only: request submission and PDF email are not connected yet.
+                    Our team will contact you about your request.
                   </p>
                 </section>
               </form>
