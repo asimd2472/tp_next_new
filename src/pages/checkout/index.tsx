@@ -376,27 +376,42 @@ export default function CheckoutPage() {
             </div>
 
             <aside className="checkout-page__card checkout-page__next" aria-labelledby="checkout-next">
-              <h2 id="checkout-next">What happens next</h2>
+              <h2 id="checkout-next">The Booking Journey</h2>
+              {/* <p>Simple | Transparent | Hassle-Free</p> */}
               <ol>
                 <li>
                   <span>1</span>
                   <div>
-                    <strong>Submit your details</strong>
-                    No payment needed today.
+                    <strong>Add Products to Your Cart</strong>
+                    Explore our range of Tata Pravesh Aluminium Windows & Doors and add your preferred products to the cart.
                   </div>
                 </li>
                 <li>
                   <span>2</span>
                   <div>
-                    <strong>Get a PDF on email</strong>
-                    Products, quantities and delivery address in one document.
+                    <strong>Place Your Pre-Order & Book a Demo</strong>
+                    Submit your pre-order and schedule a product demo at your convenience. No payment required at this stage.
                   </div>
                 </li>
                 <li>
                   <span>3</span>
                   <div>
-                    <strong>We contact you within 24 hours</strong>
-                    Our executive will call to schedule your demo.
+                    <strong>Take the Demo & Confirm Your Order</strong>
+                    Experience the product and finalise your order with the dealer by paying 50% advance.
+                  </div>
+                </li>
+                <li>
+                  <span>4</span>
+                  <div>
+                    <strong>Get Your Delivery</strong>
+                    Your order will be delivered within 60–120 days from the date of order placement.
+                  </div>
+                </li>
+                <li>
+                  <span>5</span>
+                  <div>
+                    <strong>Pay the Remaining 50% Before Installation</strong>
+                    Clear the remaining balance before installation and get ready to transform your space.
                   </div>
                 </li>
               </ol>
