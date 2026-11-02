@@ -150,9 +150,9 @@
   white-space: nowrap;
 }
 
-.login-component__submit:hover:not(:disabled) {
+/* .login-component__submit:hover:not(:disabled) {
   background: #0b2a58;
-}
+} */
 
 .login-component__submit:focus-visible,
 .login-component__text-button:focus-visible {

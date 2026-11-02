@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { FaDownload, FaMapMarkerAlt, FaCalendarCheck, FaEnvelope, FaPhoneAlt, FaUser, FaShoppingCart, FaArrowRight, FaRegHeart, FaRegUser } from "react-icons/fa";
 import { useCart } from "@/context/CartContext";
+import Login from "@/components/Login";
 import {
   getAuthSessionSnapshot,
   getServerAuthSessionSnapshot,
@@ -86,8 +87,10 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const authModalCloseButton = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -96,7 +99,23 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!authModalOpen) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    authModalCloseButton.current?.focus();
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [authModalOpen]);
+
   const categoryId = (name: string) => name.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const openAuthModal = () => {
+    setAccountMenuOpen(false);
+    setMenuOpen(false);
+    setAuthModalOpen(true);
+  };
 
   return (
     <header className={`site-header ${isHomePage ? "" : "site-header--inner-page"} ${scrolled ? "site-header--scrolled" : ""}`}>
@@ -199,13 +218,20 @@ export default function Header() {
                   {authSnapshot.isLoaded && !authSnapshot.session && (
                     <div className="header-account__signup">
                       <span>New customer?</span>
-                      <Link href="/#" onClick={() => setAccountMenuOpen(false)}>Sign Up</Link>
+                      <button type="button" onClick={openAuthModal}>Sign Up</button>
                     </div>
                   )}
-                  <Link className="header-account__item" href="#account" onClick={() => setAccountMenuOpen(false)}>
-                    <FaRegUser aria-hidden="true" />
-                    <span>My Profile</span>
-                  </Link>
+                  {authSnapshot.session ? (
+                    <Link className="header-account__item" href="#account" onClick={() => setAccountMenuOpen(false)}>
+                      <FaRegUser aria-hidden="true" />
+                      <span>My Profile</span>
+                    </Link>
+                  ) : (
+                    <button className="header-account__item" type="button" onClick={openAuthModal}>
+                      <FaRegUser aria-hidden="true" />
+                      <span>My Profile</span>
+                    </button>
+                  )}
                   <Link className="header-account__item" href="#wishlist" onClick={() => setAccountMenuOpen(false)}>
                     <FaRegHeart aria-hidden="true" />
                     <span>Wishlist</span>
@@ -234,6 +260,9 @@ export default function Header() {
         </div>
         {menuOpen && (
           <nav aria-label="Mobile navigation" className="mobile-navigation">
+            <button className="mobile-navigation__category-link" type="button" onClick={openAuthModal}>
+              {authSnapshot.session ? "My Profile" : "Login / Sign Up"}
+            </button>
             {menuCategories.map((category) => (
               category.items.length > 0 ? (
                 <div className="mobile-navigation__category" key={category.name}>
@@ -296,6 +325,49 @@ export default function Header() {
           </div>
         )}
       </div>
+      {authModalOpen && (
+        <div
+          className="header-auth-modal"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setAuthModalOpen(false);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Escape") setAuthModalOpen(false);
+          }}
+        >
+          <section
+            className="header-auth-modal__dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="header-auth-modal-title"
+          >
+            <aside className="header-auth-modal__sidebar">
+              <h2 id="header-auth-modal-title">Login</h2>
+              <p>Get access to your Accounts, Wishlist and Recommendations</p>
+              <div className="header-auth-modal__illustration">
+                <Image
+                  src="/images/login_logo-preview.webp"
+                  alt=""
+                  fill
+                  sizes="(max-width: 640px) 140px, 250px"
+                />
+              </div>
+            </aside>
+            <div className="header-auth-modal__content">
+              <button
+                ref={authModalCloseButton}
+                className="header-auth-modal__close"
+                type="button"
+                aria-label="Close login dialog"
+                onClick={() => setAuthModalOpen(false)}
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+              <Login className="header-auth-modal__login" />
+            </div>
+          </section>
+        </div>
+      )}
     </header>
   );
 }
