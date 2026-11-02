@@ -228,6 +228,11 @@
   color: var(--pdp-primary);
 }
 
+.pdp-action[aria-pressed="true"] svg,
+.pdp-mobile-action[aria-pressed="true"] {
+  color: var(--pdp-primary);
+}
+
 .pdp-share {
   position: relative;
   z-index: 5;

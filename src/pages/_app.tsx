@@ -32,6 +32,7 @@ import "./door-models/model-listing.css";
 import "./shaft-duct-access-door/shaft-duct-access-door.css";
 import "./glazed-door/glazed-door.css";
 import "../components/Login/login.css";
+import "../components/Account/account.css";
 import "react-toastify/dist/ReactToastify.css";
 import type { AppProps } from "next/app";
 import { CartProvider } from "@/context/CartContext";

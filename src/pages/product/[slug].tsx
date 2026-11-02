@@ -6,8 +6,15 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState, type ChangeEvent, type TouchEvent, type WheelEvent } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type ChangeEvent, type TouchEvent, type WheelEvent } from "react";
 import { toast } from "react-toastify";
+import useWishlist from "@/hooks/useWishlist";
+import {
+  getAuthSessionSnapshot,
+  getServerAuthSessionSnapshot,
+  subscribeToAuthSession,
+} from "@/services/auth.service";
+import type { WishlistItem } from "@/services/wishlist.service";
 import {
   FaArrowLeft,
   FaArrowRight,
@@ -20,6 +27,7 @@ import {
   FaClock,
   FaHeadphones,
   FaHeart,
+  FaRegHeart,
   FaLink,
   FaMinus,
   FaPlay,
@@ -300,6 +308,13 @@ const INCLUDED = [
 export default function ProductDetailsPage() {
   const router = useRouter();
   const { addItem } = useCart();
+  const authSnapshot = useSyncExternalStore(
+    subscribeToAuthSession,
+    getAuthSessionSnapshot,
+    getServerAuthSessionSnapshot,
+  );
+  const userId = authSnapshot.session?.user.id ?? null;
+  const wishlist = useWishlist(userId);
   const [productData, setProductData] = useState<ProductDetailsApiResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [img, setImg] = useState(0);
@@ -452,6 +467,36 @@ export default function ProductDetailsPage() {
       quantity: 1,
     });
     toast.success(`${model.name} added to cart.`);
+  };
+
+  const wishlistItem: WishlistItem | null = product && model
+    ? {
+      id: `${product.slug}-${model.id}-${activeDesign?.id ?? "design"}-${activeShade?.id ?? "shade"}`,
+      productSlug: product.slug,
+      productName: product.name,
+      modelName: model.name,
+      designName: activeDesign?.name || "Standard design",
+      shadeName: activeShade?.name || "No shade",
+      image: getImageSource(activeShade?.primary_image_url, activeDesign?.primary_image_url, galleryImages[0], product.main_image_url, activeDesign?.thumbnail_url, FALLBACK_IMAGE),
+      unitPrice: model.starting_price && model.starting_price > 0 ? model.starting_price : null,
+    }
+    : null;
+  const isSaved = wishlistItem !== null && wishlist.items.some((item) => item.id === wishlistItem.id);
+
+  const toggleWishlist = () => {
+    if (!authSnapshot.isLoaded) return;
+    if (!wishlistItem) return;
+
+    try {
+      if (isSaved) {
+        wishlist.removeItem(wishlistItem.id);
+        toast.success(`${model?.name ?? "Product"} removed from wishlist.`);
+      } else if (wishlist.addItem(wishlistItem)) {
+        toast.success(`${model?.name ?? "Product"} added to wishlist.`);
+      }
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to update your wishlist.");
+    }
   };
 
   const GALLERY = galleryImages.length
@@ -702,7 +747,15 @@ export default function ProductDetailsPage() {
                 ))}
               </div>
               <div className="pdp-mobile-actions">
-                <button className="pdp-mobile-action" type="button" aria-label={`Save ${productName}`}><FaHeart /></button>
+                <button
+                  className="pdp-mobile-action"
+                  type="button"
+                  aria-label={isSaved ? `Remove ${productName} from wishlist` : `Save ${productName} to wishlist`}
+                  aria-pressed={isSaved}
+                  onClick={toggleWishlist}
+                >
+                  {isSaved ? <FaHeart /> : <FaRegHeart />}
+                </button>
                 <ProductShareMenu productName={productName} mobile />
               </div>
             </div>
@@ -712,7 +765,14 @@ export default function ProductDetailsPage() {
             <div className="pdp-info-head">
               <span className="pdp-badge">{model.is_premium ? "Premium" : "Popular"}</span>
               <div className="pdp-actions">
-                <button className="pdp-action"><FaHeart /> Save</button>
+                <button
+                  className="pdp-action"
+                  type="button"
+                  aria-pressed={isSaved}
+                  onClick={toggleWishlist}
+                >
+                  {isSaved ? <FaHeart /> : <FaRegHeart />} {isSaved ? "Saved" : "Save"}
+                </button>
                 <ProductShareMenu productName={productName} />
               </div>
             </div>

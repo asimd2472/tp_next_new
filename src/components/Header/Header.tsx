@@ -2,10 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { FaDownload, FaMapMarkerAlt, FaCalendarCheck, FaEnvelope, FaPhoneAlt, FaUser, FaShoppingCart, FaArrowRight, FaRegHeart, FaRegUser } from "react-icons/fa";
+import { FaDownload, FaMapMarkerAlt, FaCalendarCheck, FaEnvelope, FaPhoneAlt, FaUser, FaShoppingCart, FaArrowRight, FaRegHeart, FaRegUser, FaSignOutAlt } from "react-icons/fa";
 import { useCart } from "@/context/CartContext";
 import Login from "@/components/Login";
 import {
+  clearAuthSession,
   getAuthSessionSnapshot,
   getServerAuthSessionSnapshot,
   subscribeToAuthSession,
@@ -76,7 +77,8 @@ const utilityLinks = [
 ];
 
 export default function Header() {
-  const { pathname } = useRouter();
+  const router = useRouter();
+  const { pathname } = router;
   const { itemCount } = useCart();
   const authSnapshot = useSyncExternalStore(
     subscribeToAuthSession,
@@ -110,11 +112,27 @@ export default function Header() {
     };
   }, [authModalOpen]);
 
+  useEffect(() => {
+    const handleOpenLogin = () => {
+      setAccountMenuOpen(false);
+      setMenuOpen(false);
+      setAuthModalOpen(true);
+    };
+    window.addEventListener("tata-pravesh:open-login", handleOpenLogin);
+    return () => window.removeEventListener("tata-pravesh:open-login", handleOpenLogin);
+  }, []);
+
   const categoryId = (name: string) => name.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const openAuthModal = () => {
     setAccountMenuOpen(false);
     setMenuOpen(false);
     setAuthModalOpen(true);
+  };
+  const signOut = async () => {
+    clearAuthSession();
+    setAccountMenuOpen(false);
+    setMenuOpen(false);
+    await router.replace("/");
   };
 
   return (
@@ -222,7 +240,7 @@ export default function Header() {
                     </div>
                   )}
                   {authSnapshot.session ? (
-                    <Link className="header-account__item" href="#account" onClick={() => setAccountMenuOpen(false)}>
+                    <Link className="header-account__item" href="/my-profile" onClick={() => setAccountMenuOpen(false)}>
                       <FaRegUser aria-hidden="true" />
                       <span>My Profile</span>
                     </Link>
@@ -232,10 +250,23 @@ export default function Header() {
                       <span>My Profile</span>
                     </button>
                   )}
-                  <Link className="header-account__item" href="#wishlist" onClick={() => setAccountMenuOpen(false)}>
-                    <FaRegHeart aria-hidden="true" />
-                    <span>Wishlist</span>
-                  </Link>
+                  {authSnapshot.session ? (
+                    <Link className="header-account__item" href="/wishlist" onClick={() => setAccountMenuOpen(false)}>
+                      <FaRegHeart aria-hidden="true" />
+                      <span>Wishlist</span>
+                    </Link>
+                  ) : (
+                    <button className="header-account__item" type="button" onClick={openAuthModal}>
+                      <FaRegHeart aria-hidden="true" />
+                      <span>Wishlist</span>
+                    </button>
+                  )}
+                  {authSnapshot.session && (
+                    <button className="header-account__item" type="button" onClick={signOut}>
+                      <FaSignOutAlt aria-hidden="true" />
+                      <span>Logout</span>
+                    </button>
+                  )}
                 </div>
               )}
             </div>
@@ -260,9 +291,18 @@ export default function Header() {
         </div>
         {menuOpen && (
           <nav aria-label="Mobile navigation" className="mobile-navigation">
-            <button className="mobile-navigation__category-link" type="button" onClick={openAuthModal}>
-              {authSnapshot.session ? "My Profile" : "Login / Sign Up"}
-            </button>
+            {authSnapshot.session ? (
+              <>
+                <Link className="mobile-navigation__category-link" href="/my-profile" onClick={() => setMenuOpen(false)}>My Profile</Link>
+                <Link className="mobile-navigation__category-link" href="/wishlist" onClick={() => setMenuOpen(false)}>Wishlist</Link>
+                <button className="mobile-navigation__category-link" type="button" onClick={signOut}>Logout</button>
+              </>
+            ) : (
+              <>
+                <button className="mobile-navigation__category-link" type="button" onClick={openAuthModal}>My Profile</button>
+                <button className="mobile-navigation__category-link" type="button" onClick={openAuthModal}>Wishlist</button>
+              </>
+            )}
             {menuCategories.map((category) => (
               category.items.length > 0 ? (
                 <div className="mobile-navigation__category" key={category.name}>
@@ -346,7 +386,7 @@ export default function Header() {
               <p>Get access to your Accounts, Wishlist and Recommendations</p>
               <div className="header-auth-modal__illustration">
                 <Image
-                  src="/images/login_logo-preview.webp"
+                  src="/images/login-logo.avif"
                   alt=""
                   fill
                   sizes="(max-width: 640px) 140px, 250px"
@@ -363,7 +403,7 @@ export default function Header() {
               >
                 <span aria-hidden="true">×</span>
               </button>
-              <Login className="header-auth-modal__login" />
+              <Login className="header-auth-modal__login" onSuccess={() => setAuthModalOpen(false)} />
             </div>
           </section>
         </div>

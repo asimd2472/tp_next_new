@@ -55,6 +55,24 @@ export interface PendingRegistration {
 const serverAuthSnapshot: AuthSessionSnapshot = { session: null, isLoaded: false };
 let authSnapshot = serverAuthSnapshot;
 const authListeners = new Set<() => void>();
+let storageListenerRegistered = false;
+
+function notifyAuthListeners() {
+  authListeners.forEach((listener) => listener());
+}
+
+function syncAuthSession(event: StorageEvent) {
+  if (event.key !== AUTH_STORAGE_KEY && event.key !== null) return;
+
+  authSnapshot = { session: readStoredAuthSession(), isLoaded: true };
+  notifyAuthListeners();
+}
+
+function registerStorageListener() {
+  if (storageListenerRegistered || typeof window === "undefined") return;
+  window.addEventListener("storage", syncAuthSession);
+  storageListenerRegistered = true;
+}
 
 export async function resendOtp(email: string) {
   const response = await api.post<ResendOtpResponse>("resend-otp", { email });
@@ -83,7 +101,19 @@ export async function registerWithEmail(
 export function saveAuthSession(session: AuthSession) {
   window.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(session));
   authSnapshot = { session, isLoaded: true };
-  authListeners.forEach((listener) => listener());
+  notifyAuthListeners();
+}
+
+export function clearAuthSession() {
+  window.localStorage.removeItem(AUTH_STORAGE_KEY);
+  authSnapshot = { session: null, isLoaded: true };
+  notifyAuthListeners();
+}
+
+export function requestLoginModal() {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event("tata-pravesh:open-login"));
+  }
 }
 
 function isAuthSession(value: unknown): value is AuthSession {
@@ -94,11 +124,16 @@ function isAuthSession(value: unknown): value is AuthSession {
 
   const authUser = user as Record<string, unknown>;
   return typeof session.tokenType === "string"
+    && session.tokenType.length > 0
     && typeof session.accessToken === "string"
     && session.accessToken.length > 0
     && typeof authUser.id === "number"
+    && Number.isSafeInteger(authUser.id)
+    && authUser.id > 0
     && typeof authUser.name === "string"
+    && authUser.name.trim().length > 0
     && typeof authUser.email === "string"
+    && authUser.email.trim().length > 0
     && (typeof authUser.phone === "string" || authUser.phone === null)
     && (typeof authUser.email_verified_at === "string" || authUser.email_verified_at === null);
 }
@@ -132,6 +167,7 @@ export function getServerAuthSessionSnapshot() {
 }
 
 export function subscribeToAuthSession(listener: () => void) {
+  registerStorageListener();
   authListeners.add(listener);
   return () => authListeners.delete(listener);
 }
