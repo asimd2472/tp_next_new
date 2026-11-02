@@ -1,9 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { FaDownload, FaMapMarkerAlt, FaCalendarCheck, FaEnvelope, FaPhoneAlt, FaUser, FaShoppingCart, FaArrowRight } from "react-icons/fa";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import { FaDownload, FaMapMarkerAlt, FaCalendarCheck, FaEnvelope, FaPhoneAlt, FaUser, FaShoppingCart, FaArrowRight, FaRegHeart, FaRegUser } from "react-icons/fa";
 import { useCart } from "@/context/CartContext";
+import {
+  getAuthSessionSnapshot,
+  getServerAuthSessionSnapshot,
+  subscribeToAuthSession,
+} from "@/services/auth.service";
 
 type MenuCategory = {
   name: string;
@@ -72,9 +77,15 @@ const utilityLinks = [
 export default function Header() {
   const { pathname } = useRouter();
   const { itemCount } = useCart();
+  const authSnapshot = useSyncExternalStore(
+    subscribeToAuthSession,
+    getAuthSessionSnapshot,
+    getServerAuthSessionSnapshot,
+  );
   const isHomePage = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
@@ -117,7 +128,10 @@ export default function Header() {
         className="main-header"
         onMouseLeave={() => setActiveCategory(null)}
         onKeyDown={(event) => {
-          if (event.key === "Escape") setActiveCategory(null);
+          if (event.key === "Escape") {
+            setActiveCategory(null);
+            setAccountMenuOpen(false);
+          }
         }}
       >
         <div className="main-header__inner">
@@ -157,9 +171,48 @@ export default function Header() {
             <Image src="/images/Tata-Pravesh-logo.png" alt="Tata Pravesh" fill priority sizes="166px" />
           </Link>
           <div className="header-actions">
-            <Link href="#account" aria-label="Account" className="header-icon-button header-icon-button--user">
-              <FaUser aria-hidden="true" />
-            </Link>
+            <div
+              className="header-account"
+              onMouseEnter={() => setAccountMenuOpen(true)}
+              onMouseLeave={() => setAccountMenuOpen(false)}
+              onFocusCapture={() => setAccountMenuOpen(true)}
+              onBlur={(event) => {
+                const nextTarget = event.relatedTarget;
+                if (!(nextTarget instanceof Node) || !event.currentTarget.contains(nextTarget)) {
+                  setAccountMenuOpen(false);
+                }
+              }}
+            >
+              <button
+                type="button"
+                aria-label="Account"
+                aria-expanded={accountMenuOpen}
+                aria-controls="header-account-menu"
+                aria-haspopup="true"
+                className="header-icon-button header-icon-button--user"
+                onClick={() => setAccountMenuOpen(true)}
+              >
+                <FaUser aria-hidden="true" />
+              </button>
+              {accountMenuOpen && (
+                <div className="header-account__menu" id="header-account-menu" aria-label="Account options">
+                  {authSnapshot.isLoaded && !authSnapshot.session && (
+                    <div className="header-account__signup">
+                      <span>New customer?</span>
+                      <Link href="/#" onClick={() => setAccountMenuOpen(false)}>Sign Up</Link>
+                    </div>
+                  )}
+                  <Link className="header-account__item" href="#account" onClick={() => setAccountMenuOpen(false)}>
+                    <FaRegUser aria-hidden="true" />
+                    <span>My Profile</span>
+                  </Link>
+                  <Link className="header-account__item" href="#wishlist" onClick={() => setAccountMenuOpen(false)}>
+                    <FaRegHeart aria-hidden="true" />
+                    <span>Wishlist</span>
+                  </Link>
+                </div>
+              )}
+            </div>
             <Link href="/checkout" aria-label={`Cart, ${itemCount} ${itemCount === 1 ? "item" : "items"}`} className="header-icon-button header-icon-button--cart">
               <FaShoppingCart aria-hidden="true" />
               {itemCount > 0 && <span className="cart-count">{itemCount > 99 ? "99+" : itemCount}</span>}

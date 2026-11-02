@@ -192,6 +192,85 @@
   z-index: 3;
 }
 
+.header-account {
+  position: relative;
+  display: inline-flex;
+}
+
+.header-icon-button--user {
+  padding: 0;
+  cursor: pointer;
+}
+
+.header-account__menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 60;
+  width: min(282px, calc(100vw - 24px));
+  padding: 18px 20px;
+  border: 1px solid #d9d9d9;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(7, 27, 57, .14);
+  color: #414141;
+}
+
+.header-account__menu::before {
+  position: absolute;
+  top: -13px;
+  right: 0;
+  left: 0;
+  height: 14px;
+  content: "";
+}
+
+.header-account__signup {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 8px 14px;
+  border-bottom: 1px solid #ededed;
+  font-size: 15px;
+}
+
+.header-account__signup a {
+  color: #0756c9;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.header-account__signup a:hover,
+.header-account__signup a:focus-visible {
+  color: #073f91;
+  text-decoration: underline;
+}
+
+.header-account__item {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 14px;
+  padding: 4px 8px;
+  color: #414141;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.header-account__item:hover,
+.header-account__item:focus-visible {
+  color: #17345f;
+  background: #f5f7fa;
+  outline: none;
+}
+
+.header-account__item svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+}
+
 .header-icon-button {
   position: relative;
   display: inline-flex;
