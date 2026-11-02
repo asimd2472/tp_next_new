@@ -23,7 +23,7 @@ const menuCategories: MenuCategory[] = [
       { label: "Reflections -Nature Series", href: "/door-models/reflections-natura-series" },
       { label: "Door With Side Window", href: "/door-models/door-with-side-window" },
       { label: "Door With Ventilator", href: "/doors-with-ventilators" },
-      { label: "Glazed Door", href: "/door-models/glazed-door" },
+      { label: "Glazed Door", href: "/glazed-door" },
       { label: "Shaft Duct Access Door", href: "/shaft-duct-access-door" },
     ],
   },

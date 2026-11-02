@@ -30,6 +30,7 @@ import "./blogs/ready-for-every-weather/ready-for-every-weather.css";
 import "./blogs/better-for-today-better-for-tomorrow/better-for-today-better-for-tomorrow.css";
 import "./door-models/model-listing.css";
 import "./shaft-duct-access-door/shaft-duct-access-door.css";
+import "./glazed-door/glazed-door.css";
 import "../components/Login/login.css";
 import "react-toastify/dist/ReactToastify.css";
 import type { AppProps } from "next/app";

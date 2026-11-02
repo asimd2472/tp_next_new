@@ -1,0 +1,316 @@
+.glazed-door {
+  min-height: 100vh;
+  background: #f3f7fc;
+  color: #1d2b3f;
+  font-family: inherit;
+}
+
+.glazed-door *,
+.glazed-door *::before,
+.glazed-door *::after {
+  box-sizing: border-box;
+}
+
+.glazed-door a {
+  color: #14407f;
+}
+
+.glazed-door a:hover {
+  color: #0b2a58;
+}
+
+.glazed-door__container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.glazed-door__hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 18px;
+  padding-top: 20px;
+  padding-bottom: 8px;
+}
+
+.glazed-door__eyebrow {
+  color: #2a6ab5;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: .16em;
+}
+
+.glazed-door__hero h1 {
+  margin: 6px 0 10px;
+  color: #14407f;
+  font-size: clamp(32px, 7vw, 50px);
+  font-weight: 700;
+  line-height: 1.06;
+}
+
+.glazed-door__hero-copy {
+  margin: 0 0 16px;
+  color: #33475f;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.glazed-door__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.glazed-door__button {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 10px;
+  background: #14407f;
+  color: #fff !important;
+  cursor: pointer;
+  font: inherit;
+  font-size: 16.5px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.glazed-door__button:hover {
+  background: #0b2a58;
+}
+
+.glazed-door__button:focus-visible {
+  outline: 3px solid #2a6ab5;
+  outline-offset: 2px;
+}
+
+.glazed-door__button--outline {
+  border: 2px solid #14407f;
+  background: #fff;
+  color: #14407f !important;
+}
+
+.glazed-door__button--outline:hover {
+  background: #e3eefa;
+}
+
+.glazed-door__photo {
+  position: relative;
+  height: 300px;
+  max-height: 420px;
+  overflow: hidden;
+  border: 1px solid #d3e0f0;
+  border-radius: 16px;
+  background: #e3eefa;
+}
+
+.glazed-door__photo img {
+  object-fit: cover;
+  object-position: center 35%;
+}
+
+.glazed-door__section {
+  padding-top: 28px;
+}
+
+.glazed-door__heading {
+  margin: 0 0 12px;
+  color: #14407f;
+  font-size: clamp(24px, 5vw, 30px);
+  font-weight: 700;
+}
+
+.glazed-door__configurator {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #d3e0f0;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.glazed-door__preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 14px;
+  background: #e3eefa;
+}
+
+.glazed-door__preview svg {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.glazed-door__group {
+  margin-bottom: 18px;
+}
+
+.glazed-door__label {
+  margin: 0 0 8px;
+  color: #1d2b3f;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.glazed-door__label b {
+  color: #14407f;
+}
+
+.glazed-door__swatches,
+.glazed-door__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.glazed-door__swatch {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid #9db6d6;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.glazed-door__swatch.is-active {
+  outline: 3px solid #14407f;
+  outline-offset: 2px;
+}
+
+.glazed-door__swatch:focus-visible,
+.glazed-door__option:focus-visible {
+  outline: 3px solid #2a6ab5;
+  outline-offset: 2px;
+}
+
+.glazed-door__option {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1.5px solid #c3d3e8;
+  border-radius: 10px;
+  background: #fff;
+  color: #14407f;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.glazed-door__option:hover {
+  background: #eef4fb;
+}
+
+.glazed-door__option.is-active {
+  border-color: #14407f;
+  background: #14407f;
+  color: #fff;
+}
+
+.glazed-door__summary {
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #e3eefa;
+  color: #14407f;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.glazed-door__note {
+  margin: 12px 0 0;
+  color: #4b5f78;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.glazed-door__applications {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.glazed-door__applications article {
+  padding: 14px 16px;
+  border: 1px solid #d3e0f0;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.glazed-door__applications strong {
+  display: block;
+  margin-bottom: 2px;
+  color: #14407f;
+  font-size: 17px;
+}
+
+.glazed-door__applications span {
+  color: #33475f;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.glazed-door__where {
+  margin: 12px 0 0;
+  color: #33475f;
+  font-size: 15px;
+}
+
+.glazed-door__footer {
+  padding-top: 20px;
+  padding-bottom: 28px;
+  color: #4b5f78;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+@media (min-width: 760px) {
+  .glazed-door__hero {
+    grid-template-columns: 1.1fr 1fr;
+    gap: 36px;
+    padding-top: 32px;
+  }
+
+  .glazed-door__photo {
+    height: 420px;
+  }
+
+  .glazed-door__configurator {
+    grid-template-columns: 1fr 1.15fr;
+    gap: 28px;
+    padding: 24px;
+  }
+
+  .glazed-door__applications {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .glazed-door__section {
+    padding-top: 40px;
+  }
+}
+
+@media (min-width: 640px) {
+  .glazed-door__container {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .glazed-door__container {
+    padding-right: 70px;
+    padding-left: 70px;
+  }
+}
