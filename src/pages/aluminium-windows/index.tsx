@@ -116,13 +116,16 @@ const shades = [
 
 export default function AluminiumWindowsPage() {
 	const bannerRef = useRef<HTMLDivElement>(null);
+	const heroVideoRef = useRef<HTMLVideoElement>(null);
 	const [submitted, setSubmitted] = useState(false);
+	const [heroVideoAutoplay, setHeroVideoAutoplay] = useState(false);
 
 	useEffect(() => {
 		const banner = bannerRef.current;
 		if (!banner) return;
 
 		let animationFrame = 0;
+		let videoPlayRequested = false;
 		const updateProgress = () => {
 			cancelAnimationFrame(animationFrame);
 			animationFrame = requestAnimationFrame(() => {
@@ -131,6 +134,19 @@ export default function AluminiumWindowsPage() {
 					? 1
 					: Math.min(1, Math.max(0, (-banner.getBoundingClientRect().top / scrollDistance) * 1.15));
 				banner.style.setProperty("--p", String(progress));
+				setHeroVideoAutoplay(progress >= 1);
+
+				const video = heroVideoRef.current;
+				if (progress >= 1 && video && video.paused && !videoPlayRequested) {
+					videoPlayRequested = true;
+					void video.play().catch((error: unknown) => {
+						videoPlayRequested = false;
+						console.error("Could not autoplay the aluminium windows hero video.", error);
+					});
+				} else if (progress < 1 && video) {
+					videoPlayRequested = false;
+					video.pause();
+				}
 			});
 		};
 
@@ -161,12 +177,16 @@ export default function AluminiumWindowsPage() {
 				<section className="aluminium-windows__run" ref={bannerRef} aria-label="Aluminium windows">
 					<div className="aluminium-windows__stage">
 						<div className="aluminium-windows__frame">
-							<Image
-								src="/images/aluminium-windows/hero.jpg"
-								alt="Sliding glass windows opening to the sea"
-								fill
-								priority
-								sizes="100vw"
+							<video
+								ref={heroVideoRef}
+								className="aluminium-windows__hero-video"
+								src="/images/aluminium-windows/aluminum-window.mp4"
+								poster="/images/aluminium-windows/aluminum-window-poster.jpg"
+								autoPlay={heroVideoAutoplay}
+								muted
+								playsInline
+								preload="none"
+								aria-hidden="true"
 							/>
 							<div className="aluminium-windows__pane aluminium-windows__pane--left" aria-hidden="true" />
 							<div className="aluminium-windows__pane aluminium-windows__pane--right" aria-hidden="true" />
