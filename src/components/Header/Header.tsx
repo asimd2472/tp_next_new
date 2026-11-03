@@ -39,8 +39,8 @@ const menuCategories: MenuCategory[] = [
     href: "#windows",
     items: [
       { label: "Swing & Slide Window", href: "/windows-models/swing-and-slide-window" },
-      { label: "Vista Window", href: "#windows" },
-      { label: "Casement Window", href: "#windows" },
+      { label: "Pebble Series", href: "/windows-models/pebble-series" },
+      // { label: "Casement Window", href: "#windows" },
     ],
   },
   { name: "Aluminum Windows", href: "/aluminium-windows", items: [] },
