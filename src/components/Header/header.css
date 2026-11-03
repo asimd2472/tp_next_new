@@ -297,6 +297,7 @@
 }
 
 .header-auth-modal__dialog {
+  position: relative;
   display: grid;
   width: min(860px, 100%);
   min-height: 500px;
@@ -355,7 +356,7 @@
 .header-auth-modal__close {
   position: absolute;
   top: 8px;
-  right: 10px;
+  right: 8px;
   z-index: 1;
   display: grid;
   width: 36px;
@@ -643,11 +644,25 @@
   padding: 0 8px 10px 14px;
 }
 
-.mobile-navigation__submenu a {
+.mobile-navigation__submenu a,
+.mobile-navigation__submenu button {
+  display: block;
+  width: 100%;
   padding: 9px 12px;
+  border: 0;
+  background: transparent;
   color: rgba(255, 255, 255, .86);
+  cursor: pointer;
+  font: inherit;
   font-size: 13px;
   font-weight: 400;
+  text-align: left;
+  text-decoration: none;
+}
+
+.mobile-navigation__submenu a:hover,
+.mobile-navigation__submenu button:hover {
+  background: rgba(196, 214, 0, .2);
 }
 .mobile-navigation__enquire {
   background: var(--secondary);
@@ -973,7 +988,8 @@
     border-color: rgba(23, 52, 95, .12);
   }
 
-  .site-header--scrolled .mobile-navigation__submenu a {
+  .site-header--scrolled .mobile-navigation__submenu a,
+  .site-header--scrolled .mobile-navigation__submenu button {
     color: #42566d;
   }
   .site-header--scrolled .menu-button {
@@ -1008,19 +1024,11 @@
 
   .header-auth-modal__sidebar {
     min-height: 126px;
-    padding: 20px 22px;
+    padding: 20px 60px 20px 22px;
   }
 
   .header-auth-modal__illustration {
-    width: min(150px, 55%);
-    min-height: 84px;
-    flex: 0 0 84px;
-    align-self: flex-end;
-    margin-top: 8px;
-  }
-
-  .header-auth-modal__illustration img {
-    object-position: bottom right;
+    display: none;
   }
 
   .header-auth-modal__sidebar h2 {
@@ -1039,7 +1047,7 @@
   }
 
   .header-auth-modal__close {
-    top: -118px;
+    top: 8px;
     right: 8px;
     color: #fff;
   }

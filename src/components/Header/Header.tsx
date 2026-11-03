@@ -90,6 +90,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const authModalCloseButton = useRef<HTMLButtonElement>(null);
@@ -291,17 +292,35 @@ export default function Header() {
         </div>
         {menuOpen && (
           <nav aria-label="Mobile navigation" className="mobile-navigation">
-            {authSnapshot.session ? (
-              <>
-                <Link className="mobile-navigation__category-link" href="/my-profile" onClick={() => setMenuOpen(false)}>My Profile</Link>
-                <Link className="mobile-navigation__category-link" href="/wishlist" onClick={() => setMenuOpen(false)}>Wishlist</Link>
-                <button className="mobile-navigation__category-link" type="button" onClick={signOut}>Logout</button>
-              </>
-            ) : (
-              <>
-                <button className="mobile-navigation__category-link" type="button" onClick={openAuthModal}>My Profile</button>
-                <button className="mobile-navigation__category-link" type="button" onClick={openAuthModal}>Wishlist</button>
-              </>
+            <div className="mobile-navigation__category">
+              <button
+                type="button"
+                className="mobile-navigation__category-button"
+                aria-expanded={profileMenuOpen}
+                aria-controls="mobile-profile-submenu"
+                onClick={() => setProfileMenuOpen((open) => !open)}
+              >
+                Profile
+                <span className={profileMenuOpen ? "mobile-navigation__chevron mobile-navigation__chevron--open" : "mobile-navigation__chevron"} aria-hidden="true" />
+              </button>
+              {profileMenuOpen && (
+                <div className="mobile-navigation__submenu" id="mobile-profile-submenu">
+                  {authSnapshot.session ? (
+                    <>
+                      <Link href="/my-profile" onClick={() => setMenuOpen(false)}>My Profile</Link>
+                      <Link href="/wishlist" onClick={() => setMenuOpen(false)}>Wishlist</Link>
+                    </>
+                  ) : (
+                    <>
+                      <button type="button" onClick={openAuthModal}>My Profile</button>
+                      <button type="button" onClick={openAuthModal}>Wishlist</button>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+            {authSnapshot.session && (
+              <button className="mobile-navigation__category-link" type="button" onClick={signOut}>Logout</button>
             )}
             {menuCategories.map((category) => (
               category.items.length > 0 ? (
@@ -381,6 +400,15 @@ export default function Header() {
             aria-modal="true"
             aria-labelledby="header-auth-modal-title"
           >
+            <button
+              ref={authModalCloseButton}
+              className="header-auth-modal__close"
+              type="button"
+              aria-label="Close login dialog"
+              onClick={() => setAuthModalOpen(false)}
+            >
+              <span aria-hidden="true">×</span>
+            </button>
             <aside className="header-auth-modal__sidebar">
               <h2 id="header-auth-modal-title">Login</h2>
               <p>Get access to your Accounts, Wishlist and Recommendations</p>
@@ -394,15 +422,6 @@ export default function Header() {
               </div>
             </aside>
             <div className="header-auth-modal__content">
-              <button
-                ref={authModalCloseButton}
-                className="header-auth-modal__close"
-                type="button"
-                aria-label="Close login dialog"
-                onClick={() => setAuthModalOpen(false)}
-              >
-                <span aria-hidden="true">×</span>
-              </button>
               <Login className="header-auth-modal__login" onSuccess={() => setAuthModalOpen(false)} />
             </div>
           </section>
