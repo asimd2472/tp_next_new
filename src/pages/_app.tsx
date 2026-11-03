@@ -31,6 +31,7 @@ import "./blogs/better-for-today-better-for-tomorrow/better-for-today-better-for
 import "./door-models/model-listing.css";
 import "./shaft-duct-access-door/shaft-duct-access-door.css";
 import "./glazed-door/glazed-door.css";
+import "./privacy-policy/privacy-policy.css";
 import "../components/Login/login.css";
 import "../components/Account/account.css";
 import "react-toastify/dist/ReactToastify.css";
