@@ -290,10 +290,7 @@ export default function WindowsModelListingPage() {
                       Designed to balance premium craftsmanship, modern aesthetics, and long-lasting durability.
                     </p> */}
 
-                    <div className="model-listing__card-meta">
-                      <span>Collection</span>
-                      <strong>{formattedProductName}</strong>
-                    </div>
+                    
 
                     <div className="model-listing__card-actions">
                       <button
