@@ -62,7 +62,7 @@
 
 .book-demo-page__intro h1 {
   margin: 0 0 10px;
-  font-size: clamp(30px, 7vw, 42px);
+  font-size: clamp(30px, 7vw, 38px);
   font-weight: 600;
   line-height: 1.08;
 }
