@@ -223,14 +223,14 @@ export default function StoreLocatorPage({
   const [stores, setStores] = useState(initialStores);
   const [hasMore, setHasMore] = useState(initialHasMore);
   const [nextPage, setNextPage] = useState(2);
-  const [isSearching, setIsSearching] = useState(false);
+  const [isSearching, setIsSearching] = useState(initialError);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(initialError ? "We couldn’t load stores. Please try again." : "");
+  const [errorMessage, setErrorMessage] = useState("");
   const requestId = useRef(0);
   const loadingMore = useRef(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
-  const searchStores = async (search: string) => {
+  const searchStores = useCallback(async (search: string) => {
     const activeRequest = ++requestId.current;
     setSubmittedQuery(search);
     loadingMore.current = false;
@@ -253,7 +253,17 @@ export default function StoreLocatorPage({
     } finally {
       if (requestId.current === activeRequest) setIsSearching(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (!initialError) return;
+
+    const timer = window.setTimeout(() => {
+      void searchStores("");
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, [initialError, searchStores]);
 
   const handleSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -304,7 +314,7 @@ export default function StoreLocatorPage({
     setStores(initialStores);
     setHasMore(initialHasMore);
     setNextPage(2);
-    setErrorMessage(initialError ? "We couldn’t load stores. Please try again." : "");
+    setErrorMessage("");
     setIsSearching(false);
     setIsLoadingMore(false);
     requestId.current += 1;
