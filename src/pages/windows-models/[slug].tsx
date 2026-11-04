@@ -1,11 +1,14 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import api from "@/config/api.config";
+import {
+  clearModelListingCache,
+  getModelListing,
+} from "@/services/model-listing-cache.service";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export type ModelListItem = {
   id: number;
@@ -32,40 +35,53 @@ export default function WindowsModelListingPage() {
   const [product, setProduct] = useState<ModelListResponse["window"] | null>(null);
   const [models, setModels] = useState<ModelListItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadedSlug, setLoadedSlug] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const requestId = useRef(0);
+
+  const fetchModels = useCallback(async () => {
+    if (!slug) return;
+
+    const activeRequest = ++requestId.current;
+    try {
+      const response = await getModelListing<ModelListResponse>("window", slug);
+      if (requestId.current !== activeRequest) return;
+      if (!response?.window || !Array.isArray(response.models)) {
+        clearModelListingCache("window", slug);
+        throw new Error("The model listing response was incomplete.");
+      }
+
+      setProduct(response.window);
+      setModels(response.models);
+      setLoadedSlug(slug);
+      setErrorMessage("");
+    } catch (error) {
+      if (requestId.current !== activeRequest) return;
+      console.error("Unable to load window models.", error);
+      setProduct(null);
+      setModels([]);
+      setLoadedSlug(slug);
+      setErrorMessage("We couldn’t load this collection. Please try again.");
+    } finally {
+      if (requestId.current === activeRequest) setLoading(false);
+    }
+  }, [slug]);
 
   useEffect(() => {
-    if (!router.isReady || !slug) {
-      return;
-    }
+    if (!router.isReady || !slug) return;
 
-    const fetchModels = async () => {
-      setLoading(true);
+    let isCurrent = true;
+    void Promise.resolve().then(() => {
+      if (isCurrent) void fetchModels();
+    });
 
-      try {
-        const response = await api.get<ModelListResponse>(`windows/${slug}/models`);
-
-        if (!response.data?.window || !Array.isArray(response.data.models)) {
-          setProduct(null);
-          setModels([]);
-          return;
-        }
-
-        setProduct(response.data.window);
-        setModels(response.data.models);
-      } catch {
-        setProduct(null);
-        setModels([]);
-      } finally {
-        setLoading(false);
-      }
+    return () => {
+      isCurrent = false;
+      requestId.current += 1;
     };
+  }, [fetchModels, router.isReady, slug]);
 
-    void fetchModels();
-  }, [router.isReady, slug]);
-
-  console.log("models:", models);
-
-  if (!router.isReady || loading) {
+  if (!router.isReady || (slug && (loading || loadedSlug !== slug))) {
     return (
       <>
         <Header />
@@ -161,10 +177,19 @@ export default function WindowsModelListingPage() {
     return (
       <>
         <Header />
-        <main className="model-listing">
-          <div className="model-listing__container" style={{ padding: "60px 20px", textAlign: "center" }}>
-            <h1>Model not found</h1>
-            <p>The requested collection could not be found.</p>
+        <main className="model-listing" aria-live="polite">
+          <div className="model-listing__container model-listing__error-state">
+            <h1>{errorMessage ? "Unable to load collection" : "Model not found"}</h1>
+            <p>{errorMessage || "The requested collection could not be found."}</p>
+            {errorMessage && (
+              <button type="button" onClick={() => {
+                setLoading(true);
+                setErrorMessage("");
+                void fetchModels();
+              }}>
+                Try again
+              </button>
+            )}
             <Link href="/" style={{ color: "#2d68c4", fontWeight: 700 }}>
               Go back home
             </Link>
@@ -279,6 +304,8 @@ export default function WindowsModelListingPage() {
                       width={640}
                       height={480}
                       sizes="(max-width: 767px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      loading="lazy"
+                      decoding="async"
                       unoptimized
                     />
                   </div>

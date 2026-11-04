@@ -15,6 +15,26 @@
   animation: model-listing-fade 0.35s ease;
 }
 
+.model-listing__error-state {
+  min-height: 40vh;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.model-listing__error-state button {
+  display: block;
+  min-height: 44px;
+  margin: 18px auto;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #236bb3 0%, #79aa32 100%);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 @keyframes model-listing-fade {
   from {
     opacity: 0;

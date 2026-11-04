@@ -26,9 +26,46 @@ body {
   margin: 0;
 }
 
+.route-progress {
+  position: fixed;
+  z-index: 99999;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.route-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0.08);
+  transform-origin: left center;
+  background: linear-gradient(90deg, #236bb3 0%, #79aa32 100%);
+  box-shadow: 0 0 8px rgb(35 107 179 / 35%);
+}
+
+.route-progress--loading span {
+  animation: route-progress-load 1.2s ease-out forwards;
+}
+
+.route-progress--complete span {
+  transform: scaleX(1);
+  transition: transform 120ms ease-out;
+}
+
+@keyframes route-progress-load {
+  to {
+    transform: scaleX(0.88);
+  }
+}
+
 html { scroll-behavior: smooth; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   video { display: none; }
+  .route-progress--loading span { animation-duration: 0.01ms; }
 }

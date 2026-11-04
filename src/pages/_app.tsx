@@ -37,12 +37,58 @@ import "../components/Login/login.css";
 import "../components/Account/account.css";
 import "react-toastify/dist/ReactToastify.css";
 import type { AppProps } from "next/app";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { CartProvider } from "@/context/CartContext";
 import { ToastContainer } from "react-toastify";
+
+function RouteProgressBar() {
+  const router = useRouter();
+  const [status, setStatus] = useState<"idle" | "loading" | "complete">("idle");
+
+  useEffect(() => {
+    let hideTimer: ReturnType<typeof setTimeout>;
+    const handleStart = () => {
+      clearTimeout(hideTimer);
+      setStatus("loading");
+    };
+    const handleComplete = () => {
+      setStatus("complete");
+      hideTimer = setTimeout(() => setStatus("idle"), 180);
+    };
+
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleComplete);
+    router.events.on("routeChangeError", handleComplete);
+
+    return () => {
+      clearTimeout(hideTimer);
+      router.events.off("routeChangeStart", handleStart);
+      router.events.off("routeChangeComplete", handleComplete);
+      router.events.off("routeChangeError", handleComplete);
+    };
+  }, [router.events]);
+
+  if (status === "idle") return null;
+
+  return (
+    <div
+      className={`route-progress route-progress--${status}`}
+      role="progressbar"
+      aria-label="Loading page"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={status === "complete" ? 100 : undefined}
+    >
+      <span />
+    </div>
+  );
+}
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <CartProvider>
+      <RouteProgressBar />
       <Component {...pageProps} />
       <ToastContainer position="top-right" />
     </CartProvider>

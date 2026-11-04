@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { FaDownload, FaMapMarkerAlt, FaCalendarCheck, FaEnvelope, FaPhoneAlt, FaUser, FaShoppingCart, FaArrowRight, FaRegHeart, FaRegUser, FaSignOutAlt } from "react-icons/fa";
 import { useCart } from "@/context/CartContext";
 import Login from "@/components/Login";
+import { prefetchModelListing } from "@/services/model-listing-cache.service";
 import {
   clearAuthSession,
   getAuthSessionSnapshot,
@@ -96,6 +97,20 @@ export default function Header() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const authModalCloseButton = useRef<HTMLButtonElement>(null);
+
+  const prefetchMenuRoute = (href: string) => {
+    if (!href.startsWith("/")) return;
+    void router.prefetch(href).catch((error) => {
+      console.error(`Unable to prefetch route "${href}".`, error);
+    });
+
+    const modelRoute = href.match(/^\/(door|windows)-models\/([^/?#]+)/);
+    if (!modelRoute) return;
+    const kind = modelRoute[1] === "door" ? "door" : "window";
+    void prefetchModelListing(kind, modelRoute[2]).catch((error) => {
+      console.error(`Unable to prefetch model listing "${href}".`, error);
+    });
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -340,7 +355,14 @@ export default function Header() {
                   {expandedCategory === category.name && (
                     <div className="mobile-navigation__submenu" id={`mobile-submenu-${categoryId(category.name)}`}>
                       {category.items.map((item) => (
-                        <Link key={item.label} href={item.href} onClick={() => setMenuOpen(false)}>
+                        <Link
+                          key={item.label}
+                          href={item.href}
+                          prefetch
+                          onMouseEnter={() => prefetchMenuRoute(item.href)}
+                          onFocus={() => prefetchMenuRoute(item.href)}
+                          onClick={() => setMenuOpen(false)}
+                        >
                           {item.label}
                         </Link>
                       ))}
@@ -368,7 +390,13 @@ export default function Header() {
                   <ul className="mega-menu__links">
                     {category.items.map((item) => (
                       <li key={item.label}>
-                        <Link href={item.href} onClick={() => setActiveCategory(null)}>
+                        <Link
+                          href={item.href}
+                          prefetch
+                          onMouseEnter={() => prefetchMenuRoute(item.href)}
+                          onFocus={() => prefetchMenuRoute(item.href)}
+                          onClick={() => setActiveCategory(null)}
+                        >
                           <span>{item.label}</span>
                           <FaArrowRight aria-hidden="true" />
                         </Link>
