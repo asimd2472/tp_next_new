@@ -38,7 +38,7 @@ type StoreLocatorProps = DealerPage & {
   initialError: boolean;
 };
 
-const PAGE_SIZE = 50;
+const PAGE_SIZE = 10;
 
 function getRecordValue(record: Record<string, unknown>, keys: string[]) {
   for (const key of keys) {
