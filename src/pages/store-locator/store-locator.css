@@ -402,6 +402,107 @@
   cursor: pointer;
 }
 
+.store-locator__error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid #f0c8c8;
+  border-radius: 7px;
+  background: #fff;
+  color: #8d3434;
+}
+
+.store-locator__error p {
+  margin: 0;
+}
+
+.store-locator__error button,
+.store-locator__load-more button {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--locator-blue);
+  border-radius: 5px;
+  background: #fff;
+  color: var(--locator-blue);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.store-locator__error button:hover,
+.store-locator__load-more button:hover:not(:disabled) {
+  background: #f0f7ff;
+}
+
+.store-locator__skeleton-card {
+  overflow: hidden;
+}
+
+.store-locator__skeleton-image,
+.store-locator__skeleton-line {
+  background: linear-gradient(90deg, #edf2f5 25%, #f8fafb 50%, #edf2f5 75%);
+  background-size: 200% 100%;
+  animation: store-locator-shimmer 1.4s ease-in-out infinite;
+}
+
+.store-locator__skeleton-image {
+  min-height: 230px;
+}
+
+.store-locator__skeleton-details {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding: 20px 14px;
+}
+
+.store-locator__skeleton-line {
+  display: block;
+  width: 65%;
+  height: 12px;
+  border-radius: 4px;
+}
+
+.store-locator__skeleton-line--title {
+  width: 82%;
+  height: 20px;
+  margin-bottom: 5px;
+}
+
+.store-locator__skeleton-line--wide {
+  width: 94%;
+}
+
+.store-locator__load-more {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.store-locator__scroll-sentinel {
+  position: absolute;
+  top: -300px;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.store-locator__load-more button:disabled {
+  color: #7592a9;
+  cursor: wait;
+}
+
+@keyframes store-locator-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
 .store-locator__pagination {
   display: flex;
   align-items: center;
@@ -600,6 +701,14 @@
     padding: 8px;
   }
 
+  .store-locator__skeleton-image {
+    min-height: 190px;
+  }
+
+  .store-locator__skeleton-details {
+    padding: 16px 8px;
+  }
+
   .store-locator__showcase {
     border-radius: 5px;
   }
@@ -689,6 +798,11 @@
 
   .store-locator__contact {
     grid-template-columns: 38px minmax(0, 1fr);
+  }
+
+  .store-locator__error {
+    align-items: flex-start;
+    flex-direction: column;
     gap: 10px;
     margin-top: 22px;
     padding: 14px;
