@@ -40,6 +40,8 @@ const menuCategories: MenuCategory[] = [
     items: [
       { label: "Swing & Slide Window", href: "/windows-models/swing-and-slide-window" },
       { label: "Pebble Series", href: "/windows-models/pebble-series" },
+      { label: "Aluminum Windows", href: "/aluminium-windows" },
+      { label: "French Door", href: "/french-door" },
       // { label: "Casement Window", href: "#windows" },
     ],
   },
