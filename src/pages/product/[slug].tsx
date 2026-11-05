@@ -47,6 +47,7 @@ type ProductShade = {
   id: number;
   name: string;
   color: string | null;
+  starting_price?: number | null;
   swatch_url: string | null;
   primary_image_url: string | null;
   gallery: Array<{ id: number; url: string | null; image_url?: string | null }>;
@@ -58,6 +59,7 @@ type ProductDesign = {
   name: string;
   code: string | null;
   thumbnail_url: string | null;
+  starting_price?: number | null;
   primary_image_url?: string | null;
   gallery?: Array<{ id: number; url: string | null; image_url?: string | null }>;
   sizes?: Array<{ id: number; width_mm: number; height_mm: number; label: string }>;
@@ -340,6 +342,9 @@ export default function ProductDetailsPage() {
   const activeDesign = designOptions[design] ?? designOptions[0];
   const shadeOptions = isWindow ? productData?.shades ?? [] : activeDesign?.shades ?? [];
   const activeShade = shadeOptions[shade] ?? shadeOptions[0];
+  const startingPrice = (
+    shadeOptions.length > 0 ? activeShade?.starting_price : activeDesign?.starting_price
+  ) ?? productData?.model.starting_price;
   const designSizeOptions = activeDesign?.sizes ?? [];
   const sizeOptions = activeShade?.sizes.length ? activeShade.sizes : designSizeOptions;
   const shadeGalleryImages = activeShade?.gallery
@@ -464,7 +469,7 @@ export default function ProductDetailsPage() {
       shadeName: activeShade?.name || "No shade",
       sizeLabel: selectedSize?.label || `${w} × ${h} mm`,
       image: getImageSource(activeShade?.primary_image_url, activeDesign?.primary_image_url, galleryImages[0], product.main_image_url, activeDesign?.thumbnail_url, FALLBACK_IMAGE),
-      unitPrice: model.starting_price && model.starting_price > 0 ? model.starting_price : null,
+      unitPrice: startingPrice && startingPrice > 0 ? startingPrice : null,
       quantity: 1,
     });
     toast.success(`${model.name} added to cart.`);
@@ -479,7 +484,7 @@ export default function ProductDetailsPage() {
       designName: activeDesign?.name || "Standard design",
       shadeName: activeShade?.name || "No shade",
       image: getImageSource(activeShade?.primary_image_url, activeDesign?.primary_image_url, galleryImages[0], product.main_image_url, activeDesign?.thumbnail_url, FALLBACK_IMAGE),
-      unitPrice: model.starting_price && model.starting_price > 0 ? model.starting_price : null,
+      unitPrice: startingPrice && startingPrice > 0 ? startingPrice : null,
     }
     : null;
   const isSaved = wishlistItem !== null && wishlist.items.some((item) => item.id === wishlistItem.id);
@@ -806,9 +811,8 @@ export default function ProductDetailsPage() {
             <div className="pdp-price-row">
               <div>
                 <div className="pdp-price-label">Starting Price*</div>
-                <div className="pdp-price">{model?.starting_price===0 ? `XX,XXX` : formatPrice(model?.starting_price)}</div>
+                <div className="pdp-price">{startingPrice === 0 ? "XX,XXX" : formatPrice(startingPrice)}</div>
               </div>
-              <div className="pdp-price-note">As per your location, we require please book a demo for the exact pricing.</div>
             </div>
 
             <div className="pdp-cta">
