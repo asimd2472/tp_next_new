@@ -90,6 +90,7 @@ type ProductDetailsApiResponse = {
     is_premium: boolean;
     is_active: boolean;
     main_image_url: string | null;
+    accessories: string | null;
   };
   designs: ProductDesign[];
   shades?: ProductShade[];
@@ -361,8 +362,8 @@ export default function ProductDetailsPage() {
     ? null
     : String(product.review);
   const productName = model?.name || product?.name || "Product";
-  const productShortDescription = model?.short_description || product?.short_description || "Modern design. Timeless appeal.";
-  const productDescription = model?.description || product?.description || "Crafted for strength, security and long-lasting performance.";
+  const productShortDescription = model?.description || "Modern design. Timeless appeal.";
+  const productDescription = model?.accessories || "Crafted for strength, security and long-lasting performance.";
 
   const queryModelId = typeof router.query.modelId === "string" ? parseModelId(router.query.modelId) : null;
   const resolvedModelId = router.isReady ? (queryModelId ?? getStoredModelId()) : null;
