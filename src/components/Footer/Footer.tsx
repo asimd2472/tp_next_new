@@ -71,8 +71,12 @@ const columns = [
       },
       { label: "Track Your Order", href: "/track-your-order" },
       {
+        label: "Enquire for Dealership",
+        href: "/i-am-dealer",
+      },
+      {
         label: "Enquire for Distributorship",
-        href: "mailto:enquiry@tatapravesh.com?subject=Distributorship%20enquiry",
+        href: "/i-am-dealer",
       },
       { label: "Book a Free Consultation", href: "/book-a-demo" },
     ],

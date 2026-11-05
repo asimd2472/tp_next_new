@@ -33,6 +33,7 @@ const menuCategories: MenuCategory[] = [
       { label: "Door With Ventilator", href: "/doors-with-ventilators" },
       { label: "Glazed Door", href: "/glazed-door" },
       { label: "Shaft Duct Access Door", href: "/shaft-duct-access-door" },
+      { label: "Double Door", href: "/door-models/double-door" },
     ],
   },
   {
@@ -59,7 +60,7 @@ const menuCategories: MenuCategory[] = [
       { label: "Doors & Windows for Villa", href: "/doors-windows-for-villa" },
       { label: "Doors for Bedroom", href: "/doors-for-bedroom" },
       // { label: "Doors & Windows for Bathroom", href: "#buyers-guide" },
-      { label: "Modern Font Door design", href: "#buyers-guide" },
+      { label: "Modern Doors & Windows", href: "#buyers-guide" },
       { label: "Double Door Designs", href: "/double-door-designs" },
       // { label: "Louver Door", href: "#buyers-guide" },
       { label: "Main Door Designs", href: "/main-door-designs" },
