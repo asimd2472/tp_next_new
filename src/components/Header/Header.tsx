@@ -60,7 +60,7 @@ const menuCategories: MenuCategory[] = [
       { label: "Doors & Windows for Villa", href: "/doors-windows-for-villa" },
       { label: "Doors for Bedroom", href: "/doors-for-bedroom" },
       // { label: "Doors & Windows for Bathroom", href: "#buyers-guide" },
-      { label: "Modern Doors & Windows", href: "#buyers-guide" },
+      { label: "Modern Doors & Windows", href: "/modern-doors-and-windows" },
       { label: "Double Door Designs", href: "/double-door-designs" },
       // { label: "Louver Door", href: "#buyers-guide" },
       { label: "Main Door Designs", href: "/main-door-designs" },

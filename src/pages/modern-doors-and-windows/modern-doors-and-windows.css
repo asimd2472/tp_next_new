@@ -1,0 +1,458 @@
+.modern-doors-and-windows {
+  --navy: #14306b;
+  --blue: #1366e0;
+  --ink: #5d6b8a;
+  --bg: #fbf9f6;
+  --line: #d9dde8;
+  --soft: #f1f0ed;
+  --note: #eff0f4;
+  color: var(--ink);
+  background: var(--bg);
+  font-family: "Myriad Pro", "Segoe UI", Arial, sans-serif;
+  line-height: 1.55;
+}
+
+.modern-doors-and-windows *,
+.modern-doors-and-windows *::before,
+.modern-doors-and-windows *::after {
+  box-sizing: border-box;
+}
+
+/* .modern-doors-and-windows a {
+  color: inherit;
+} */
+
+.modern-doors-and-windows section {
+  padding: 16px 20px;
+}
+
+.modern-doors-and-windows__container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.modern-doors-and-windows h1,
+.modern-doors-and-windows h2,
+.modern-doors-and-windows h3,
+.modern-doors-and-windows p,
+.modern-doors-and-windows figure,
+.modern-doors-and-windows table,
+.modern-doors-and-windows details {
+  margin: 0;
+}
+
+.modern-doors-and-windows h1,
+.modern-doors-and-windows h2,
+.modern-doors-and-windows h3 {
+  color: var(--navy);
+  margin: 0 0 6px;
+  line-height: 1.2;
+}
+
+.modern-doors-and-windows h1 {
+  font-size: clamp(30px, 4.4vw, 46px);
+  font-weight: 700;
+}
+
+.modern-doors-and-windows h2 {
+  font-size: clamp(23px, 3vw, 30px);
+  font-weight: 600;
+}
+
+.modern-doors-and-windows h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.modern-doors-and-windows__eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.modern-doors-and-windows__eyebrow--light {
+  color: #9fc2ff;
+}
+
+.modern-doors-and-windows p {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.modern-doors-and-windows__lead {
+  font-size: 17px;
+  max-width: 620px;
+}
+
+.modern-doors-and-windows__breadcrumb {
+  padding-top: 18px;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.modern-doors-and-windows__breadcrumb .modern-doors-and-windows__container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modern-doors-and-windows__breadcrumb a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.modern-doors-and-windows__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0 0;
+}
+
+.modern-doors-and-windows__button {
+  color: #fff;
+  background: linear-gradient(90deg, #236bb3 0%, #79aa32 100%);
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  font-size: 17px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: filter .2s;
+  display: inline-flex;
+}
+
+.modern-doors-and-windows__button:hover {
+  filter: brightness(1.08);
+}
+
+.modern-doors-and-windows__button--alt {
+  background: #fff;
+  color: var(--navy);
+  border: 1px solid var(--navy);
+}
+
+.modern-doors-and-windows__hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+.modern-doors-and-windows__highlight-box {
+  background: var(--note);
+  border-left: 5px solid var(--navy);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.modern-doors-and-windows__highlight-box b {
+  color: var(--navy);
+}
+
+.modern-doors-and-windows__figure {
+  position: relative;
+  margin: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--soft);
+  border: 1px solid var(--line);
+}
+
+.modern-doors-and-windows__figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 380px;
+  object-fit: cover;
+}
+
+.modern-doors-and-windows__chip {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  background: #fff;
+  color: var(--navy);
+  border-radius: 10px;
+  padding: 8px 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.modern-doors-and-windows__chip b {
+  display: block;
+  font-size: 20px;
+}
+
+.modern-doors-and-windows__chip span {
+  font-size: 12px;
+}
+
+.modern-doors-and-windows__stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.modern-doors-and-windows__stat {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+.modern-doors-and-windows__stat b {
+  display: block;
+  font-size: 18px;
+  color: var(--navy);
+}
+
+.modern-doors-and-windows__stat span {
+  font-size: 13px;
+}
+
+.modern-doors-and-windows__products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.modern-doors-and-windows__product-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modern-doors-and-windows__product-image {
+  display: block;
+  height: 250px;
+  background: var(--soft);
+}
+
+.modern-doors-and-windows__product-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modern-doors-and-windows__product-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 12px 14px;
+}
+
+.modern-doors-and-windows__product-eyebrow {
+  margin-bottom: 4px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blue);
+  font-weight: 600;
+}
+
+.modern-doors-and-windows__product-body p {
+  font-size: 14.5px;
+}
+
+.modern-doors-and-windows__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.modern-doors-and-windows__tag {
+  display: inline-block;
+  background: #e8f0ff;
+  color: var(--navy);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.modern-doors-and-windows__know-more {
+  margin-top: auto;
+  color: var(--navy);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 2px solid var(--blue);
+  align-self: flex-start;
+  margin-top: 12px;
+}
+
+.modern-doors-and-windows__feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.modern-doors-and-windows__feature-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.modern-doors-and-windows__feature-card p {
+  font-size: 14.5px;
+}
+
+.modern-doors-and-windows__table-wrap {
+  overflow-x: auto;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin-top: 10px;
+}
+
+.modern-doors-and-windows__table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 560px;
+}
+
+.modern-doors-and-windows__table td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  font-size: 14.5px;
+  vertical-align: top;
+  background: #fff;
+}
+
+.modern-doors-and-windows__table td:first-child {
+  color: var(--navy);
+  font-weight: 600;
+  white-space: nowrap;
+  width: 28%;
+}
+
+.modern-doors-and-windows__table td:last-child {
+  background: #eef4ff;
+  color: var(--navy);
+}
+
+.modern-doors-and-windows__two-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.modern-doors-and-windows__band,
+.modern-doors-and-windows__cta-box {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.modern-doors-and-windows__band {
+  background: linear-gradient(180deg, #153a82, #0f2d6b);
+  color: #dbe5ff;
+}
+
+.modern-doors-and-windows__band h2,
+.modern-doors-and-windows__band .modern-doors-and-windows__eyebrow,
+.modern-doors-and-windows__band li,
+.modern-doors-and-windows__band small {
+  color: #fff;
+}
+
+.modern-doors-and-windows__band h2 {
+  color: #fff;
+}
+
+.modern-doors-and-windows__band ul {
+  margin: 6px 0;
+  padding-left: 18px;
+  font-size: 14.5px;
+}
+
+.modern-doors-and-windows__band small {
+  opacity: 0.85;
+}
+
+.modern-doors-and-windows__cta-box b {
+  color: var(--navy);
+}
+
+.modern-doors-and-windows__faq-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+  margin-top: 8px;
+}
+
+.modern-doors-and-windows__faq-grid details {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 9px 14px;
+}
+
+.modern-doors-and-windows__faq-grid summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--navy);
+  font-size: 15px;
+  list-style: none;
+}
+
+.modern-doors-and-windows__faq-grid summary::-webkit-details-marker {
+  display: none;
+}
+
+.modern-doors-and-windows__faq-grid details p {
+  margin: 6px 0 0;
+  font-size: 14.5px;
+}
+
+.modern-doors-and-windows__fine-print {
+  font-size: 12.5px;
+  margin-top: 8px;
+}
+
+@media (max-width: 820px) {
+  .modern-doors-and-windows__hero,
+  .modern-doors-and-windows__two-column,
+  .modern-doors-and-windows__faq-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .modern-doors-and-windows section {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .modern-doors-and-windows__container {
+    padding: 0 12px;
+  }
+
+  .modern-doors-and-windows__button {
+    width: 100%;
+  }
+
+  .modern-doors-and-windows__actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
