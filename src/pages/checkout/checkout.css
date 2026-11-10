@@ -20,6 +20,9 @@
 .checkout-page a {
   color: #ffff;
 }
+.checkout-privacy-link {
+  color: #14407f !important;
+}
 
 .checkout-page a:hover {
   color: #ffff;
@@ -599,7 +602,7 @@
 .checkout-page__button--secondary {
   border: 2px solid var(--checkout-primary);
   background: #fff;
-  color: var(--checkout-primary);
+  color: var(--checkout-primary) !important;
 }
 
 .checkout-page__button--secondary:hover {
@@ -656,7 +659,7 @@
 
   .checkout-page__button {
     flex: 0 1 auto;
-    min-width: 300px;
+    /* min-width: 300px; */
   }
 
   .checkout-page__confirmation {

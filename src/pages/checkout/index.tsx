@@ -87,7 +87,7 @@ export default function CheckoutPage() {
         throw new Error(response.message || "We couldn’t submit your pre-order request. Please try again.");
       }
 
-      setConfirmationMessage(response.message || "Your pre-order request has been submitted successfully.");
+      setConfirmationMessage(response.message || "Your pre-booking is received! Our team will call you shortly to confirm your request.");
       setShowConfirmation(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (submitError) {
@@ -129,19 +129,20 @@ export default function CheckoutPage() {
                   <path d="m5 12.5 4.5 4.5L19 7.5" />
                 </svg>
               </span>
-              <h1>Details ready</h1>
+              <h1>Thank you</h1>
               <p>{confirmationMessage}</p>
               <div className="checkout-page__confirmation-actions">
                 <Link className="checkout-page__button" href="/">
-                  Continue browsing
+                  Continue Browsing
                 </Link>
-                <button
+                {/* <button
                   className="checkout-page__button checkout-page__button--secondary"
                   onClick={() => setShowConfirmation(false)}
                   type="button"
-                >
-                  Back to details
-                </button>
+                > */}
+                  <Link className="checkout-page__button checkout-page__button--secondary" href="/store-locator">Find Your Nearest Dealer</Link> 
+                  
+                {/* </button> */}
               </div>
             </div>
           </section>
@@ -353,8 +354,7 @@ export default function CheckoutPage() {
                       type="checkbox"
                     />
                     <label htmlFor="checkout-terms">
-                      I agree to the <a href="#top">Terms &amp; Conditions</a> and to be contacted
-                      by Tata Pravesh about this request.
+                      I accept <Link className="checkout-privacy-link" href="/privacy-policy">privacy policy</Link> by sharing my contact details, I authorize TATA STEEL & its representatives to call me/WhatsApp or SMS me. This consent will override any registration for DNC / NDNC.
                     </label>
                     <button className="checkout-page__button" disabled={!termsAccepted || !user || isSubmitting} type="submit">
                       {isSubmitting ? "Submitting request…" : "Submit Pre-Order Request"}
@@ -366,10 +366,11 @@ export default function CheckoutPage() {
                     </p>
                   )}
                   <p className="checkout-page__fine-print">
+                    Submit your details to pre-book your preferred Tata Pravesh products and schedule a personalised demo.
+                    <br/>
                     No payment is due when you submit your pre-order request.
-                  </p>
-                  <p className="checkout-page__preview-note">
-                    Our team will contact you about your request.
+                    <br/>
+                    Our team will contact you within 24 hours to discuss your requirements and guide you through the next steps.
                   </p>
                 </section>
               </form>
