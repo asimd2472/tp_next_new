@@ -1,5 +1,8 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import api from "@/config/api.config";
+import axios from "axios";
+import Image from "next/image";
 import Head from "next/head";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 
@@ -122,7 +125,7 @@ function createEmptyForm(): DealerForm {
   };
 }
 
-function getFormErrors(form: DealerForm, mobileVerified: boolean): DealerErrors {
+function getFormErrors(form: DealerForm): DealerErrors {
   const nextErrors: DealerErrors = {};
 
   REQUIRED_FIELDS.forEach(({ key, message }) => {
@@ -131,8 +134,6 @@ function getFormErrors(form: DealerForm, mobileVerified: boolean): DealerErrors 
 
   if (!/^\d{10}$/.test(form.mobile.trim())) {
     nextErrors.mobile = "Enter a 10-digit mobile number.";
-  } else if (!mobileVerified) {
-    nextErrors.mobile = "Please verify your mobile number with the demo OTP flow.";
   }
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email.trim())) {
     nextErrors.email = "Enter a valid email ID.";
@@ -221,13 +222,11 @@ export default function IAmDealerPage() {
   const [form, setForm] = useState<DealerForm>(createEmptyForm);
   const [enquiryType, setEnquiryType] = useState<EnquiryType>("dealer");
   const [errors, setErrors] = useState<DealerErrors>({});
-  const [otp, setOtp] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
-  const [mobileVerified, setMobileVerified] = useState(false);
-  const [otpError, setOtpError] = useState("");
   const [postalStatus, setPostalStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [postalMessage, setPostalMessage] = useState("");
   const [complete, setComplete] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const postalController = useRef<AbortController | null>(null);
 
   useEffect(() => () => postalController.current?.abort(), []);
@@ -244,10 +243,6 @@ export default function IAmDealerPage() {
 
   const updateMobile = (value: string) => {
     updateField("mobile", value.replace(/\D/g, "").slice(0, 10));
-    setOtp("");
-    setOtpSent(false);
-    setOtpError("");
-    setMobileVerified(false);
   };
 
   const lookupPinCode = async (pinCode: string) => {
@@ -308,38 +303,9 @@ export default function IAmDealerPage() {
     void lookupPinCode(pinCode);
   };
 
-  const sendDemoOtp = () => {
-    if (!/^\d{10}$/.test(form.mobile)) {
-      setErrors((current) => ({ ...current, mobile: "Enter a 10-digit mobile number." }));
-      document.getElementById("dealer-mobile")?.focus();
-      return;
-    }
-
-    setErrors((current) => {
-      const next = { ...current };
-      delete next.mobile;
-      return next;
-    });
-    setOtp("");
-    setOtpError("");
-    setOtpSent(true);
-    setMobileVerified(false);
-  };
-
-  const verifyDemoOtp = () => {
-    if (!/^\d{6}$/.test(otp)) {
-      setOtpError("Enter a 6-digit OTP.");
-      return;
-    }
-
-    setOtpError("");
-    setOtpSent(false);
-    setMobileVerified(true);
-  };
-
-  const submitEnquiry = (event: FormEvent<HTMLFormElement>) => {
+  const submitEnquiry = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const nextErrors = getFormErrors(form, mobileVerified);
+    const nextErrors = getFormErrors(form);
     setErrors(nextErrors);
     const firstInvalidField = REQUIRED_FIELDS.find(({ key }) => nextErrors[key]);
     const firstInvalidId = firstInvalidField?.inputId
@@ -349,11 +315,56 @@ export default function IAmDealerPage() {
       const input = document.getElementById(firstInvalidId);
       input?.scrollIntoView({ behavior: "smooth", block: "center" });
       input?.focus();
+      setSubmitError("");
       return;
     }
 
-    setComplete(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setSubmitError("");
+    setIsSubmitting(true);
+
+    try {
+      const payload = {
+        enquiry_type: enquiryType === "dealer" ? "Franchise" : "Distributor",
+        full_name: form.fullName.trim(),
+        mobile_number: `+91 ${form.mobile.trim()}`,
+        email_id: form.email.trim(),
+        pin_code: form.pinCode.trim(),
+        state: form.state,
+        city_district: form.city.trim(),
+        business_type: form.businessType,
+        business_name: form.businessName.trim(),
+        annual_revenue: form.revenue,
+        investment_capacity: form.investment,
+        commercial_space: form.commercialSpace,
+        space_area: form.spaceArea,
+        experience: form.experience || "",
+        existing_brands: form.existingBrands.trim(),
+        preferred_location: form.preferredLocation.trim(),
+        timeline: form.timeline,
+        additional_info: form.additionalInfo.trim(),
+      };
+
+      const response = await api.post<{ success?: boolean; message?: string; data?: { id?: number } }>(
+        "/dealer-enquiries",
+        payload,
+      );
+
+      if (response.data.success === false) {
+        throw new Error(response.data.message || "We couldn’t submit your enquiry. Please try again.");
+      }
+
+      setComplete(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (submitError) {
+      const message = axios.isAxiosError<{ message?: string }>(submitError)
+        ? submitError.response?.data?.message || "We couldn’t submit your enquiry. Please try again."
+        : submitError instanceof Error
+          ? submitError.message
+          : "We couldn’t submit your enquiry. Please try again.";
+      setSubmitError(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const resetEnquiry = () => {
@@ -361,13 +372,11 @@ export default function IAmDealerPage() {
     setForm(createEmptyForm());
     setEnquiryType("dealer");
     setErrors({});
-    setOtp("");
-    setOtpSent(false);
-    setMobileVerified(false);
-    setOtpError("");
     setPostalStatus("idle");
     setPostalMessage("");
     setComplete(false);
+    setSubmitError("");
+    setIsSubmitting(false);
   };
 
   const businessName = enquiryType === "dealer" ? "dealership" : "distributorship";
@@ -387,19 +396,15 @@ export default function IAmDealerPage() {
         <div className="dealer-page__container">
           <div className="dealer-page__layout">
             <aside className="dealer-page__intro">
-              <p className="dealer-page__eyebrow">PARTNER WITH US</p>
-              <h1>Grow with Tata Pravesh</h1>
-              <p className="dealer-page__intro-copy">
-                Tell us a little about yourself and your business. Our team will take it from there.
-              </p>
-              <ul className="dealer-page__benefits">
-                <li><span className="dealer-page__check"><CheckIcon /></span><span>Backed by Tata Steel</span></li>
-                <li><span className="dealer-page__check"><CheckIcon /></span><span>Complete door and window solutions</span></li>
-                <li><span className="dealer-page__check"><CheckIcon /></span><span>Support from our expert team</span></li>
-              </ul>
-              <div className="dealer-page__contact">
-                Prefer to talk? Call toll free <a href="tel:18004199200">1800 419 9200</a> or email{" "}
-                <a href="mailto:enquire@tatapravesh.com">enquire@tatapravesh.com</a>
+              <div className="dealer-page__intro-visual">
+                <Image
+                  src="/images/dealership-enquiry.jpg"
+                  alt="Dealer enquiry illustration"
+                  width={720}
+                  height={480}
+                  priority
+                  sizes="(max-width: 991px) 100vw, 44vw"
+                />
               </div>
             </aside>
 
@@ -411,15 +416,15 @@ export default function IAmDealerPage() {
                     Thank You for Your Interest in Tata Pravesh {titleBusinessName}!
                   </h2>
                   <p>
-                    Your enquiry preview is complete. Our team has not received your details because
-                    enquiry submission is not connected yet.
+                    Your enquiry has been submitted successfully. Our team will review your details and
+                    get in touch with you shortly.
                   </p>
                   <p className="dealer-page__done-emphasis">
                     We look forward to exploring this opportunity with you!
                   </p>
                   <div className="dealer-page__channels">
                     <a href="tel:18004199200"><small>Call toll free</small><strong>1800 419 9200</strong></a>
-                    <a href="mailto:enquire@tatapravesh.com"><small>Email us</small><strong>enquire@tatapravesh.com</strong></a>
+                    <a href="mailto:enquiry@tatapravesh.com"><small>Email us</small><strong>enquiry@tatapravesh.com</strong></a>
                   </div>
                   <button
                     className="dealer-page__button dealer-page__button--secondary"
@@ -445,14 +450,14 @@ export default function IAmDealerPage() {
                     >
                       Enquire for Dealership
                     </button>
-                    <button
+                    {/* <button
                       aria-pressed={enquiryType === "distributor"}
                       className={`dealer-page__segment${enquiryType === "distributor" ? " is-active" : ""}`}
                       onClick={() => setEnquiryType("distributor")}
                       type="button"
                     >
                       Enquire for Distributorship
-                    </button>
+                    </button> */}
                   </div>
 
                   <h3 className="dealer-page__section-title">Section 1: Contact details</h3>
@@ -471,7 +476,7 @@ export default function IAmDealerPage() {
                       />
                     </Field>
 
-                    <Field error={errors.mobile} id="dealer-mobile" label="Mobile number" required>
+                    <Field className="dealer-page__field--full" error={errors.mobile} id="dealer-mobile" label="Mobile number" required>
                       <div className="dealer-page__otp-row">
                         <input
                           aria-describedby={errors.mobile ? "dealer-mobile-error" : undefined}
@@ -486,50 +491,8 @@ export default function IAmDealerPage() {
                           type="tel"
                           value={form.mobile}
                         />
-                        <button
-                          className="dealer-page__small-button"
-                          disabled={mobileVerified}
-                          onClick={sendDemoOtp}
-                          type="button"
-                        >
-                          {otpSent ? "Resend OTP" : "Send OTP"}
-                        </button>
                       </div>
                     </Field>
-
-                    {otpSent && (
-                      <Field error={otpError} id="dealer-otp" label="Enter OTP" required>
-                        <div className="dealer-page__otp-row">
-                          <input
-                            aria-describedby={otpError ? "dealer-otp-error" : undefined}
-                            aria-invalid={Boolean(otpError)}
-                            autoComplete="one-time-code"
-                            className="dealer-page__control"
-                            id="dealer-otp"
-                            inputMode="numeric"
-                            maxLength={6}
-                            onChange={(event) => {
-                              setOtp(event.target.value.replace(/\D/g, "").slice(0, 6));
-                              setOtpError("");
-                            }}
-                            placeholder="6-digit OTP"
-                            type="tel"
-                            value={otp}
-                          />
-                          <button className="dealer-page__small-button" onClick={verifyDemoOtp} type="button">
-                            Verify
-                          </button>
-                        </div>
-                        <span className="dealer-page__hint">
-                          Demo only: an SMS is not sent, and this code is not verified by a service.
-                        </span>
-                      </Field>
-                    )}
-                    {mobileVerified && (
-                      <div className="dealer-page__verified" role="status">
-                        <CheckIcon /> Mobile number verified (demo only)
-                      </div>
-                    )}
 
                     <Field className="dealer-page__field--full" error={errors.email} id="dealer-email" label="Email ID" required>
                       <input
@@ -737,11 +700,17 @@ export default function IAmDealerPage() {
                       {errors.consent}
                     </span>
                   )}
-                  <button className="dealer-page__button" type="submit">Submit Enquiry</button>
+                  {submitError && (
+                    <span className="dealer-page__error dealer-page__submit-error" role="alert">
+                      {submitError}
+                    </span>
+                  )}
+                  <button className="dealer-page__button" disabled={isSubmitting} type="submit">
+                    {isSubmitting ? "Submitting..." : "Submit Enquiry"}
+                  </button>
                   <p className="dealer-page__fine-print">
-                    Preview only: this form does not send your enquiry yet. Or call toll free{" "}
-                    <a href="tel:18004199200">1800 419 9200</a> or email{" "}
-                    <a href="mailto:enquire@tatapravesh.com">enquire@tatapravesh.com</a>.
+                    Or call toll free <a href="tel:18004199200">1800 419 9200</a> or email{" "}
+                    <a href="mailto:enquiry@tatapravesh.com">enquiry@tatapravesh.com</a>.
                   </p>
                 </form>
               )}

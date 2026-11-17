@@ -45,9 +45,24 @@
 }
 
 .dealer-page__intro {
-  padding: 24px 20px;
+  padding: 0;
   color: #fff;
-  background: var(--dealer-navy);
+  background: transparent;
+}
+
+.dealer-page__intro-visual {
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(166, 196, 241, 0.45);
+  border-radius: 18px;
+  background: #dfeaf9;
+}
+
+.dealer-page__intro-visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .dealer-page__eyebrow {
@@ -319,6 +334,11 @@
   font-weight: 600;
 }
 
+.dealer-page__submit-error {
+  display: block;
+  margin-top: 12px;
+}
+
 .dealer-page__verified {
   display: inline-flex;
   align-items: center;
@@ -379,6 +399,11 @@
 .dealer-page__button:hover {
   color: #fff;
   background: var(--dealer-navy-dark);
+}
+
+.dealer-page__button:disabled {
+  opacity: 0.7;
+  cursor: wait;
 }
 
 .dealer-page__button--secondary {
@@ -511,8 +536,7 @@
 
   .dealer-page__intro {
     position: sticky;
-    top: 24px;
-    padding: 36px 32px;
+    top: 100px;
   }
 
   .dealer-page__card {
