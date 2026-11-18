@@ -60,7 +60,7 @@ export default function SelectBestDoorPage() {
                 <a className="select-best-door__button" href="#book-a-demo">
                   Book a Demo <span aria-hidden="true">→</span>
                 </a>
-                <a className="select-best-door__button select-best-door__button--alt" href="#enquire-now">
+                <a className="select-best-door__button select-best-door__button--alt" href="/customer-contact">
                   Enquire Now
                 </a>
               </div>
@@ -348,7 +348,7 @@ export default function SelectBestDoorPage() {
                 <a className="select-best-door__button" href="#book-a-demo">
                   Book a Demo <span aria-hidden="true">→</span>
                 </a>
-                <a className="select-best-door__button select-best-door__button--alt" href="#enquire-now">
+                <a className="select-best-door__button select-best-door__button--alt" href="/customer-contact">
                   Enquire Now
                 </a>
               </div>

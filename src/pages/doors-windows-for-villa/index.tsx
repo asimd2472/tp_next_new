@@ -86,7 +86,7 @@ export default function DoorsWindowsForVillaPage() {
                 <a className="doors-windows-for-villa__button" href="#book-a-demo">
                   Book a Demo <span aria-hidden="true">→</span>
                 </a>
-                <a className="doors-windows-for-villa__button doors-windows-for-villa__button--alt" href="#enquire-now">
+                <a className="doors-windows-for-villa__button doors-windows-for-villa__button--alt" href="/customer-contact">
                   Enquire Now
                 </a>
               </div>
@@ -328,7 +328,7 @@ export default function DoorsWindowsForVillaPage() {
               <a className="doors-windows-for-villa__button" href="#book-a-demo">
                 Book a Demo <span aria-hidden="true">→</span>
               </a>
-              <a className="doors-windows-for-villa__button doors-windows-for-villa__button--alt" href="#enquire-now">
+              <a className="doors-windows-for-villa__button doors-windows-for-villa__button--alt" href="/customer-contact">
                 Enquire Now
               </a>
             </div>

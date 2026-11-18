@@ -239,7 +239,7 @@ function VentilatorConfigurator() {
           </div>
           <div className="ventilator-page__actions">
             <Link href="/book-a-demo" className="ventilator-page__button">Book a Demo <span aria-hidden="true">→</span></Link>
-            <button type="button" className="ventilator-page__button ventilator-page__button--outline" onClick={() => setModal("enquiry")}>Enquire Now</button>
+            <button type="button" className="ventilator-page__button ventilator-page__button--outline" onClick={() => window.location.href = "/customer-contact"}>Enquire Now</button>
           </div>
 
           <h3><span>1</span>Select Design</h3>
@@ -255,7 +255,7 @@ function VentilatorConfigurator() {
           <div className="ventilator-page__summary"><strong>Your selection</strong><br />{summary}</div>
           <div className="ventilator-page__actions">
             <Link href="/book-a-demo" className="ventilator-page__button">Book a Demo <span aria-hidden="true">→</span></Link>
-            <button type="button" className="ventilator-page__button ventilator-page__button--outline" onClick={() => setModal("enquiry")}>Enquire Now</button>
+            <button type="button" className="ventilator-page__button ventilator-page__button--outline" onClick={() => window.location.href = "/customer-contact"}>Enquire Now</button>
           </div>
         </div>
       </section>

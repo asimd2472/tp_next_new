@@ -302,7 +302,8 @@ export default function ProductDetailsPage() {
 
             <div className="pdp-cta">
               <button className="pdp-btn pdp-btn--solid">Book a Demo <FaArrowRight /></button>
-              <button className="pdp-btn pdp-btn--ghost">Enquire Now</button>
+              {/* <button className="pdp-btn pdp-btn--ghost">Enquire Now</button> */}
+              <a href="/customer-contact" className="pdp-btn pdp-btn--ghost">Enquire Now</a>
             </div>
 
             {/* 1 Design */}

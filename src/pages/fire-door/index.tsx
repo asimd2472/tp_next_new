@@ -82,7 +82,7 @@ function Hero() {
             Stark Fire doors and shutters from Tata Steel. Factory-engineered, tested to BS 476 Part 22 &amp; 24 (2000), and ready for your safety. Because real access can’t wait.
           </p>
           <div className="fire-door__hero-actions">
-            <a href="#enquire" className="fire-door__button fire-door__button--light">Enquire Now</a>
+            <a href="/customer-contact" className="fire-door__button fire-door__button--light">Enquire Now</a>
             <a href="#brochure" className="fire-door__button fire-door__button--outline">Download Brochure (PDF)</a>
           </div>
           <dl className="fire-door__stats">
@@ -278,7 +278,7 @@ function CtaBand() {
     <section id="enquire" className="fire-door__cta">
       <h2>Need fire doors for your project?</h2>
       <p>Tell us the door type, size and quantity. Our team will get back to you with a quote.</p>
-      <a href="#enquire" className="fire-door__button fire-door__button--light">Enquire Now</a>
+      <a href="/customer-contact" className="fire-door__button fire-door__button--light">Enquire Now</a>
     </section>
   );
 }

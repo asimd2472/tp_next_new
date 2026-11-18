@@ -143,7 +143,7 @@ export default function ShaftDuctAccessDoorPage() {
               Steel access doors for service shafts and ducts. Pick a colour, vision panel and lock, then enquire.
             </p>
             <div className="shaft-access__actions">
-              <a className="shaft-access__button" href="https://aashiyana.tatasteel.com" target="_blank" rel="noopener noreferrer">
+              <a className="shaft-access__button" href="/customer-contact" target="_blank" rel="noopener noreferrer">
                 Enquire now
               </a>
               <a className="shaft-access__button shaft-access__button--outline" href="#configure">
@@ -233,7 +233,7 @@ export default function ShaftDuctAccessDoorPage() {
               <p className="shaft-access__summary">
                 {colour.name} · {visionPanel ? "With vision panel" : "No vision panel"} · {locks[lockIndex]}
               </p>
-              <a className="shaft-access__button" href="https://aashiyana.tatasteel.com" target="_blank" rel="noopener noreferrer">
+              <a className="shaft-access__button" href="/customer-contact" target="_blank" rel="noopener noreferrer">
                 Enquire now
               </a>
               <p className="shaft-access__note">

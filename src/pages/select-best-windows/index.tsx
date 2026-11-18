@@ -267,7 +267,7 @@ export default function SelectBestWindowsPage() {
             <div className="select-best-windows__actions select-best-windows__actions--center">
               <a
                 className="select-best-windows__button select-best-windows__button--primary"
-                href="https://aashiyana.tatasteel.com"
+                href="/customer-contact"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -275,8 +275,7 @@ export default function SelectBestWindowsPage() {
               </a>
               <a
                 className="select-best-windows__button select-best-windows__button--secondary"
-                href="https://aashiyana.tatasteel.com"
-                target="_blank"
+                href="/book-a-demo"
                 rel="noopener noreferrer"
               >
                 Book a demo

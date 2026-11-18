@@ -362,7 +362,7 @@ function MainDoorDesignsPage() {
             <h2>Not sure which door fits?</h2>
             <p>Talk to our expert or see a door in person. Helpline 1-800-4199-200</p>
             <div className="main-door-designs__actions main-door-designs__actions--center">
-              <a className="main-door-designs__button main-door-designs__button--primary" href={productPageUrl} target="_blank" rel="noopener noreferrer">
+              <a className="main-door-designs__button main-door-designs__button--primary" href="/customer-contact" target="_blank" rel="noopener noreferrer">
                 Enquire now
               </a>
               <a className="main-door-designs__button main-door-designs__button--secondary" href={productPageUrl} target="_blank" rel="noopener noreferrer">

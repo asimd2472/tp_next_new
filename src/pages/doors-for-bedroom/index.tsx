@@ -209,7 +209,7 @@ export default function DoorsForBedroomPage() {
                 <a className="bedroom-door__button" href="#book-a-demo">
                   Book a Demo <span aria-hidden="true">→</span>
                 </a>
-                <a className="bedroom-door__button bedroom-door__button--alt" href="#enquire-now">
+                <a className="bedroom-door__button bedroom-door__button--alt" href="/customer-contact">
                   Enquire Now
                 </a>
               </div>
@@ -343,7 +343,7 @@ export default function DoorsForBedroomPage() {
                 <a className="bedroom-door__button" href="#book-a-demo">
                   Book a Demo <span aria-hidden="true">→</span>
                 </a>
-                <a className="bedroom-door__button bedroom-door__button--alt" href="#enquire-now">
+                <a className="bedroom-door__button bedroom-door__button--alt" href="/customer-contact">
                   Enquire Now
                 </a>
               </div>

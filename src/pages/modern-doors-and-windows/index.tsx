@@ -178,7 +178,7 @@ export default function ModernDoorsAndWindowsPage() {
               </div>
               <div className="modern-doors-and-windows__actions">
                 <Link className="modern-doors-and-windows__button" href="/book-a-demo">Book a Demo <span aria-hidden="true">→</span></Link>
-                <a className="modern-doors-and-windows__button modern-doors-and-windows__button--alt" href="#enquire-now">
+                <a className="modern-doors-and-windows__button modern-doors-and-windows__button--alt" href="/customer-contact">
                   Enquire Now
                 </a>
               </div>
@@ -329,7 +329,7 @@ export default function ModernDoorsAndWindowsPage() {
                 <a className="modern-doors-and-windows__button" href="#book-a-demo">
                   Book a Demo <span aria-hidden="true">→</span>
                 </a>
-                <a className="modern-doors-and-windows__button modern-doors-and-windows__button--alt" href="#enquire-now">
+                <a className="modern-doors-and-windows__button modern-doors-and-windows__button--alt" href="/customer-contact">
                   Enquire Now
                 </a>
               </div>

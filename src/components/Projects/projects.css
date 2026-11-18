@@ -238,9 +238,9 @@
     scroll-snap-align: start;
   }
 
-  .projects__card::after {
+  /* .projects__card::after {
     background: linear-gradient(180deg, rgba(10, 17, 23, 0.12) 28%, rgba(7, 12, 17, 0.82) 100%);
-  }
+  } */
 
   .projects__copy {
     left: 14px;

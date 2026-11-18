@@ -35,6 +35,7 @@ import "./privacy-policy/privacy-policy.css";
 import "./faqs/faqs.css";
 import "./i-am-dealer/i-am-dealer.css";
 import "./modern-doors-and-windows/modern-doors-and-windows.css";
+import "./customer-contact/customer-contact.css";
 import "../components/Login/login.css";
 import "../components/Account/account.css";
 import "react-toastify/dist/ReactToastify.css";

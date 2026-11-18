@@ -167,7 +167,7 @@ export default function GlazedDoorPage() {
               Full-glass steel doors for bright, open commercial spaces. Pick a colour, glass and handle, then enquire.
             </p>
             <div className="glazed-door__buttons">
-              <a className="glazed-door__button" href="https://aashiyana.tatasteel.com" target="_blank" rel="noopener noreferrer">
+              <a className="glazed-door__button" href="/customer-contact" target="_blank" rel="noopener noreferrer">
                 Enquire now
               </a>
               <a className="glazed-door__button glazed-door__button--outline" href="#configure">
@@ -244,7 +244,7 @@ export default function GlazedDoorPage() {
               <div className="glazed-door__summary" aria-live="polite">
                 {colour.name} · {glasses[glassIndex].name} · {handles[handleIndex]}
               </div>
-              <a className="glazed-door__button" href="https://aashiyana.tatasteel.com" target="_blank" rel="noopener noreferrer">
+              <a className="glazed-door__button" href="/customer-contact" target="_blank" rel="noopener noreferrer">
                 Enquire now
               </a>
               <p className="glazed-door__note">
