@@ -3,21 +3,39 @@ import { useRef } from "react";
 
 const projects = [
   {
-    image: "/images/project.jpg",
-    alt: "Contemporary residential towers at Birla Vanya",
-    name: "Birla Vanya",
+    image: "/images/iconic-project/Iit dharwad.avif",
+    alt: "Iit dharwad",
+    name: "Iit dharwad",
     description: "2-3 storey towers",
   },
   {
-    image: "/images/f2.jpg",
-    alt: "Residential project at Himalaya Trasea",
-    name: "Himalaya Trasea",
+    image: "/images/iconic-project/Aster hospital hyderabad.avif",
+    alt: "Aster hospital hyderabad",
+    name: "Aster hospital hyderabad",
     description: "30 storey luxury tower",
   },
   {
-    image: "/images/f3.jpg",
-    alt: "Residential interiors at Agastya Altezza",
-    name: "Agastya Altezza",
+    image: "/images/iconic-project/Embassy edge bangaluru.avif",
+    alt: "Embassy edge bangaluru",
+    name: "Embassy edge bangaluru",
+    description: "Three 38 storey towers",
+  },
+  {
+    image: "/images/iconic-project/Hyatt brigade bangalore.avif",
+    alt: "Hyatt brigade bangalore",
+    name: "Hyatt brigade bangalore",
+    description: "Three 38 storey towers",
+  },
+  {
+    image: "/images/iconic-project/Jw mariott thimpu.avif",
+    alt: "Jw mariott thimpu",
+    name: "Jw mariott thimpu",
+    description: "Three 38 storey towers",
+  },
+  {
+    image: "/images/iconic-project/regalium by svasa.avif",
+    alt: "Regalium by svasa",
+    name: "Regalium by svasa",
     description: "Three 38 storey towers",
   },
 ];
@@ -63,7 +81,7 @@ export default function Projects() {
                 <Image src={project.image} alt={project.alt} fill sizes="(max-width: 700px) 33vw, 390px" />
                 <div className="projects__copy">
                   <h3>{project.name}</h3>
-                  <p>{project.description}</p>
+                  {/* <p>{project.description}</p> */}
                 </div>
               </article>
             ))}

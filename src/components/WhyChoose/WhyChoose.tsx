@@ -4,11 +4,11 @@ import { FaXmark } from "react-icons/fa6";
 
 const testimonials = [
   {
-    image: "/images/maxresdefault.jpg",
+    image: "/images/Why homeowners choose Tata Pravesh/Basil George.avif",
     alt: "Large sliding windows overlooking a green garden",
-    name: "Mrs. Prakasha Mehta",
-    videoId: "hSsp5c3hb9o",
-    videoStart: 65,
+    name: "Mr. Basil George",
+    videoId: "JW_x4yb-2S0",
+    videoStart: 0,
   },
   {
     image: "/images/review2.jpg",
